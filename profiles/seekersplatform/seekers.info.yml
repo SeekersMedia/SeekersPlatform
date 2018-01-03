@@ -36,7 +36,6 @@ dependencies:
   - help
   - image
   - options
-  - path
   - taxonomy
   - dblog
   - search
@@ -49,6 +48,67 @@ dependencies:
   - views_ui
   - editor
   - ckeditor
+  - filter
+  - menu_ui
+  - system
+  - text
+  - update
+  - admin_toolbar
+  - admin_toolbar_tools
+  - ctools
+  - ds
+  - ds_extras
+  - ds_switch_view_mode
+  - eck
+  - features
+  - features_ui
+  - field_group
+  - fpa
+  - inline_entity_form
+  - libraries
+  - link
+  - linkicon
+  - masquerade
+  - media_entity
+  - media_entity_image
+  - metatag
+  - metatag_facebook
+  - metatag_mobile
+  - metatag_open_graph
+  - metatag_twitter_cards
+  - name
+  - page_manager
+  - page_manager_ui
+  - panels
+  - paragraphs
+  - php
+  - publishcontent
+  - rest
+  - redirect
+  - role_delegation
+  - serialization
+  - sharethis
+  - telephone
+  - twitter_block
+  - token
+  - video_embed_field
+  - video_embed_media
+  - views_slideshow
+  - webform
+  - webform_node
+  - webform_ui
+  - xmlsitemap
+  - xmlsitemap_custom
+  - xmlsitemap_engines
+  - views_slideshow_cycle
+  #- seekers_platform_amenity
+  #- seekers_platform_campaign
+  #- seekers_platform_core
+  #- seekers_platform_destination
+  #- seekers_platform_organization
+  #- seekers_platform_page
+  #- seekers_platform_site
+  #- seekers_platform_user
 
 # List any themes that should be installed as part of the installation
 # profile installation.
