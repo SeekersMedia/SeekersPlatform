@@ -1,0 +1,52 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.amenity.field_description
+    - field.field.node.amenity.field_email
+    - field.field.node.amenity.field_link_facebook
+    - field.field.node.amenity.field_link_gmaps
+    - field.field.node.amenity.field_link_instagram
+    - field.field.node.amenity.field_link_twitter
+    - field.field.node.amenity.field_link_website
+    - field.field.node.amenity.field_media_image_intro
+    - field.field.node.amenity.field_media_logo
+    - field.field.node.amenity.field_media_thumbnail
+    - field.field.node.amenity.field_phone
+    - field.field.node.amenity.field_tag_community
+    - field.field.node.amenity.field_tag_destination
+    - field.field.node.amenity.field_tag_province_state
+    - field.field.node.amenity.field_text_teaser
+    - field.field.node.amenity.field_type
+    - node.type.amenity
+  module:
+    - user
+id: node.amenity.teaser
+targetEntityType: node
+bundle: amenity
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+  sharethis:
+    weight: 10
+    region: content
+hidden:
+  field_description: true
+  field_email: true
+  field_link_facebook: true
+  field_link_gmaps: true
+  field_link_instagram: true
+  field_link_twitter: true
+  field_link_website: true
+  field_media_image_intro: true
+  field_media_logo: true
+  field_media_thumbnail: true
+  field_phone: true
+  field_tag_community: true
+  field_tag_destination: true
+  field_tag_province_state: true
+  field_text_teaser: true
+  field_type: true

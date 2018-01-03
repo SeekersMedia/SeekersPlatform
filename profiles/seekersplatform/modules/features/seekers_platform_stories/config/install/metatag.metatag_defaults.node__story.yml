@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies: {  }
+id: node__story
+label: 'Content: Story'
+tags:
+  twitter_cards_image_width: '[node:field_media_image_intro:entity:field_media_image:card_tile:width]'
+  twitter_cards_title: '[node:title] | [site:name]'
+  twitter_cards_type: summary_large_image
+  twitter_cards_description: '[node:field_text_teaser]'
+  twitter_cards_image: '[node:field_media_image_intro:entity:field_media_image:card_tile]'
+  twitter_cards_site: '@IAmASnowSeeker'
+  twitter_cards_site_id: '915471098'
+  twitter_cards_image_height: '[node:field_media_image_intro:entity:field_media_image:card_tile:height]'
+  twitter_cards_creator_id: '915471098'
+  twitter_cards_creator: '@IAmASnowSeeker'

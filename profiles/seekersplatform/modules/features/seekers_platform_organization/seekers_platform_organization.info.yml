@@ -1,0 +1,13 @@
+name: Organization
+description: 'Provides Organization content type and related configuration. '
+type: module
+core: 8.x
+dependencies:
+  - field
+  - menu_ui
+  - node
+  - path
+  - seekers_platform_core
+  - user
+version: 8.x-1.0
+package: seekers_platform

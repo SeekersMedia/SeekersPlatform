@@ -1,0 +1,41 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.media_browser_video_browser
+  module:
+    - entity_browser_entity_form
+    - views
+name: video_browser
+label: 'Video Browser'
+display: iframe
+display_configuration:
+  width: '650'
+  height: '500'
+  link_text: 'Select/Add Video'
+  auto_open: false
+selection_display: no_display
+selection_display_configuration: {  }
+widget_selector: tabs
+widget_selector_configuration: {  }
+widgets:
+  fc83bf65-b47e-467b-948c-22f868b390b6:
+    settings:
+      view: media_browser_video_browser
+      view_display: entity_browser_1
+      submit_text: 'Select Video'
+      auto_select: false
+    uuid: fc83bf65-b47e-467b-948c-22f868b390b6
+    weight: 1
+    label: 'Select Existing Video'
+    id: view
+  9ebf6517-5a6a-4833-85f2-d1fff6c79c32:
+    settings:
+      entity_type: media
+      bundle: video
+      form_mode: default
+      submit_text: 'Save Video'
+    uuid: 9ebf6517-5a6a-4833-85f2-d1fff6c79c32
+    weight: 3
+    label: 'Add New Video'
+    id: entity_form

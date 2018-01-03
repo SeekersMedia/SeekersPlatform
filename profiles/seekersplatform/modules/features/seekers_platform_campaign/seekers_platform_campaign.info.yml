@@ -1,0 +1,23 @@
+name: Campaign
+description: 'Provides Campaign content type and related configuration. '
+type: module
+core: 8.x
+dependencies:
+  - ds
+  - entity_reference_revisions
+  - field
+  - menu_ui
+  - node
+  - options
+  - paragraphs
+  - seekers_platform_core
+  - seekers_platform_destination
+  - seekers_platform_partner
+  - seekers_platform_site
+  - seekers_platform_stories
+  - taxonomy
+  - text
+  - user
+  - views
+package: seekers_platform
+version: 8.x-1.0

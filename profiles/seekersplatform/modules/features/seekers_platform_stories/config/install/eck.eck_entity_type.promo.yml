@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: promo
+label: Promo
+created: false
+changed: false
+uid: false
+title: true

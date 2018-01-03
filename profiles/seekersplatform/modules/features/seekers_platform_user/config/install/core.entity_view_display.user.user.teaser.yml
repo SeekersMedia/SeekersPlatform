@@ -1,0 +1,132 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.user.teaser
+    - field.field.user.user.field_bio
+    - field.field.user.user.field_homebase
+    - field.field.user.user.field_image_card
+    - field.field.user.user.field_image_profile
+    - field.field.user.user.field_link_blog
+    - field.field.user.user.field_link_facebook
+    - field.field.user.user.field_link_instagram
+    - field.field.user.user.field_link_linkedin
+    - field.field.user.user.field_link_pinterest
+    - field.field.user.user.field_link_twitter
+    - field.field.user.user.field_link_website
+    - field.field.user.user.field_link_youtube
+    - field.field.user.user.field_name
+    - field.field.user.user.field_nickname
+    - field.field.user.user.field_role
+    - image.style.profiles
+  module:
+    - ds
+    - field_group
+    - image
+    - name
+    - user
+third_party_settings:
+  field_group:
+    group_links:
+      children: {  }
+      parent_name: ''
+      weight: 20
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: container-inner
+        element: div
+        show_label: false
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: Links
+    group_inner:
+      children: {  }
+      parent_name: ''
+      weight: 19
+      format_type: html_element
+      format_settings:
+        id: container-inner
+        classes: ''
+        element: div
+        show_label: false
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: Inner
+  ds:
+    layout:
+      id: ds_1col
+      path: modules/contrib/ds
+      library: ''
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        wrappers:
+          ds_content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+        classes:
+          layout_class: {  }
+    regions:
+      ds_content:
+        - field_image_profile
+        - field_name
+id: user.user.teaser
+targetEntityType: user
+bundle: user
+mode: teaser
+content:
+  field_image_profile:
+    type: image
+    weight: 0
+    label: hidden
+    settings:
+      image_style: profiles
+      image_link: content
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    region: ds_content
+  field_name:
+    type: name_default
+    weight: 1
+    label: hidden
+    settings:
+      format: default
+      markup: false
+      output: default
+      multiple: default
+      multiple_delimiter: ', '
+      multiple_and: text
+      multiple_delimiter_precedes_last: never
+      multiple_el_al_min: '3'
+      multiple_el_al_first: '1'
+    third_party_settings: {  }
+    region: ds_content
+hidden:
+  field_bio: true
+  field_homebase: true
+  field_image_card: true
+  field_link_blog: true
+  field_link_facebook: true
+  field_link_instagram: true
+  field_link_linkedin: true
+  field_link_pinterest: true
+  field_link_twitter: true
+  field_link_website: true
+  field_link_youtube: true
+  field_nickname: true
+  field_role: true
+  masquerade: true
+  member_for: true

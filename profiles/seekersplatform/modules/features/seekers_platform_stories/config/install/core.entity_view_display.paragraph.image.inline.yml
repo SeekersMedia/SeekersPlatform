@@ -1,0 +1,77 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.inline
+    - field.field.paragraph.image.field_link_image
+    - field.field.paragraph.image.field_media_image
+    - field.field.paragraph.image.field_text_caption
+    - paragraphs.paragraphs_type.image
+  module:
+    - ds
+    - link
+    - text
+third_party_settings:
+  ds:
+    layout:
+      id: paragraph
+      library: null
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        wrappers:
+          ds_content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+        classes:
+          layout_class: {  }
+    regions:
+      title:
+        - field_media_image
+        - field_text_caption
+        - field_link_image
+id: paragraph.image.inline
+targetEntityType: paragraph
+bundle: image
+mode: inline
+content:
+  field_link_image:
+    type: link
+    weight: 2
+    region: ds_content
+    label: hidden
+    settings:
+      rel: ''
+      target: ''
+      trim_length: 80
+      url_only: false
+      url_plain: false
+    third_party_settings: {  }
+  field_media_image:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: embed
+      link: false
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    type: entity_reference_entity_view
+    region: ds_content
+  field_text_caption:
+    weight: 1
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: ds_content
+hidden:
+  created: true
+  uid: true

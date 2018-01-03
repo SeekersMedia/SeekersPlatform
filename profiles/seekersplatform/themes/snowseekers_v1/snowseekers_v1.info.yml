@@ -1,0 +1,17 @@
+name: SnowSeekers (v1)
+type: theme
+description: This is a sub theme of the Seekers platform theme for SnowSeekers
+core: 8.x
+# Defines the base theme
+base theme: seekers_v1
+# Defines libraries group in which we can add css/js.
+libraries:
+  - snowseekers_v1/global-styling
+# Regions
+regions:
+  header: Header
+  featured: Featured
+  content: Content
+  sidebar_first: First sidebar
+  sidebar_second: Second sidebar
+  footer: Footer

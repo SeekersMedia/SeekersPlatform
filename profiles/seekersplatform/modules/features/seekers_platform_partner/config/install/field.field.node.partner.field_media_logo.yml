@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_media_logo
+    - media_entity.bundle.image
+    - node.type.partner
+id: node.partner.field_media_logo
+field_name: field_media_logo
+entity_type: node
+bundle: partner
+label: Logo
+description: 'Please select/upload the Logo for this Partner'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

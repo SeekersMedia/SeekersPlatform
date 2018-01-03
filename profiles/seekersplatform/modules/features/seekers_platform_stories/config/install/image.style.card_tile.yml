@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies: {  }
+name: card_tile
+label: 'Card - Tile'
+effects:
+  4860dbb3-98e3-4a37-955f-2fd3f5df4a8c:
+    uuid: 4860dbb3-98e3-4a37-955f-2fd3f5df4a8c
+    id: image_scale_and_crop
+    weight: -9
+    data:
+      width: 800
+      height: 600
+  ddfaeaea-a116-4f4e-8ac2-0723cd379987:
+    uuid: ddfaeaea-a116-4f4e-8ac2-0723cd379987
+    id: image_scale
+    weight: -10
+    data:
+      width: null
+      height: 600
+      upscale: false

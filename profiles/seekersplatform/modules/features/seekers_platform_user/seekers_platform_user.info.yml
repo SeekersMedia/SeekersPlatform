@@ -1,0 +1,20 @@
+name: User
+description: 'Provide User related configuration.'
+type: module
+core: 8.x
+dependencies:
+  - ds
+  - field
+  - field_group
+  - file
+  - image
+  - link
+  - linkicon
+  - name
+  - path
+  - seekers_platform_site
+  - taxonomy
+  - text
+  - user
+version: 8.x-1.0
+package: seekers_platform

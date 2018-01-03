@@ -1,0 +1,164 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.story.field_body
+    - field.field.node.story.field_body_blob
+    - field.field.node.story.field_date
+    - field.field.node.story.field_link_default
+    - field.field.node.story.field_media_image_intro
+    - field.field.node.story.field_media_thumbnail
+    - field.field.node.story.field_meta_tags_story
+    - field.field.node.story.field_old_nid
+    - field.field.node.story.field_para_intro
+    - field.field.node.story.field_ref_partner
+    - field.field.node.story.field_tag_campaign
+    - field.field.node.story.field_tag_community
+    - field.field.node.story.field_tag_destination
+    - field.field.node.story.field_tag_featured
+    - field.field.node.story.field_tag_province_state
+    - field.field.node.story.field_tag_region
+    - field.field.node.story.field_temp_old_hits
+    - field.field.node.story.field_temp_old_url
+    - field.field.node.story.field_text_teaser
+    - image.style.large
+    - node.type.story
+  module:
+    - datetime
+    - ds
+    - field_group
+    - media_entity
+    - text
+    - user
+third_party_settings:
+  ds:
+    layout:
+      id: ds_1col
+      path: modules/contrib/ds
+      library: ''
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        wrappers:
+          ds_content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+        classes:
+          layout_class: {  }
+    regions:
+      ds_content:
+        - field_media_image_intro
+        - group_right
+        - node_title
+        - field_date
+        - field_text_teaser
+        - node_link
+    fields:
+      node_title:
+        plugin_id: node_title
+        weight: 2
+        label: hidden
+        formatter: default
+        settings:
+          link: true
+          wrapper: h3
+          class: ''
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+      node_link:
+        plugin_id: node_link
+        weight: 5
+        label: hidden
+        formatter: default
+  field_group:
+    group_right:
+      children:
+        - node_title
+        - field_date
+        - field_text_teaser
+        - node_link
+      parent_name: ''
+      weight: 1
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: container-right
+        element: div
+        show_label: false
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: Right
+id: node.story.teaser
+targetEntityType: node
+bundle: story
+mode: teaser
+content:
+  field_date:
+    type: datetime_default
+    weight: 3
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: abbreviated
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    region: ds_content
+  field_media_image_intro:
+    type: media_thumbnail
+    weight: 0
+    label: hidden
+    settings:
+      image_style: large
+      image_link: content
+    third_party_settings:
+      ds:
+        ds_limit: ''
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    region: ds_content
+  field_text_teaser:
+    type: text_default
+    weight: 4
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    region: ds_content
+hidden:
+  field_body: true
+  field_body_blob: true
+  field_link_default: true
+  field_media_thumbnail: true
+  field_meta_tags_story: true
+  field_old_nid: true
+  field_para_intro: true
+  field_ref_partner: true
+  field_tag_campaign: true
+  field_tag_community: true
+  field_tag_destination: true
+  field_tag_featured: true
+  field_tag_province_state: true
+  field_tag_region: true
+  field_temp_old_hits: true
+  field_temp_old_url: true
+  links: true
+  sharethis: true
+  stories_related_entity_view_1: true

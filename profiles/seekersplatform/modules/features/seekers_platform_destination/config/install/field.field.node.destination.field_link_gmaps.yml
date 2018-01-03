@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_link_gmaps
+    - node.type.destination
+  module:
+    - link
+id: node.destination.field_link_gmaps
+field_name: field_link_gmaps
+entity_type: node
+bundle: destination
+label: 'Google Maps Link'
+description: 'Please enter the Google Maps link for this Destination'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 16
+  title: 5
+  title_predefined: 'Open in Google Maps'
+field_type: link

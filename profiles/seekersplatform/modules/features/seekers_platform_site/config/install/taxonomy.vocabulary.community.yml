@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Community
+vid: community
+description: 'A vocabulary for Communities (including towns and cities)'
+hierarchy: 0
+weight: 0

@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: logo_partner
+label: 'Logo - Partner (300w)'
+effects:
+  759b7e00-8a81-4037-bd6c-581ab5c81066:
+    uuid: 759b7e00-8a81-4037-bd6c-581ab5c81066
+    id: image_scale
+    weight: 1
+    data:
+      width: 300
+      height: null
+      upscale: false

@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tag_destination
+    - node.type.story
+    - taxonomy.vocabulary.destinations
+id: node.story.field_tag_destination
+field_name: field_tag_destination
+entity_type: node
+bundle: story
+label: Destination
+description: 'Please select the Destination tags for this Story'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      destinations: destinations
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

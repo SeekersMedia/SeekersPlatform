@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+name: profiles
+label: Profiles
+effects:
+  10f524fe-ea3a-474e-b25c-0ada2055d00c:
+    uuid: 10f524fe-ea3a-474e-b25c-0ada2055d00c
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 480
+      height: 480

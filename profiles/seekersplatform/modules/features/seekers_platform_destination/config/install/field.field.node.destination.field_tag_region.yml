@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tag_region
+    - node.type.destination
+    - taxonomy.vocabulary.region
+id: node.destination.field_tag_region
+field_name: field_tag_region
+entity_type: node
+bundle: destination
+label: Region
+description: 'Please enter the Region for this Destination'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      region: region
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

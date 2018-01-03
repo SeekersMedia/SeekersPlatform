@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Activity
+vid: activity
+description: 'A vocabulary for snow Activities'
+hierarchy: 0
+weight: 0

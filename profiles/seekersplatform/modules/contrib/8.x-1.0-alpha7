@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" version="XHTML+RDFa 1.0" dir="ltr"
+  xmlns:fb="http://ogp.me/ns/fb#"
+  xmlns:og="http://ogp.me/ns#"
+  xmlns:article="http://ogp.me/ns/article#"
+  xmlns:book="http://ogp.me/ns/book#"
+  xmlns:profile="http://ogp.me/ns/profile#"
+  xmlns:video="http://ogp.me/ns/video#"
+  xmlns:product="http://ogp.me/ns/product#">
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="MobileOptimized" content="width" />
+  <!--[if IE]><![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="dns-prefetch" href="//www.google-analytics.com" />
+<link rel="preconnect" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+<link rel="preconnect" href="//fonts.gstatic.com" crossorigin="" />
+<link rel="preconnect" href="//www.google-analytics.com" />
+<link rel="preconnect" href="//stats.g.doubleclick.net" />
+<link rel="dns-prefetch" href="//stats.g.doubleclick.net" />
+<meta name="description" content="Adds drush 9 support. [#2912723]" />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="https://www.drupal.org/project/default_content/releases/8.x-1.0-alpha7" />
+<link rel="shortlink" href="https://www.drupal.org/node/2917521" />
+<meta property="og:site_name" content="Drupal.org" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.drupal.org/project/default_content/releases/8.x-1.0-alpha7" />
+<meta property="og:title" content="default_content 8.x-1.0-alpha7" />
+<meta property="og:description" content="Adds drush 9 support. [#2912723]" />
+<meta property="og:updated_time" content="2017-10-19T21:29:05+00:00" />
+<meta property="article:published_time" content="2017-10-19T21:29:29+00:00" />
+<meta property="article:modified_time" content="2017-10-19T21:29:05+00:00" />
+  <title>default_content 8.x-1.0-alpha7 | Drupal.org</title>
+  <link type="text/css" rel="stylesheet" href="https://www.drupal.org/files/advagg_css/css__YTEnC2d4jv9djOQZmFfgZuyF9uDNauV0sQwsv9y-UO8__aOPDJflp5XJvo3sDxawRee4JhcVwYGLxcE-FP77IL_I__wiNRAQmb1cVwSHFag72el-HHTuC0y1ZUWoU2SpeUCzo.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.drupal.org/files/advagg_css/css__QPp1snPjYt_xYr0c_V0IORcEElkIUBBBrvOB4ZE0Gnw__H2KukkJ8Eqje8S1cMIhNJSLOgPB2WjyW8_gEEHKU2e8__wiNRAQmb1cVwSHFag72el-HHTuC0y1ZUWoU2SpeUCzo.css" media="all" />
+  <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var preconnect_support = false; try {if (document.createElement("link").relList.supports("preconnect")) {preconnect_support = true;}} catch (e) {} if (!preconnect_support) { var prefetch = document.createElement("link"); prefetch.href = "https://stats.g.doubleclick.net/robots.txt"; prefetch.rel="prefetch"; document.getElementsByTagName("head")[0].appendChild(prefetch);}
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();})(window,document,"script","https://www.google-analytics.com/analytics.js","ga");ga("create", "UA-2360451-1", {"cookieDomain":"auto"});ga("set", "dimension3", "anonymous user");ga("set", "dimension4", "Release");ga("set", "dimension2", "downloads");ga("send", "pageview");
+//--><!]]>
+</script>
+</head>
+<body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-2917521 node-type-project-release drupalorg-site-main panels-layout" >
+  <div id="skip-link">
+    <a class="element-invisible element-focusable" href="#content">Skip to main content</a>
+    <a class="element-invisible element-focusable skip-link-search" href="#search-block-form">Skip to search</a>
+  </div>
+        <div id="nav-header">
+    <div class="menu-nav">
+      <a class="nav-btn" id="nav-open-btn" href="#block-system-main-menu"><img src="/sites/all/themes/bluecheese/images/icon-w-menu.svg" alt="Main menu"></a>
+    </div>
+    <nav id="navigation-inner" class="container-12" role="navigation">
+        <div class="region region-navigation">
+    <div id="block-system-main-menu" class="block block-system block-menu">
+<div class="block-inner">
+    
+  <div class="content">
+    <div class="menu-block"><ul class="menu"><li class="first leaf"><a href="/home" title="Drupal.org home page">Drupal.org home</a></li>
+<li class="leaf"><a href="/download" title="Download and Extend Drupal">Download &amp; Extend</a></li>
+<li class="leaf"><a href="/community" title="Drupal Community">Community</a></li>
+<li class="leaf"><a href="/documentation" title="Drupal Documentation">Documentation</a></li>
+<li class="leaf"><a href="/support" title="Support for using Drupal">Support</a></li>
+<li class="leaf"><a href="https://jobs.drupal.org/" title="Drupal Jobs">Jobs</a></li>
+<li class="leaf"><a href="/drupal-services" title="Buy Drupal Products and Services">Marketplace</a></li>
+<li class="last leaf"><a href="/about" title="">About</a></li>
+</ul></div><a class="close-btn" id="nav-close-btn" href="#top">Return to Content</a>  </div>
+  </div>
+</div>
+<div id="block-search-form" class="block block-search">
+<div class="block-inner">
+    
+  <div class="content">
+    <form action="/project/default_content/releases/8.x-1.0-alpha7" method="post" id="search-block-form" accept-charset="UTF-8"><div><div class="container-inline">
+      <h2 class="element-invisible">Search form</h2>
+    <div class="form-item form-type-textfield form-item-search-block-form">
+  <label class="element-invisible" for="edit-search-block-form--2">Search </label>
+ <input placeholder="Search…" type="text" id="edit-search-block-form--2" name="search_block_form" value="" size="15" maxlength="128" class="form-text" />
+</div>
+<div class="form-actions form-wrapper" id="edit-actions"><input alt="Search" type="image" id="edit-submit" name="submit" value="Search" src="/sites/all/themes/bluecheese/images/icon-w-search.svg" class="form-submit" /></div><input type="hidden" name="form_build_id" value="form-AwTiTOS-PQQn-lZ3XjGgMnwmvB5Wvaq-YeXLDWY4jkI" />
+<input type="hidden" name="form_id" value="search_block_form" />
+</div>
+</div></form>  </div>
+  </div>
+</div>
+<div id="block-system-user-menu" class="block block-system block-menu">
+<div class="block-inner">
+    
+  <div class="content">
+    <div class="menu-block"><ul class="menu"><li class="button default"><a href="#block-system-user-menu"><img src="https://www.drupal.org/sites/all/themes/bluecheese/images/icon-w-user.svg" alt="Log in, view profile, and more"></a><ul><li class="first leaf"><a href="/user/login?destination=node/2917521" title="">Log in</a></li>
+<li class="last leaf"><a href="/user/register?destination=node/2917521" title="">Create account</a></li>
+</ul></li></ul></div>  </div>
+  </div>
+</div>
+  </div>
+    </nav>
+  </div> <!-- /#nav-header -->
+
+    <div id="header" class="clearfix">
+    <div id="header-screen" class="clearfix">
+      <div id="header-inner" class="container-12 clearfix">
+        <div id="header-content">
+          <div id="header-left">
+            <div id="header-left-inner">
+              <div id="site-name"><a href="/" title="Drupal"><img src="https://www.drupal.org/files/drupal-wordmark.svg" alt="Drupal" /></a></div>
+                          </div> <!-- /#header-left-inner -->
+          </div> <!-- /#header-left -->
+
+          <div id="header-right">
+            <div id="header-right-inner" role="search">
+                          </div> <!-- /#header-right-inner -->
+          </div> <!-- /#header-right -->
+        </div> <!-- /#header-content -->
+      </div> <!-- /#header-inner -->
+    </div>
+  </div> <!-- /#header -->
+  
+  
+  <div id="page" class="clearfix">
+    <div id="page-heading">
+                    <div id="page-title-tools" class="container-12 clearfix" role="navigation">
+
+          <div class="page-title-wrapper">
+                                          <div id="page-title" class="h2">Download &amp; Extend</div>
+                                    </div>
+
+                  </div> <!-- /#page-title-tools -->
+
+                  <div id="nav-content" class="container-12">
+            <ul class="links"><li class="core first"><a href="/project/drupal">Drupal Core</a></li>
+<li class="distributions"><a href="/project/project_distribution">Distributions</a></li>
+<li class="modules active"><a href="/project/project_module" class="active">Modules</a></li>
+<li class="themes last"><a href="/project/project_theme">Themes</a></li>
+</ul>          </div> <!-- /#nav-content -->
+        
+        <div class="breadbox"><nav class="breadcrumb container-12"><span><a href="/project/default_content">Default Content for D8</a></span><span><a href="/project/default_content/releases">Releases</a></span></nav></div>
+
+                  <h1 id="page-subtitle" class="container-12">default_content 8.x-1.0-alpha7</h1>
+        
+      
+    </div> <!-- /#page-heading -->
+
+    
+    <div class="container-12 page-inner">      
+      <div id="main" role="main">
+        
+        <div id="content" class="clearfix">
+                                        <div id="content-inner" class="clearfix">  <div class="region region-content">
+    <div id="block-system-main" class="block block-system">
+<div class="block-inner">
+    
+  <div class="content">
+    
+<div class="panelizer-view-mode node node-full node-project-release node-2917521">
+        
+<div class="panel-display hydra panel-layout clearfix " >
+
+  <div class="container preface clearfix panel-panel">
+    <div class="container-inner preface-inner panel-panel-inner">
+      <div class="panel-pane pane-views-panes pane-project-release-files-release-files-pane"  >
+  
+      
+  
+  <div class="pane-content">
+    <div class="view view-project-release-files view-id-project_release_files view-display-id-release_files_pane no-hashes view-dom-id-82c2e14ca6dfec6ec42a6053cf9237f5">
+        
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1">
+      
+          <span><a href="https://ftp.drupal.org/files/projects/default_content-8.x-1.0-alpha7.tar.gz" class="download">Download <span class="filename">default_content-8.x-1.0-alpha7.tar.gz</span><span class="extension">tar.gz</span></a></span>    
+          <span class="field-content">21.09 KB</span>    
+  <div class="views-field views-field-field-release-file-hash">    <span class="views-label views-label-field-release-file-hash">MD5: </span>    <span class="field-content hash">cea1e2305e07ffcb3677195eeeda6f80</span>  </div>  
+  <div class="views-field views-field-field-release-file-sha1">    <span class="views-label views-label-field-release-file-sha1">SHA-1: </span>    <span class="field-content hash">c5704f9596935937d37034bfeee3e5a598a757d4</span>  </div>  
+  <div class="views-field views-field-field-release-file-sha256">    <span class="views-label views-label-field-release-file-sha256">SHA-256: </span>    <span class="field-content hash">affbad0f5152483c54fcaccb70ba09588b742f40101ad9793876ca1a7f565f9f</span>  </div>  </div>
+  <div class="views-row views-row-2">
+      
+          <span><a href="https://ftp.drupal.org/files/projects/default_content-8.x-1.0-alpha7.zip" class="download">Download <span class="filename">default_content-8.x-1.0-alpha7.zip</span><span class="extension">zip</span></a></span>    
+          <span class="field-content">37.79 KB</span>    
+  <div class="views-field views-field-field-release-file-hash">    <span class="views-label views-label-field-release-file-hash">MD5: </span>    <span class="field-content hash">70cf5ca49bb8ab5972f0a0edfe186d55</span>  </div>  
+  <div class="views-field views-field-field-release-file-sha1">    <span class="views-label views-label-field-release-file-sha1">SHA-1: </span>    <span class="field-content hash">4f1b49cdad6d74ef879f4700caaa11703ba85ad7</span>  </div>  
+  <div class="views-field views-field-field-release-file-sha256">    <span class="views-label views-label-field-release-file-sha256">SHA-256: </span>    <span class="field-content hash">08b15effd60405f0abdb82e318f0595467bac3dc763a76e4c6527368efe5fd1f</span>  </div>  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-release-composer-info"  >
+  
+      
+  
+  <div class="pane-content">
+    <strong>Install with Composer:</strong> <code class="language-bash">$ composer require 'drupal/default_content:^1.0'</code><br><small><a href="/docs/develop/using-composer/using-composer-to-manage-drupal-site-dependencies">Using Composer to manage Drupal site dependencies</a></small></code>  </div>
+
+  
+  </div>
+    </div>
+  </div>
+
+  <div class="container content clearfix">
+    <div class="container-inner content-inner panel-panel-inner">
+      <div class="column-content-region top-right-content column panel-panel">
+        <div class="column-content-region-inner top-right-content-inner column-inner panel-panel-inner">
+          <div class="panel-pane pane-views-panes pane-project-release-info-release-info-pane"  >
+  
+        <h2 class="pane-title">
+      Release info    </h2>
+    
+  
+  <div class="pane-content">
+    <div class="view view-project-release-info view-id-project_release_info view-display-id-release_info_pane view-dom-id-1f35f278201f87775238639ac91295b2">
+        
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first views-row-last">
+      
+  <div>    <span>Created by: </span>    <span><a href="/u/larowlan" title="View user profile." data-uid="395439" class="username">larowlan</a></span>  </div>  
+  <div class="views-field views-field-created">    <span class="views-label views-label-created">Created on: </span>    <span class="field-content">19 Oct 2017 at 21:29 UTC</span>  </div>  
+  <div class="views-field views-field-changed">    <span class="views-label views-label-changed">Last updated: </span>    <span class="field-content">19 Oct 2017 at 21:29 UTC</span>  </div>  
+  <div class="views-field views-field-taxonomy-vocabulary-6">    <span class="views-label views-label-taxonomy-vocabulary-6">Core compatibility: </span>    <span class="field-content"><a href="/taxonomy/term/7234">8.x</a></span>  </div>  
+  <div class="views-field views-field-taxonomy-vocabulary-7">    <span class="views-label views-label-taxonomy-vocabulary-7">Release type: </span>    <span class="field-content"><a href="/taxonomy/term/98">New features</a></span>  </div>  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-node-links link-wrapper"  >
+  
+      
+  
+  <div class="pane-content">
+    <ul class="links inline"><li class="node-usage first last"><a href="/project/usage/2917521">View usage statistics for this release</a></li>
+</ul>  </div>
+
+  
+  </div>
+        </div>
+      </div>
+      <div class="column-content-region left-content column panel-panel ">
+        <div class="column-content-region-inner left-content-inner column-inner panel-panel-inner">
+          <div class="panel-pane pane-entity-field pane-node-body"  >
+  
+        <h2 class="pane-title">
+      Release notes    </h2>
+    
+  
+  <div class="pane-content">
+    <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>Adds drush 9 support.</p>
+<p><span class="project-issue-issue-link project-issue-status-info project-issue-status-7"><a href="/project/default_content/issues/2912723" title="Status: Closed (fixed)">#2912723: Add Drush 9 support</a></span></p></div></div></div>  </div>
+
+  
+  </div>
+        </div>
+      </div>
+      <div class="column-content-region bottom-right-content column panel-panel">
+        <div class="column-content-region-inner bottom-right-content-inner column-inner panel-panel-inner">
+          <div class="panel-pane pane-project-dependencies"  >
+  
+        <h2 class="pane-title">
+      Dependencies    </h2>
+    
+  
+  <div class="pane-content">
+    <p>The selected release is the release that will be used for automated testing. Optional projects are only used for testing.</p><h4>Required</h4><p>No required projects</p><h4>Optional</h4><p>No optional projects</p>  </div>
+
+  
+  </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container footer clearfix panel-panel">
+    <div class="container-inner footer-inner panel-panel-inner">
+          </div>
+  </div>
+
+</div><!-- /.sutro -->
+</div>
+  </div>
+  </div>
+</div>
+  </div>
+</div>
+                  </div> <!-- /#content -->
+
+      </div> <!-- /#column-left -->
+
+      
+          </div>  </div> <!-- /#page -->
+
+  <div id="footer" role="contentinfo">
+            <div class="region region-footer">
+    <div id="block-drupalorg-crosssite-drupalorg-footer" class="block block-drupalorg-crosssite">
+<div class="block-inner">
+    
+  <div class="content">
+    <h4 class="element-invisible">News items</h4><ul class="drupal-news"><li class="0 first"><a href="https://www.drupal.org/news">News</a></li>
+<li class="1"><a href="https://www.drupal.org/planet" title="News from Drupal community members">Planet Drupal</a></li>
+<li class="2"><a href="https://www.drupal.org/social-media" title="Drupal on social media">Social media directory</a></li>
+<li class="3"><a href="https://www.drupal.org/security" title="Advisories from the security team">Security announcements</a></li>
+<li class="4 last"><a href="https://jobs.drupal.org/" title="Drupal Jobs">Jobs</a></li>
+</ul><h4 class="element-invisible">Our community</h4><ul class="community"><li class="0 first"><a href="https://drupal.org/community">Community</a></li>
+<li class="1"><a href="https://drupal.org/getting-involved" title="Learn how to contribute to the Drupal project">Getting involved</a></li>
+<li class="2"><span><a href="https://drupal.org/drupal-services" title="People and organizations offering Drupal services">Services</a>, <a href="https://drupal.org/training" title="People and organizations offering Drupal training">Training</a> & <a href="https://drupal.org/hosting" title="Organizations offering Drupal hosting">Hosting</a></span></li>
+<li class="3"><a href="https://groups.drupal.org/groups" title="groups.drupal.org">Groups &amp; Meetups</a></li>
+<li class="4"><a href="https://events.drupal.org" title="Upcoming and past DrupalCons">DrupalCon</a></li>
+<li class="5 last"><a href="https://drupal.org/dcoc" title="Drupal code of conduct">Code of conduct</a></li>
+</ul><h4 class="element-invisible">Documentation</h4><ul class="get-started"><li class="0 first"><a href="https://drupal.org/documentation" title="Documentation for working with Drupal">Documentation</a></li>
+<li class="1"><a href="https://www.drupal.org/docs/8">Drupal 8 docs</a></li>
+<li class="2"><a href="https://www.drupal.org/docs/7">Drupal 7 docs</a></li>
+<li class="3"><a href="https://www.drupal.org/documentation/develop">Developer docs</a></li>
+<li class="4 last"><a href="https://api.drupal.org/" title="Drupal API reference">api.drupal.org</a></li>
+</ul><h4 class="element-invisible">Drupal code base</h4><ul class="download-extend"><li class="0 first"><a href="https://drupal.org/download">Download &amp; Extend</a></li>
+<li class="1"><a href="https://drupal.org/project/drupal" title="Download the latest version of the Drupal software">Drupal core</a></li>
+<li class="2"><a href="https://drupal.org/project/project_module" title="Download add-on features and functionality">Modules</a></li>
+<li class="3"><a href="https://drupal.org/project/project_theme" title="Download pre-designed styles for Drupal">Themes</a></li>
+<li class="4 last"><a href="https://drupal.org/project/project_distribution" title="Download a pre-packaged Drupal site">Distributions</a></li>
+</ul><h4 class="element-invisible">Governance of community</h4><ul class="about"><li class="0 first"><a href="https://drupal.org/about">About</a></li>
+<li class="1"><a href="https://drupal.org/about/accessibility" title="Our committment to accessibility">Web accessibility</a></li>
+<li class="2"><a href="https://drupal.org/association" title="About the Drupal Association">The Drupal Association</a></li>
+<li class="3"><a href="https://drupal.org/drupalorg" title="About Drupal.org">About Drupal.org</a></li>
+<li class="4"><a href="https://drupal.org/terms" title="Drupal.org terms of service">Terms of service</a></li>
+<li class="5 last"><a href="https://drupal.org/privacy" title="Drupal.org privacy policy">Privacy policy</a></li>
+</ul>  </div>
+  </div>
+</div>
+<div id="block-block-77" class="block block-block">
+<div class="block-inner">
+    
+  <div class="content">
+    <p>Drupal is a <a href="http://drupal.com/trademark" rel="nofollow">registered trademark</a> of <a href="https://dri.es" rel="nofollow">Dries Buytaert</a>.</p>  </div>
+  </div>
+</div>
+  </div>
+      </div>
+  
+<!--[if lte IE 9]>
+<script type="text/javascript" src="https://www.drupal.org/files/advagg_js/js__79M6UrZjAw3oNGnUjsWip12JsvnUZmJGA3h9LI0kuzE__LqE6uSZqCOZhJYW910TDw_HTQzBKUPTZxunfaWkalq8__wiNRAQmb1cVwSHFag72el-HHTuC0y1ZUWoU2SpeUCzo.js#ie9-" onload="if(jQuery.isFunction(jQuery.holdReady)){jQuery.holdReady(true);}"></script>
+<![endif]-->
+
+<!--[if gt IE 9]>
+<script type="text/javascript" src="https://www.drupal.org/files/advagg_js/js__79M6UrZjAw3oNGnUjsWip12JsvnUZmJGA3h9LI0kuzE__LqE6uSZqCOZhJYW910TDw_HTQzBKUPTZxunfaWkalq8__wiNRAQmb1cVwSHFag72el-HHTuC0y1ZUWoU2SpeUCzo.js#ie10+" defer="defer" onload="if(jQuery.isFunction(jQuery.holdReady)){jQuery.holdReady(true);}"></script>
+<![endif]-->
+
+<!--[if !IE]><!-->
+<script type="text/javascript" src="https://www.drupal.org/files/advagg_js/js__79M6UrZjAw3oNGnUjsWip12JsvnUZmJGA3h9LI0kuzE__LqE6uSZqCOZhJYW910TDw_HTQzBKUPTZxunfaWkalq8__wiNRAQmb1cVwSHFag72el-HHTuC0y1ZUWoU2SpeUCzo.js" defer="defer" onload="if(jQuery.isFunction(jQuery.holdReady)){jQuery.holdReady(true);}"></script>
+<!--<![endif]-->
+<script type="text/javascript" src="https://www.drupal.org/files/advagg_js/js__H5AFmq1RrXKsrazzPq_xPQPy4K0wUKqecPjczzRiTgQ__ZHqvWr-79k4Y5DRTd0KcuNHgFp9UJZlb3B0Bi5eGu3M__wiNRAQmb1cVwSHFag72el-HHTuC0y1ZUWoU2SpeUCzo.js" defer="defer" onload="
+function advagg_mod_1() {
+  // Count how many times this function is called.
+  advagg_mod_1.count = ++advagg_mod_1.count || 1;
+  try {
+    if (advagg_mod_1.count <= 40) {
+      init_drupal_core_settings();
+
+      // Set this to 100 so that this function only runs once.
+      advagg_mod_1.count = 100;
+    }
+  }
+  catch(e) {
+    if (advagg_mod_1.count >= 40) {
+      // Throw the exception if this still fails after running 40 times.
+      throw e;
+    }
+    else {
+      // Try again in 1 ms.
+      window.setTimeout(advagg_mod_1, 1);
+    }
+  }
+}
+function advagg_mod_1_check() {
+  if (window.init_drupal_core_settings && window.jQuery && window.Drupal) {
+    advagg_mod_1();
+  }
+  else {
+    window.setTimeout(advagg_mod_1_check, 1);
+  }
+}
+advagg_mod_1_check();"></script>
+<script type="text/javascript" src="https://www.drupal.org/files/advagg_js/js__y-0WF9wbsKup6UtG11ZtdWgidCFrAqzehETdOPtD3QM__gG3CSROi7qoCtXCt68FO0bdgZOHAuan1sqLTmLFtBnk__wiNRAQmb1cVwSHFag72el-HHTuC0y1ZUWoU2SpeUCzo.js" defer="defer"></script>
+<script type="text/javascript" defer="defer" async="async" src="//www.google-analytics.com/analytics.js"></script>
+<script type="text/javascript" src="https://www.drupal.org/files/advagg_js/js__hHUWFbMAa11eJtx5V0ym9o0YBsB1udk34qUT5wr1ihI__w1AuxI-Is3CtQ1nu9fAoIO4cMrl8j5oxHT1ffMU00Zo__wiNRAQmb1cVwSHFag72el-HHTuC0y1ZUWoU2SpeUCzo.js" defer="defer"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+function init_drupal_core_settings() {jQuery.extend(Drupal.settings,{"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"bluecheese","theme_token":"T4HBxdYuoqNREYkuTs8V-Xgcb7fmMwLf2356X7NUmRc"},"jcarousel":{"ajaxPath":"\/jcarousel\/ajax\/views"},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"urlIsAjaxTrusted":{"\/project\/default_content\/releases\/8.x-1.0-alpha7":true}});
+if(jQuery.isFunction(jQuery.holdReady)){jQuery.holdReady(false);}} if(window.jQuery && window.Drupal){init_drupal_core_settings();}
+//--><!]]>
+</script>
+<script type="text/javascript" src="https://www.drupal.org/files/advagg_js/js__vj0LjvNwl-3K1P9LGT4BGuXCZcAovYsVlVmoJN3TMRg__kjJKTwchZT1H_vS7JCXcasJqu7B91shpT7yyiMG7Jow__wiNRAQmb1cVwSHFag72el-HHTuC0y1ZUWoU2SpeUCzo.js" defer="defer"></script>
+</body>
+</html>
