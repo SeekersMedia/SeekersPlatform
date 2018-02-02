@@ -9,6 +9,10 @@ core: 8.x
 # a label for the software being installed.
 distribution:
   name: Seekers Plaform
+  install:
+    theme: seven
+    theme: seekers_v1
+
   # If you want your distribution to pre-select a language you can specify
   # the language code, as well. This will prevent the user from selecting
   # a language code in the user interface. While not recommended for generic
@@ -22,20 +26,29 @@ distribution:
 # Required modules
 # Note that any dependencies of the modules listed here will be installed automatically.
 dependencies:
+  # core
   - node
+  - breakpoint
   - history
   - block
-  - block_content
-  - breakpoint
+  - ckeditor
   - color
   - config
   - comment
   - contextual
   - contact
+  - menu_link_content
+  - datetime
+  - block_content
   - quickedit
+  - editor
   - help
   - image
+  - menu_ui
   - options
+  - path
+  - page_cache
+  - dynamic_page_cache
   - taxonomy
   - dblog
   - search
@@ -46,13 +59,17 @@ dependencies:
   - rdf
   - views
   - views_ui
-  - editor
-  - ckeditor
+  - tour
+  - automated_cron
+  - entity_reference
   - filter
-  - menu_ui
+  - inline_form_errors
+  - language
+  - responsive_image
   - system
   - text
   - update
+  # contrib
   - admin_toolbar
   - admin_toolbar_tools
   - ctools
@@ -77,38 +94,34 @@ dependencies:
   - metatag_open_graph
   - metatag_twitter_cards
   - name
+  - panels
   - page_manager
   - page_manager_ui
-  - panels
   - paragraphs
   - php
   - publishcontent
-  - rest
   - redirect
   - role_delegation
-  - serialization
   - sharethis
-  - telephone
-  - twitter_block
   - token
-  - video_embed_field
-  - video_embed_media
+  - twitter_block
   - views_slideshow
+  - views_slideshow_cycle
   - webform
   - webform_node
   - webform_ui
   - xmlsitemap
   - xmlsitemap_custom
   - xmlsitemap_engines
-  - views_slideshow_cycle
-  #- seekers_platform_amenity
-  #- seekers_platform_campaign
-  #- seekers_platform_core
-  #- seekers_platform_destination
-  #- seekers_platform_organization
-  #- seekers_platform_page
-  #- seekers_platform_site
-  #- seekers_platform_user
+  # platform
+  - seekers_platform_amenity
+  - seekers_platform_campaign
+  - seekers_platform_core
+  - seekers_platform_destination
+  - seekers_platform_organization
+  - seekers_platform_page
+  - seekers_platform_site
+  - seekers_platform_user
 
 # List any themes that should be installed as part of the installation
 # profile installation.
