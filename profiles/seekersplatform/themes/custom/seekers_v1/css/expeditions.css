@@ -1,0 +1,467 @@
+
+
+
+
+/* CAMPAIGN - Full */
+
+body.page-node-type-campaign {
+	padding-top: 79px;
+}
+
+body.page-node-type-campaign.toolbar-tray-open {
+	padding-top: 160px!important;	
+}
+
+body.page-node-type-campaign #block-snowseekers-v1-page-title {
+	display: none;
+}
+
+
+.node--type-campaign.node--view-mode-full {
+  width: 800px;
+	margin: 2em;
+	background-color: white;
+	border: 1px solid silver;
+	-moz-box-shadow: 2px 2px 3px #7f7f7f;
+	box-shadow: 0 3px 10px rgba(0,0,0,.23), 0 3px 10px rgba(0,0,0,.16);
+	border-radius: 2px;	
+}
+
+.node--type-campaign.node--view-mode-full img {
+	width: 100%;
+	height: auto;
+	border-bottom: 1px solid silver;
+}
+
+
+.node--type-campaign.node--view-mode-full .container-inner {
+	padding: 35px;
+}
+
+.node--type-campaign--view-mode-full .field--name-node-title h2 {
+	margin-before: 0;
+	margin: 0 0 15px;
+}
+
+
+
+
+
+
+.view-expeditions .card.expedition {
+	margin: 0em;
+	background-color: white;
+	border: 1px solid silver;
+	-moz-box-shadow: 2px 2px 3px #7f7f7f;
+	box-shadow: 0 3px 10px rgba(0,0,0,.23), 0 3px 10px rgba(0,0,0,.16);
+	border-radius: 0px;	
+  position: relative!important;
+}
+
+
+.view-expeditions .card.expedition .field--name-field-media-image img {
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	margin-bottom: -10px;
+	border: 1px solid #184b68;
+	border-bottom: 8px solid #184b68;
+}
+
+
+	.view-expeditions .card.expedition .media--type-image .field--name-field-tag-creator {
+
+	}
+
+
+
+/*  Campaign - Expedition  */
+
+ 
+.node--type-campaign.node--view-mode-expedition .block-page-title-block {
+	display: none;
+}
+
+.node--type-campaign.node--view-mode-expedition .group-story-wrapper {
+  width: 800px;
+	margin: 2em;
+	background-color: white;
+	border: 1px solid silver;
+	-moz-box-shadow: 2px 2px 3px #7f7f7f;
+	box-shadow: 0 3px 10px rgba(0,0,0,.23), 0 3px 10px rgba(0,0,0,.16);
+	border-radius: 2px;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-media-image-intro {
+  -moz-box-shadow: 2px 2px 3px #7f7f7f;
+  box-shadow: 0 3px 10px rgba(0,0,0,.23), 0 3px 10px rgba(0,0,0,.16);
+  border-radius: 2px;
+  overflow: hidden;
+  vertical-align: middle;
+	_border-bottom: 1px solid silver;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-media-image-intro img {
+	width: 100%;
+	height: auto;
+	margin-bottom: -8px;
+	font-size: 0;
+  vertical-align: middle;
+}
+	
+.node--type-campaign.node--view-mode-expedition .container-inner {
+	margin: 0 35px 35px;
+  background-color: white;
+  border: 1px solid silver;
+  -moz-box-shadow: 2px 2px 3px #7f7f7f;
+  box-shadow: 0 3px 10px rgba(0,0,0,.23), 0 3px 10px rgba(0,0,0,.16);
+  border-radius: 2px;
+	position: relative;
+	top: -50px;
+	max-width: 960px;
+	padding: 0;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-node-title h2 {
+	margin-before: 0;
+	margin: 0 0 15px;
+	padding-top: 1em;
+	padding-right: 1em;
+	padding-left: 1em;
+}
+
+.field--type-datetime,
+.field--name-field-date.field--type-datetime {
+	font-size: 12px;
+	color: gray;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-description {
+	padding: 1em 2em 2em;
+}
+
+.node--type-campaign.node--view-mode-expedition .group-tags {
+	color: #454545;
+	padding-top: 20px;
+}
+
+.node--type-campaign.node--view-mode-expedition .group-tags label {
+	font-size: 12px;
+}
+
+
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents .field__label,
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories .field__label,
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations .field__label,
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-partners .field__label {
+	color: white;
+	background-color: #184b68;
+	display: inline-block;
+	width: auto;
+	padding: 8px 12px;
+	font-size: 16px;
+}
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents,
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories,
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations,
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-partners {
+}
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents,
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories,
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations,
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-partners {
+	border-top: 1px solid #184b68;
+	padding-bottom: 3em;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents .field__item {
+	position: relative;
+	display: inline-block;
+	margin: 2em 5% -4px;
+	vertical-align: top;
+	border: 1px solid #184b68;
+	width: 90%;
+	height: auto;
+}
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents {
+	background-color: #dfe8ec;
+}
+
+
+@media screen and (min-width: 480px) {
+	.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents .field__item {
+  	width: 40%;
+  	margin: 2em 2% -4px;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents .field__item {
+  	width: 28%;
+	}
+}
+
+
+@media screen and (min-width: 922px) {
+	.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents .field__item {
+	  width: 19%;
+	}
+}
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents .field__item .field--name-field-name {
+	position: absolute;
+	bottom: 0;
+	color: white;
+	height: 2em;
+	vertical-align: bottom;
+	width: 100%;
+	display: block;
+	position: absolute;
+	bottom: 0;
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.85)); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(bottom, rgba(0,0,0,0), rgba(0,0,0,.85)); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(bottom, rgba(0,0,0,0), rgba(0,0,0,.85)); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to bottom, rgba(0,0,0,.0), rgba(0,0,0,.85)); /* Standard syntax (must be last) */
+	display: table-cell;
+	vertical-align: bottom;
+	padding-top: 3em;
+  font-family: 'Open Sans';
+	font-weight: 600;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents .field__items {
+	text-align: center;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-correspondents img {
+	width: 100%;
+	height: auto;
+	margin-bottom: -4px;
+}
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories .field__items {
+	text-align: center;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories .field__items .field__item{
+	text-align: left;
+}
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories .field__item {
+  border: 1px solid #184b68;
+	margin: 20px 5%;
+	vertical-align: top;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories .field__item .field--name-field-media-image-intro {
+	margin-bottom: -4px;
+	border-bottom: 1px solid #184b68;	
+}
+
+
+@media screen and (min-width: 620px) {
+	.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories .field__item {
+	}
+}
+
+
+@media screen and (min-width: 768px) {
+	.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories .field__item {
+    display: inline-block;	
+    width: 42%;
+	  margin-right: 2%;
+  	margin-left: 2%;
+	}
+}
+
+@media screen and (min-width: 922px) {
+	.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories .field__item {
+	  width: 28%;
+	}
+}
+
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-stories h2 a {
+	font-weight: bold;
+}
+
+
+.node--type-campaign.node--view-mode-expedition .node--type-story.node--view-mode-teaser .container-right {
+  padding: 0 15px 15px;
+}
+
+.node--type-campaign.node--view-mode-expedition .node--type-story.node--view-mode-teaser img {
+	width: 100%;
+	height: auto;
+}
+
+
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations {
+	background-color: #dfe8ec;		
+}
+
+
+
+.node--type-campaign.node--view-mode-expedition .node node--type-destination.node--view-mode-teaser {
+	width: 50%;
+	display: inline-block;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations .field__item {
+  display: inline-block;	
+	border: 1px solid #184b68;
+	margin: 20px 5%;
+	vertical-align: top;
+	background-color: white;
+}
+
+@media screen and (min-width: 768px) {
+	.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations .field__item {
+	  width: 44%;
+		margin-right: 2%;
+		margin-left: 2%;
+	}
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations .field__item .intro {
+	position: relative;
+  border-bottom: 5px solid #184b68;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations .field__item .intro .field--name-node-title h3 {
+	position: absolute;
+	bottom: 0;
+	color: white;
+	height: 2em;
+	vertical-align: bottom;
+	width: 100%;
+	display: block;
+	position: absolute;
+	bottom: 0;
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.85)); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(bottom, rgba(0,0,0,0), rgba(0,0,0,.85)); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(bottom, rgba(0,0,0,0), rgba(0,0,0,.85)); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to bottom, rgba(0,0,0,.0), rgba(0,0,0,.85)); /* Standard syntax (must be last) */
+	display: table-cell;
+	vertical-align: bottom;
+	padding-top: 3em;
+ 	margin-bottom: 0;
+	text-align: center;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations .field__item .intro .field--name-node-title h3 a {
+  color: white;	
+  font-family: 'Open Sans';
+	font-weight: 600;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations .field__item .field--name-field-text-teaser p {
+	padding: 0 1em;
+}
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-destinations .field__item .field--name-node-link a {
+  width: 100%;
+	padding: .5em 0;
+	text-align: center;
+	font-weight: bold;
+}
+
+.node--type-campaign.node--view-mode-expedition .node node--type-destination.node--view-mode-teaser .group-left {
+	width: 33%@!important;
+}
+
+.node--type-campaign.node--view-mode-expedition .node node--type-destination.node--view-mode-teaser img {
+	width: 100%!important;
+	height: auto!important;
+}
+
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-partners .field__item {
+	width: 150px;
+	display: inline-block;
+	margin: 20px;
+}
+
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-partners .field__item img {
+	width: 100%;
+	height: auto;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-partners .field__items {
+	text-align: center;
+}
+
+.node--type-campaign.node--view-mode-expedition .field--name-field-ref-partners li {
+	list-style: none;
+}
+
+.node--type-campaign.node--view-mode-expedition .group-tags {
+	display: none;
+}
+
+
+.container-tags .field__label,
+.container-tags a,
+.container-tags .field__item {
+	color: #454545;
+	font-size: 12px;
+}
+
+.container-tags .field--type-entity-reference {
+	border-top: 1px solid silver;
+	margin-top: 5px;
+	margin-right: 1em;
+	display: inline-block;
+	padding-top: 5px;
+}
+
+.container-tags label {
+
+}
+ 
+.field--name-field-tag-destination,
+.field--name-field-tag-community,
+.field--name-field-tag-region,
+.field--name-field-tag-province {
+	margin-right: 1em;
+}
+
+
+
+.node--type-campaign.node--view-mode-expedition .field__item .field__item,
+.node--type-campaign.node--view-mode-expedition .field__item .field__item .field__item {
+  width: 100%;
+  display: block;	
+  border: none ;
+	margin: 0px;
+}
+
+.node--type-campaign.node--view-mode-expedition .field__item .field--name-node-link a {
+  color: white;
+  background-color: #184b68;
+	display: inline-block;
+	width: auto;
+	font-size: 13px;
+	padding: .75px 1em;
+}
+

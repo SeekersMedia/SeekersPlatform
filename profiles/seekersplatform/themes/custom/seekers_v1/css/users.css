@@ -1,0 +1,116 @@
+
+
+/* INFLUENCER */
+
+.path-user .block-page-title-block {
+	display: none;
+}
+
+.user--view-mode-full {
+  width: auto;
+	margin: 12px;
+  background-color: white;
+  border: 1px solid silver;
+  -moz-box-shadow: 2px 2px 3px #7f7f7f;
+  box-shadow: 0 3px 10px rgba(0,0,0,.23), 0 3px 10px rgba(0,0,0,.16);
+}
+
+.user--view-mode-full .container-right {
+  width: auto!important;	
+  position: relative;
+  top: -80px;
+}
+
+.user--view-mode-full .field--name-field-image-card img {
+	width: 100%;
+	height: auto;
+	border-bottom: 1px solid silver;
+}
+
+.user--view-mode-full #container-inner,
+.user--view-mode-full .container-inner {
+	padding: 20px;
+}
+
+.user--view-mode-full .container-links i {
+	color: #184b68;
+}
+	
+
+
+@media screen and (min-width : 620px) {
+
+  .user--view-mode-full {
+    width: 500px; 
+  	margin: 30px;
+	}
+
+	.user--view-mode-full .container-right {
+	  width: 260px;
+	}
+
+	.user--view-mode-full #container-inner,
+	.user--view-mode-full .container-inner {
+		padding: 10px;
+	}
+
+}
+
+.user--view-mode-full .container-left {
+  top: -80px;
+  position: relative;
+	margin-left: 0px;
+	width: 128px;
+	display: inline-block;	
+	vertical-align: top;
+}
+
+.user--view-mode-full .container-right {
+	width: 260px;
+	display: inline-block;
+	padding-left: 10px;
+}
+
+.user--view-mode-full .field--name-field-image-profile {
+  width: 100%;
+	display: inline-block;
+}
+
+.user--view-mode-full .field--name-field-image-profile img {
+	width: 100%;
+	height: auto;
+	border: 1px solid gray;
+}
+
+.user--view-mode-full .field--name-field-name h2 {
+	color: #1B5677;
+	display: inline-block;
+	vertical-align: top;
+	font-weight: bold;
+	font-size: 2em;
+	margin-bottom: 5px;
+}
+
+.profile .field--name-field-nickname {
+	font-style: italic;
+}
+
+.user--view-mode-full #container-inner .field--name-field-bio p {
+	font-size: .85em;
+	line-height: 1.6em;
+}
+
+
+
+/* TEAM */
+
+.path-team .view-team-block {
+	vertical-align: top;
+}
+
+.path-team .view-team-block li {
+  vertical-align: top;
+  list-style: none;
+  display: inline-block;
+}
+
