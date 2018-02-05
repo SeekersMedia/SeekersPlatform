@@ -16,5 +16,5 @@ glglobal-styling:
       css/promos.css: {}
       css/social.css: {}
       css/stories.css: {}
-      css/styles.css: {}
-      css/users.css: {} 
+      css/users.css: {}
+      css/base_styles.css: {}
