@@ -16,7 +16,7 @@
 .page-node-type-story .field--name-field-date {
 	_padding-left: 0!important;
 	margin-bottom: 10px;
-	color: gray6
+	color: gray;
 }
 
 .page-node-type-story .group-tags {
@@ -519,20 +519,31 @@
 
 
 .view-stories-block .node--view-mode-teaser .field--name-node-title h3 {
+	padding-right: 20px;
+	padding-left: 20px;
 	margin-top: 0;
 }
 
 .view-stories-block .node--view-mode-teaser .field--name-node-title a {
-	font-size: 1.5em;
+	font-size: 1.05em;
+	font-weight: bold;
+}
+
+.view-stories-block .field--type-datetime {
+	padding-left: 20px;
 }
 
 .view-stories-block .node--view-mode-teaser .field--name-field-text-teaser p {
 	font-size: .9em;
+	padding: 0 20px 20px;
+}
+
+.view-stories-block .node--view-mode-teaser .field--name-node-link {
+	margin-bottom: 20px;
 }
 
 .view-stories-block .node--view-mode-teaser .field--name-node-link a {
 	color: white;
-	background-color: #1B5677;
 	padding: 4px 6px;
 	font-size: .75em;
 	text-transform: capitalize;
@@ -582,7 +593,6 @@ body.path-stories .view-id-stories_block .views-exposed-form #edit-actions {
 
 body.path-stories .view-id-stories_block .views-exposed-form #edit-submit-stories-block {
 	color: white;
-	background-color: #1B5677;
 	padding: 4px 6px;
 	font-size: .75em;
 	border: 1px solid #;

@@ -30,7 +30,10 @@
 
 
 
-#block-sociallinks {
+#block-sociallinks,
+#block-snowseekers-v1-sociallinks,
+#block-zenseekers-v1-sociallinks,
+#block-festivalseekers-v1-sociallinks {
 	margin-top: 4px;
 	margin-right: 2px;
 	position: absolute;
@@ -39,14 +42,23 @@
 }
 
 #block-sociallinks div,
-#block-sociallinks .social-link {
+#block-sociallinks .social-link,
+#block-snowseekers-v1-sociallinks div,
+#block-snowseekers-v1-sociallinks .social-link,
+#block-zenseekers-v1-sociallinks div,
+#block-zenseekers-v1-sociallinks .social-link,
+#block-festivalseekers-v1-sociallinks div,
+#block-festivalseekers-v1-sociallinks .social-link {
 	display: inline-block;
 	margin-left: 3px;
 }
 
 @media only screen and (max-device-width : 560px) {
 
-	#block-sociallinks {
+	#block-sociallinks,
+	#block-snowseekers-v1-sociallinks,
+	#block-zenseekers-v1-sociallinks,
+	#block-festivalseekers-v1-sociallinks {
 		margin-top: 7px;
 		margin-right: 3px;
 		position: absolute;
@@ -61,15 +73,16 @@
 }
 
 
-#block-sociallinks div,
-#block-sociallinks .social-link {
-	display: inline-block;
-	margin-left: 3px;
-}
-
-#block-sociallinks .social-link a {
+#block-sociallinks .social-link a,
+#block-snowseekers-v1-sociallinks .social-link a,
+#block-zenseekers-v1-sociallinks .social-link a,
+#block-festivalseekers-v1-sociallinks .social-link a  {
  color: white;
 }
+
+
+
+
 
 
 .container-links {
@@ -113,6 +126,27 @@
 
 .sharethis-wrapper {
 	padding: 20px;
+}
+
+
+
+
+.block-twitter-block,
+#block-snowseekers-v1-facebook,
+#block-zenseekers-v1-facebook,
+#block-festivalseekers-v1-facebook {
+	display: inline-block;
+}
+
+.block-twitter-block {
+	padding-top: 5px;
+	margin-right: 1em;
+	margin-left: 1em;
+	margin-top: 10px;
+}
+
+.block-festivalseekers-v1-facebook {
+	padding-top:  0px;
 }
 
 

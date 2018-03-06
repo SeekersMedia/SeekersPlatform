@@ -1,11 +1,9 @@
-glglobal-styling:
+global-styling:
   css:
     component:
+      css/styles.css: {}
       css/admin.css: {}
-      css/branding.css: {}
-      css/conditions.css: {}
       css/contests.css: {}
-      css/destinations.css: {}
       css/expeditions.css: {}
       css/homepage.css: {}
       css/layout.css: {}
@@ -16,5 +14,5 @@ glglobal-styling:
       css/promos.css: {}
       css/social.css: {}
       css/stories.css: {}
+      css/styles.css: {}
       css/users.css: {}
-      css/base_styles.css: {}

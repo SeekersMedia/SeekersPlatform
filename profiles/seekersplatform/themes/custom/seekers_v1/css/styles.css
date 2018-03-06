@@ -1,0 +1,311 @@
+/*SnowSeekers*/
+
+body {
+	font-size: 12pt;
+	background: #eee;
+	min-width: 280px;
+}
+
+
+body.path-frontpage {
+	_background: url(../images/home-header.jpg) center top no-repeat;
+}
+
+p,
+div {
+	line-height: 1.6em;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+	font-style: normal;
+	font-weight: normal;
+}
+
+a {
+	color: #1B5677;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+}
+
+a.link-line {
+	font-weight: bold;
+  color: #184b68;
+	text-align: center;
+	display: block;
+	font-weight: 600;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 700;
+  color: #1B5677;
+}
+
+h1.page-title {
+  color: #1B5677;
+	padding-top: 50px;
+	padding-left: 0px;
+}
+
+.block-page-title-block {
+	padding-top: 50px;
+	padding-left: 20px;
+}
+
+@media screen and (min-width : 620px) {
+	h1.page-title {
+		padding-left: 40px;
+	}
+
+	.block-page-title-block {
+		padding-top: 50px;
+		padding-left: 40px;
+	}
+
+}
+
+
+.path-frontpage .block-page-title-block {
+	display: none;
+}
+
+
+
+/* LAYOUT */
+.region-header {
+	height: 25px;
+	z-index: 101!important;
+}
+
+header {
+	height: 80px;
+	z-index: 101!important;
+}
+
+main {
+}
+
+body.path-frontpage .region-content {
+}
+
+
+a {
+	text-decoration: none;
+	_color: #B3423D;
+	_color: #1B5677;
+	_color: #78A2AB;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* NAV - Sub */
+
+#block-snowseekers-v1-headernav {
+	float: right;
+	background-color: #123a51;
+	padding: .75em;
+}
+
+#block-snowseekers-v1-headernav li {
+}
+
+#block-snowseekers-v1-headernav li a {
+	font-size: .7em;
+	text-decoration: none;
+	margin-left: .35em;
+	margin-right: .35em;
+	color: #78A2AB;
+}
+
+
+
+
+.region-footer {
+  background-color: #184b68;
+  min-height: 200px;
+  vertical-align: top;
+	padding: 30px;
+}
+
+
+.region-footer .menu--footer {
+	margin: 10px 1em 0 0;
+	padding-bottom: 1em;
+	vertical-align: top;
+	float: left;
+	clear: left;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	padding-top: 10px;
+}
+
+.region-footer .menu--footer ul {
+  vertical-align: top;
+	margin: .35em;
+}
+
+.region-footer .menu--footer li {
+  display: block;
+	margin-top: .35em;
+}
+
+.region-footer .menu--footer li a {
+  color: white;
+	font-size: .8em;
+}
+
+.region-footer .menu--footer li.menu-item--expanded {
+	display: inline-block;
+	margin-right: 1em;
+	vertical-align: top;
+	line-height: 1.6em;
+}
+
+.region-footer .menu--footer li.menu-item--expanded a {
+	font-weight: bold;
+}
+
+.region-footer .menu--footer li.menu-item--expanded li {
+
+}
+
+.region-footer .menu--footer li.menu-item--expanded li a {
+	font-weight: normal;
+	font-style: normal;
+	line-height: 1.6em;
+}
+
+
+
+#block-snowseekers-v1-footer-menu,
+#block-facebook,
+#block-twitterblock {
+	display: inline-block;
+	vertical-align: top;
+}
+
+#block-snowseekers-v1-footer-menu {
+	margin-right: 20px;
+}
+
+
+#block-facebook {
+	margin-right: 30px;
+	margin-bottom: 30px;
+	vertical-align: top;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* INTROS */
+
+.field--name-field-text-intro-landing-page {
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+@media screen and (min-width : 620px) {
+	.field--name-field-text-intro-landing-page {
+		padding-right: 80px;
+		padding-left: 80px;
+	}
+}
+
+
+
+
+
+
+
+
+/* Radium */
+[data-quickedit-field- id^="media/115/field_media_image/en/promo_homepage"] img {
+
+}
+
+/* North */
+[data-quickedit-field-id^="media/77/field_media_image/en/promo_homepage"] img {
+
+}
+
+
+
+.sharethis-wrapper {
+	padding: 20px;
+	display: block;
+	clear: both;
+}
+
+
+
+
+
+
+.view-filters {
+	padding-left: 25px;
+}
+
+
+.view-filters #edit-actions {
+  display: inline-block;
+}
+
+
+.views-exposed-form .form-submit {
+    color: white;
+    padding: 4px 6px;
+    font-size: .75em;
+    border: 1px solid #;
+}
+
+
+
+
+
+
+
+/* FESTIVAL */
+
+
+
+
+
+
+.flex-direction-nav a {
+	overflow: visible;
+}
+

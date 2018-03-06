@@ -5,7 +5,10 @@
 
 /* NEWSLETTER */
 
-#block-newsletterform {
+#block-newsletterform,
+#block-snowseekers-v1-newsletterform,
+#block-zenseekers-v1-newsletterform,
+#block-festivalseekers-v1-newsletterform {
   float: left;
 	width: 200px;
 }
