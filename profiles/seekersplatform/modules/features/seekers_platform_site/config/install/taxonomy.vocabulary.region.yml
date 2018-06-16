@@ -1,8 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-name: Region
-vid: region
-description: ''
-hierarchy: 0
-weight: 0

@@ -114,14 +114,14 @@ dependencies:
   - xmlsitemap_custom
   - xmlsitemap_engines
   # platform
-  - seekers_platform_amenity
-  - seekers_platform_campaign
-  - seekers_platform_core
-  - seekers_platform_destination
-  - seekers_platform_organization
-  - seekers_platform_page
-  - seekers_platform_site
-  - seekers_platform_user
+  # seekers_platform_amenity
+  # seekers_platform_campaign
+  # seekers_platform_core
+  # seekers_platform_destination
+  # seekers_platform_organization
+  # seekers_platform_page
+  # seekers_platform_site
+  # seekers_platform_user
 
 # List any themes that should be installed as part of the installation
 # profile installation.
