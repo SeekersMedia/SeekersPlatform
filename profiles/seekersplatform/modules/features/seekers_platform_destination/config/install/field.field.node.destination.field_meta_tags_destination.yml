@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tags_destination
+    - node.type.destination
+  module:
+    - metatag
+id: node.destination.field_meta_tags_destination
+field_name: field_meta_tags_destination
+entity_type: node
+bundle: destination
+label: 'Meta Tags'
+description: 'Please add the Meta Tags for this Destination'
+required: false
+translatable: false
+default_value:
+  -
+    value: 'a:0:{}'
+default_value_callback: ''
+settings: {  }
+field_type: metatag

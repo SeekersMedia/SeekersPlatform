@@ -1,0 +1,60 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.promo.promo_homepage
+    - field.field.promo.promo_homepage.field_media_image
+    - field.field.promo.promo_homepage.field_ref_linked_content
+    - field.field.promo.promo_homepage.field_text_call_to_action
+    - field.field.promo.promo_homepage.field_text_promo
+  module:
+    - entity_reference_revisions
+    - text
+id: promo.promo_homepage.default
+targetEntityType: promo
+bundle: promo_homepage
+mode: default
+content:
+  field_media_image:
+    weight: 4
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_autocomplete
+    region: content
+  field_ref_linked_content:
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_text_call_to_action:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_text_promo:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  title:
+    type: string_textfield
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+hidden: {  }

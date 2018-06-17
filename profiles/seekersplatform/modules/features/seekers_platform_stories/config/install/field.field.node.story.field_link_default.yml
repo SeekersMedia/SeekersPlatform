@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_link_default
+    - node.type.story
+  module:
+    - link
+id: node.story.field_link_default
+field_name: field_link_default
+entity_type: node
+bundle: story
+label: 'Default Link'
+description: 'Please enter the Default Link for this Story (it will be used if an image link or other link isn''t set).'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+  title_predefined: ''
+field_type: link

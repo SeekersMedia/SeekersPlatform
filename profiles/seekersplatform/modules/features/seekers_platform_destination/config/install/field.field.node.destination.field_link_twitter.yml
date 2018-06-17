@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_link_twitter
+    - node.type.destination
+  module:
+    - link
+id: node.destination.field_link_twitter
+field_name: field_link_twitter
+entity_type: node
+bundle: destination
+label: Twitter
+description: 'Please enter the link to the Twitter profile for this Destination'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 16
+  title: 0
+field_type: link

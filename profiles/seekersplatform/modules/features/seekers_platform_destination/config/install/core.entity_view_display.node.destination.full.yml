@@ -1,0 +1,1216 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.full
+    - field.field.node.destination.field_email
+    - field.field.node.destination.field_embed_map
+    - field.field.node.destination.field_fax
+    - field.field.node.destination.field_img_thumbnail
+    - field.field.node.destination.field_int_area
+    - field.field.node.destination.field_int_bowls
+    - field.field.node.destination.field_int_elevation_base
+    - field.field.node.destination.field_int_elevation_top
+    - field.field.node.destination.field_int_lifts_number
+    - field.field.node.destination.field_int_run_longest
+    - field.field.node.destination.field_int_runs_advanced
+    - field.field.node.destination.field_int_runs_beginner
+    - field.field.node.destination.field_int_runs_intermediate
+    - field.field.node.destination.field_int_runs_total
+    - field.field.node.destination.field_int_snowfall_avg
+    - field.field.node.destination.field_int_temperature_avg
+    - field.field.node.destination.field_int_terrain_parks
+    - field.field.node.destination.field_int_vertical_rise
+    - field.field.node.destination.field_link_facebook
+    - field.field.node.destination.field_link_flickr
+    - field.field.node.destination.field_link_gmaps
+    - field.field.node.destination.field_link_instagram
+    - field.field.node.destination.field_link_twitter
+    - field.field.node.destination.field_link_website
+    - field.field.node.destination.field_link_wikipedia
+    - field.field.node.destination.field_link_youtube
+    - field.field.node.destination.field_list_lessons_ski_school
+    - field.field.node.destination.field_list_on_hill_accomms
+    - field.field.node.destination.field_list_on_hill_child_care
+    - field.field.node.destination.field_list_on_hill_food
+    - field.field.node.destination.field_list_on_hill_village
+    - field.field.node.destination.field_list_rentals
+    - field.field.node.destination.field_media_image_intro
+    - field.field.node.destination.field_media_logo
+    - field.field.node.destination.field_meta_tags_destination
+    - field.field.node.destination.field_old_text_stats
+    - field.field.node.destination.field_para_intro
+    - field.field.node.destination.field_phone
+    - field.field.node.destination.field_phone_toll_free
+    - field.field.node.destination.field_tag_activities
+    - field.field.node.destination.field_tag_community
+    - field.field.node.destination.field_tag_destination
+    - field.field.node.destination.field_tag_province_state
+    - field.field.node.destination.field_tag_region
+    - field.field.node.destination.field_temp_old_url
+    - field.field.node.destination.field_text_admin_notes
+    - field.field.node.destination.field_text_general_details
+    - field.field.node.destination.field_text_getting_there_driving
+    - field.field.node.destination.field_text_getting_there_flights
+    - field.field.node.destination.field_text_getting_there_intro
+    - field.field.node.destination.field_text_getting_there_shuttle
+    - field.field.node.destination.field_text_hours
+    - field.field.node.destination.field_text_lift_details
+    - field.field.node.destination.field_text_on_hill_food_details
+    - field.field.node.destination.field_text_other_attractions
+    - field.field.node.destination.field_text_season
+    - field.field.node.destination.field_text_snowmaking
+    - field.field.node.destination.field_text_special_passes
+    - field.field.node.destination.field_text_teaser
+    - field.field.node.destination.field_text_terrain_description
+    - node.type.destination
+  module:
+    - ds
+    - entity_reference_revisions
+    - field_group
+    - link
+    - options
+    - telephone
+    - text
+    - user
+third_party_settings:
+  ds:
+    layout:
+      id: ds_1col
+      path: modules/contrib/ds
+      library: ''
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        wrappers:
+          ds_content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+        classes:
+          layout_class: {  }
+    regions:
+      ds_content:
+        - node_title
+        - field_media_image_intro
+        - group_logo_links
+        - field_para_intro
+        - group_intro
+        - field_text_general_details
+        - field_media_logo
+        - field_tag_activities
+        - group_related_stories
+        - group_links
+        - field_link_website
+        - field_text_other_attractions
+        - group_details
+        - group_stats
+        - field_text_snowmaking
+        - field_link_instagram
+        - group_location
+        - field_link_facebook
+        - field_text_season
+        - field_link_twitter
+        - field_text_special_passes
+        - group_div
+        - field_embed_map
+        - field_link_youtube
+        - field_text_hours
+        - sharethis
+        - field_text_getting_there_intro
+        - field_int_temperature_avg
+        - field_link_flickr
+        - field_phone
+        - stories_related_entity_view_1
+        - field_fax
+        - field_text_getting_there_driving
+        - field_int_snowfall_avg
+        - field_link_wikipedia
+        - field_list_rentals
+        - field_text_getting_there_flights
+        - field_email
+        - field_text_getting_there_shuttle
+        - field_int_runs_total
+        - field_list_lessons_ski_school
+        - field_tag_community
+        - field_int_runs_beginner
+        - field_list_on_hill_village
+        - field_tag_region
+        - field_int_runs_intermediate
+        - field_list_on_hill_food
+        - field_tag_province_state
+        - field_int_runs_advanced
+        - field_list_on_hill_accomms
+        - field_link_gmaps
+        - field_text_terrain_description
+        - field_int_terrain_parks
+        - field_int_bowls
+        - field_int_run_longest
+        - field_int_area
+        - field_int_lifts_number
+        - group_contact
+        - group_map
+        - field_text_lift_details
+        - field_int_elevation_base
+        - field_int_elevation_top
+        - field_int_vertical_rise
+    fields:
+      node_title:
+        plugin_id: node_title
+        weight: 0
+        label: hidden
+        formatter: default
+  field_group:
+    group_links:
+      children:
+        - field_link_website
+        - field_link_instagram
+        - field_link_facebook
+        - field_link_twitter
+        - field_link_youtube
+        - field_link_flickr
+        - field_link_wikipedia
+      parent_name: group_logo_links
+      weight: 3
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: container-links
+        element: div
+        show_label: false
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: Links
+    group_intro:
+      children:
+        - node_title
+        - field_para_intro
+      parent_name: ''
+      weight: 2
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: container-intro
+        element: div
+        show_label: false
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: Intro
+    group_location:
+      children:
+        - group_contact
+        - group_map
+      parent_name: ''
+      weight: 6
+      format_type: html_element
+      format_settings:
+        label: Location
+        element: div
+        show_label: true
+        label_element: h5
+        attributes: ''
+        effect: none
+        speed: fast
+        id: ''
+        classes: 'container-location card'
+      label: Location
+    group_details:
+      children:
+        - field_text_general_details
+        - field_tag_activities
+        - field_text_other_attractions
+        - field_text_snowmaking
+        - field_text_season
+        - field_text_special_passes
+        - field_text_hours
+        - field_int_temperature_avg
+        - field_int_snowfall_avg
+        - field_list_rentals
+        - field_list_lessons_ski_school
+        - field_list_on_hill_village
+        - field_list_on_hill_food
+        - field_list_on_hill_accomms
+      parent_name: ''
+      weight: 4
+      format_type: html_element
+      format_settings:
+        label: Details
+        element: div
+        show_label: true
+        label_element: h5
+        attributes: ''
+        effect: none
+        speed: fast
+        id: ''
+        classes: 'container-details card'
+      label: Details
+    group_map:
+      children:
+        - field_embed_map
+      parent_name: group_location
+      weight: 23
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: container-map
+        element: div
+        show_label: false
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: Map
+    group_logo_links:
+      children:
+        - field_media_logo
+        - group_links
+      parent_name: ''
+      weight: 1
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: container-logo-links
+        element: div
+        show_label: false
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: 'Logo & Links'
+    group_contact:
+      children:
+        - field_phone
+        - field_fax
+        - field_email
+        - field_tag_community
+        - field_tag_region
+        - field_tag_province_state
+        - field_link_gmaps
+      parent_name: group_location
+      weight: 22
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: container-contact
+        element: div
+        show_label: false
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: Contact
+    group_container_left:
+      children: {  }
+      parent_name: ''
+      weight: 29
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: container-location-left
+        element: div
+        show_label: false
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: container-left
+    group_stats:
+      children:
+        - field_int_runs_total
+        - field_int_runs_beginner
+        - field_int_runs_intermediate
+        - field_int_runs_advanced
+        - field_text_terrain_description
+        - field_int_terrain_parks
+        - field_int_bowls
+        - field_int_run_longest
+        - field_int_area
+        - field_int_lifts_number
+        - field_text_lift_details
+        - field_int_elevation_base
+        - field_int_elevation_top
+        - field_int_vertical_rise
+      parent_name: ''
+      weight: 5
+      format_type: html_element
+      format_settings:
+        label: Stats
+        element: div
+        show_label: true
+        label_element: h5
+        attributes: ''
+        effect: none
+        speed: fast
+        id: ''
+        classes: 'container-stats card'
+      label: Stats
+    group_div:
+      children:
+        - field_text_getting_there_intro
+        - field_text_getting_there_driving
+        - field_text_getting_there_flights
+        - field_text_getting_there_shuttle
+      parent_name: ''
+      weight: 7
+      format_type: html_element
+      format_settings:
+        label: 'Getting There'
+        element: div
+        show_label: true
+        label_element: h5
+        attributes: ''
+        effect: none
+        speed: fast
+        id: ''
+        classes: 'container-getting-there card'
+      label: 'Getting There'
+    group_related_stories:
+      children:
+        - stories_related_entity_view_1
+      parent_name: ''
+      weight: 3
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: group-related-stories
+        element: div
+        show_label: true
+        label_element: h5
+        attributes: ''
+        effect: none
+        speed: fast
+      label: 'Related Stories'
+id: node.destination.full
+targetEntityType: node
+bundle: destination
+mode: full
+content:
+  field_email:
+    weight: 12
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: ds_content
+  field_embed_map:
+    type: text_default
+    weight: 8
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    region: ds_content
+  field_fax:
+    weight: 10
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: ds_content
+  field_int_area:
+    type: number_integer
+    weight: 20
+    label: above
+    settings:
+      thousand_separator: ','
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_bowls:
+    type: number_integer
+    weight: 18
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_elevation_base:
+    type: number_integer
+    weight: 24
+    label: above
+    settings:
+      thousand_separator: ','
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_elevation_top:
+    type: number_integer
+    weight: 25
+    label: above
+    settings:
+      thousand_separator: ','
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_lifts_number:
+    type: number_integer
+    weight: 22
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_run_longest:
+    type: number_integer
+    weight: 19
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    region: ds_content
+  field_int_runs_advanced:
+    type: number_integer
+    weight: 15
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_runs_beginner:
+    type: number_integer
+    weight: 13
+    label: inline
+    settings:
+      thousand_separator: ','
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_runs_intermediate:
+    type: number_integer
+    weight: 14
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_runs_total:
+    type: number_integer
+    weight: 12
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_snowfall_avg:
+    type: number_integer
+    weight: 10
+    label: above
+    settings:
+      thousand_separator: ','
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_temperature_avg:
+    type: number_integer
+    weight: 9
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_terrain_parks:
+    type: number_integer
+    weight: 17
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_int_vertical_rise:
+    type: number_integer
+    weight: 26
+    label: above
+    settings:
+      thousand_separator: ','
+      prefix_suffix: true
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_link_facebook:
+    weight: 6
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings:
+      ds:
+        ft:
+          id: expert
+          settings:
+            lb: ''
+            prefix: ''
+            lbw-el: ''
+            lbw-cl: ''
+            lbw-at: ''
+            ow: true
+            ow-el: ''
+            ow-cl: link
+            ow-at: ''
+            ow-def-at: true
+            ow-def-cl: true
+            fis: true
+            fis-el: ''
+            fis-cl: ''
+            fis-at: ''
+            fis-def-at: true
+            fi: true
+            fi-el: i
+            fi-cl: 'fa fa-facebook'
+            fi-at: ''
+            fi-def-at: true
+            suffix: ''
+            lbw: false
+            lb-col: false
+    type: link
+    region: ds_content
+  field_link_flickr:
+    type: link
+    weight: 9
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings:
+      ds:
+        ft:
+          id: expert
+          settings:
+            lb: ''
+            prefix: ''
+            lbw-el: ''
+            lbw-cl: ''
+            lbw-at: ''
+            ow: true
+            ow-el: ''
+            ow-cl: link
+            ow-at: ''
+            ow-def-at: true
+            ow-def-cl: true
+            fis: true
+            fis-el: ''
+            fis-cl: ''
+            fis-at: ''
+            fis-def-at: true
+            fi: true
+            fi-el: i
+            fi-cl: 'fa fa-flickr'
+            fi-at: ''
+            fi-def-at: true
+            suffix: ''
+            lbw: false
+            lb-col: false
+    region: ds_content
+  field_link_gmaps:
+    type: link
+    weight: 16
+    label: visually_hidden
+    settings:
+      rel: ''
+      target: ''
+      trim_length: 80
+      url_only: false
+      url_plain: false
+    third_party_settings: {  }
+    region: ds_content
+  field_link_instagram:
+    weight: 5
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings:
+      ds:
+        ft:
+          id: expert
+          settings:
+            lb: ''
+            prefix: ''
+            lbw: true
+            lbw-el: ''
+            lbw-cl: ''
+            lbw-at: ''
+            ow: true
+            ow-el: ''
+            ow-cl: link
+            ow-at: ''
+            ow-def-at: true
+            ow-def-cl: true
+            fis: true
+            fis-el: ''
+            fis-cl: ''
+            fis-at: ''
+            fis-def-at: true
+            fi: true
+            fi-el: i
+            fi-cl: 'fa fa-instagram'
+            fi-at: ''
+            fi-def-at: true
+            suffix: ''
+            lb-col: false
+    type: link
+    region: ds_content
+  field_link_twitter:
+    weight: 7
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings:
+      ds:
+        ft:
+          id: expert
+          settings:
+            lb: ''
+            prefix: ''
+            lbw: true
+            lbw-el: ''
+            lbw-cl: ''
+            lbw-at: ''
+            ow: true
+            ow-el: ''
+            ow-cl: link
+            ow-at: ''
+            ow-def-at: true
+            ow-def-cl: true
+            fis: true
+            fis-el: ''
+            fis-cl: ''
+            fis-at: ''
+            fis-def-at: true
+            fi: true
+            fi-el: i
+            fi-cl: 'fa fa-twitter'
+            fi-at: ''
+            fi-def-at: true
+            suffix: ''
+            lb-col: false
+    type: link
+    region: ds_content
+  field_link_website:
+    weight: 4
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings:
+      ds:
+        ft:
+          id: expert
+          settings:
+            lb: ''
+            prefix: ''
+            lbw: true
+            lbw-el: ''
+            lbw-cl: ''
+            lbw-at: ''
+            ow: true
+            ow-el: ''
+            ow-cl: link
+            ow-at: ''
+            ow-def-at: true
+            ow-def-cl: true
+            fis: true
+            fis-el: ''
+            fis-cl: ''
+            fis-at: ''
+            fis-def-at: true
+            fi: true
+            fi-el: i
+            fi-cl: 'fa fa-globe'
+            fi-at: ''
+            fi-def-at: true
+            suffix: ''
+            lb-col: false
+    type: link
+    region: ds_content
+  field_link_wikipedia:
+    weight: 10
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings:
+      ds:
+        ft:
+          id: expert
+          settings:
+            lb: ''
+            prefix: ''
+            lbw: true
+            lbw-el: ''
+            lbw-cl: ''
+            lbw-at: ''
+            ow: true
+            ow-el: ''
+            ow-cl: link
+            ow-at: ''
+            ow-def-at: true
+            ow-def-cl: true
+            fis: true
+            fis-el: ''
+            fis-cl: ''
+            fis-at: ''
+            fis-def-at: true
+            fi: true
+            fi-el: i
+            fi-cl: 'fa fa-wikipedia-w'
+            fi-at: ''
+            fi-def-at: true
+            suffix: ''
+            lb-col: false
+    type: link
+    region: ds_content
+  field_link_youtube:
+    weight: 8
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings:
+      ds:
+        ft:
+          id: expert
+          settings:
+            lb: ''
+            prefix: ''
+            lbw-el: ''
+            lbw-cl: ''
+            lbw-at: ''
+            ow: true
+            ow-el: ''
+            ow-cl: link
+            ow-at: ''
+            ow-def-at: true
+            ow-def-cl: true
+            fis: true
+            fis-el: ''
+            fis-cl: ''
+            fis-at: ''
+            fis-def-at: true
+            fi: true
+            fi-el: i
+            fi-cl: 'fa fa-youtube'
+            fi-at: ''
+            fi-def-at: true
+            suffix: ''
+            lbw: false
+            lb-col: false
+    type: link
+    region: ds_content
+  field_list_lessons_ski_school:
+    type: list_default
+    weight: 12
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    region: ds_content
+  field_list_on_hill_accomms:
+    type: list_default
+    weight: 15
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    region: ds_content
+  field_list_on_hill_food:
+    type: list_default
+    weight: 14
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    region: ds_content
+  field_list_on_hill_village:
+    type: list_default
+    weight: 13
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    region: ds_content
+  field_list_rentals:
+    type: list_default
+    weight: 11
+    label: above
+    settings: {  }
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    region: ds_content
+  field_media_image_intro:
+    type: entity_reference_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: intro
+      link: false
+    third_party_settings:
+      ds:
+        ds_limit: ''
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    region: ds_content
+  field_media_logo:
+    type: entity_reference_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: logo
+      link: false
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    region: ds_content
+  field_para_intro:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: ds_content
+  field_phone:
+    weight: 9
+    label: inline
+    settings:
+      title: ''
+    third_party_settings: {  }
+    type: telephone_link
+    region: ds_content
+  field_tag_activities:
+    type: entity_reference_label
+    weight: 3
+    label: above
+    settings:
+      link: false
+    third_party_settings:
+      ds:
+        ds_limit: ''
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_tag_community:
+    type: entity_reference_label
+    weight: 13
+    label: inline
+    settings:
+      link: false
+    third_party_settings: {  }
+    region: ds_content
+  field_tag_province_state:
+    type: entity_reference_label
+    weight: 15
+    label: inline
+    settings:
+      link: false
+    third_party_settings:
+      ds:
+        ds_limit: ''
+        ft:
+          id: default
+          settings:
+            lb: Province
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_tag_region:
+    weight: 14
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: ds_content
+  field_text_general_details:
+    type: text_trimmed
+    weight: 2
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: ds_content
+  field_text_getting_there_driving:
+    type: text_trimmed
+    weight: 10
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: ds_content
+  field_text_getting_there_flights:
+    type: text_trimmed
+    weight: 11
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: ds_content
+  field_text_getting_there_intro:
+    type: text_trimmed
+    weight: 9
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: ds_content
+  field_text_getting_there_shuttle:
+    type: text_trimmed
+    weight: 12
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: ds_content
+  field_text_hours:
+    type: text_trimmed
+    weight: 8
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: ds_content
+  field_text_lift_details:
+    type: text_trimmed
+    weight: 23
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_text_other_attractions:
+    type: text_trimmed
+    weight: 4
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_text_season:
+    type: string
+    weight: 6
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_text_snowmaking:
+    type: text_trimmed
+    weight: 5
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_text_special_passes:
+    type: text_trimmed
+    weight: 7
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: true
+            classes: {  }
+    region: ds_content
+  field_text_terrain_description:
+    type: text_trimmed
+    weight: 16
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: ds_content
+  sharethis:
+    weight: 8
+    settings: {  }
+    third_party_settings: {  }
+    region: ds_content
+  stories_related_entity_view_1:
+    weight: 9
+    settings: {  }
+    third_party_settings: {  }
+    region: ds_content
+hidden:
+  field_img_thumbnail: true
+  field_list_on_hill_child_care: true
+  field_meta_tags_destination: true
+  field_old_text_stats: true
+  field_phone_toll_free: true
+  field_tag_destination: true
+  field_temp_old_url: true
+  field_text_admin_notes: true
+  field_text_on_hill_food_details: true
+  field_text_teaser: true
+  links: true

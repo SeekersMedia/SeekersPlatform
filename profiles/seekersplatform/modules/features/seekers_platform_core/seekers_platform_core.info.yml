@@ -1,0 +1,39 @@
+name: Core
+description: 'Provides core components required by other features.'
+type: module
+core: 8.x
+dependencies:
+  - block
+  - block_content
+  - chosen_field
+  - comment
+  - contact
+  - datetime
+  - ds
+  - entity_reference_revisions
+  - field
+  - field_group
+  - file
+  - image
+  - link
+  - media_entity
+  - menu_link_content
+  - node
+  - options
+  - paragraphs
+  - path
+  - seekers_platform_destination
+  - seekers_platform_partner
+  - seekers_platform_site
+  - seekers_platform_stories
+  - shortcut
+  - system
+  - taxonomy
+  - telephone
+  - text
+  - tour
+  - user
+  - video_embed_field
+  - views
+version: 8.x-1.0
+package: seekers_platform

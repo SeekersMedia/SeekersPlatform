@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_link_image
+    - paragraphs.paragraphs_type.image
+  module:
+    - link
+id: paragraph.image.field_link_image
+field_name: field_link_image
+entity_type: paragraph
+bundle: image
+label: Link
+description: 'Please add the Link for this Image'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 16
+  title: 1
+  title_predefined: ''
+field_type: link

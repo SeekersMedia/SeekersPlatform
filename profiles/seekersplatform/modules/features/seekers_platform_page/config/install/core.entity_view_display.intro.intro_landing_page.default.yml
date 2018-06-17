@@ -1,0 +1,60 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.intro.intro_landing_page
+    - field.field.intro.intro_landing_page.field_text_intro_landing_page
+  module:
+    - ds
+    - text
+third_party_settings:
+  ds:
+    layout:
+      id: ds_1col
+      path: modules/contrib/ds
+      library: ''
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        classes: {  }
+        wrappers:
+          ds_content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+    regions:
+      ds_content:
+        - field_text_intro_landing_page
+id: intro.intro_landing_page.default
+targetEntityType: intro
+bundle: intro_landing_page
+mode: default
+content:
+  created:
+    label: hidden
+    type: timestamp
+    weight: 0
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+    region: content
+  field_text_intro_landing_page:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: ds_content
+  uid:
+    label: hidden
+    type: author
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  changed: true
+  title: true

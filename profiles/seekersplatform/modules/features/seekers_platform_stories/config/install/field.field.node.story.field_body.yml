@@ -1,0 +1,60 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - node.type.story
+    - paragraphs.paragraphs_type.call_to_action
+    - paragraphs.paragraphs_type.gallery
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.itinerary_item
+    - paragraphs.paragraphs_type.text
+    - paragraphs.paragraphs_type.video
+  module:
+    - entity_reference_revisions
+id: node.story.field_body
+field_name: field_body
+entity_type: node
+bundle: story
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      gallery: gallery
+      call_to_action: call_to_action
+      image: image
+      itinerary_item: itinerary_item
+      text: text
+      video: video
+    target_bundles_drag_drop:
+      gallery:
+        enabled: true
+        weight: 6
+      call_to_action:
+        enabled: true
+        weight: 7
+      image:
+        enabled: true
+        weight: 7
+      intro:
+        weight: 8
+        enabled: false
+      itinerary_item:
+        enabled: true
+        weight: 9
+      text:
+        enabled: true
+        weight: 9
+      video:
+        enabled: true
+        weight: 10
+      campaign_partner:
+        weight: 11
+        enabled: false
+field_type: entity_reference_revisions

@@ -1,0 +1,108 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.itinerary_item.field_date
+    - field.field.paragraph.itinerary_item.field_date_manual
+    - field.field.paragraph.itinerary_item.field_item_title
+    - field.field.paragraph.itinerary_item.field_link
+    - field.field.paragraph.itinerary_item.field_link_cta
+    - field.field.paragraph.itinerary_item.field_media_image
+    - field.field.paragraph.itinerary_item.field_media_video
+    - field.field.paragraph.itinerary_item.field_ref_partners
+    - field.field.paragraph.itinerary_item.field_text_body
+    - paragraphs.paragraphs_type.itinerary_item
+  module:
+    - datetime
+    - entity_reference_revisions
+    - link
+    - text
+id: paragraph.itinerary_item.default
+targetEntityType: paragraph
+bundle: itinerary_item
+mode: default
+content:
+  field_date:
+    weight: 0
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_date_manual:
+    weight: 4
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_item_title:
+    weight: 8
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_link:
+    weight: 6
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_link_cta:
+    weight: 7
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_media_image:
+    weight: 2
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_media_video:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_ref_partners:
+    weight: 5
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+  field_text_body:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  created: true
+  uid: true

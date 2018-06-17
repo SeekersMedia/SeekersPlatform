@@ -1,0 +1,6 @@
+bundle: seekers_platform
+excluded:
+  - user.role.administrator
+  - user.role.content_entry
+  - user.role.content_editor
+required: true

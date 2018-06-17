@@ -1,0 +1,29 @@
+langcode: en
+status: false
+dependencies:
+  config:
+    - views.view.stories_homepage
+  module:
+    - system
+    - views
+  theme:
+    - snowseekers_v1
+id: views_block__stories_homepage_block_1
+theme: snowseekers_v1
+region: header
+weight: -5
+provider: null
+plugin: 'views_block:stories_homepage-block_1'
+settings:
+  id: 'views_block:stories_homepage-block_1'
+  label: ''
+  provider: views
+  label_display: '0'
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    pages: /homepage
+    negate: false
+    context_mapping: {  }

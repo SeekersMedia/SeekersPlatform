@@ -1,0 +1,24 @@
+name: Partner
+description: 'Provides Partner content type and related configuration. '
+type: module
+core: 8.x
+dependencies:
+  - datetime
+  - ds
+  - entity_browser
+  - entity_reference_revisions
+  - field
+  - image
+  - link
+  - linkicon
+  - menu_ui
+  - node
+  - paragraphs
+  - path
+  - seekers_platform_core
+  - seekers_platform_stories
+  - text
+  - user
+  - webform_node
+version: 8.x-1.0
+package: seekers_platform

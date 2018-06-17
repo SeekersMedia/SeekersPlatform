@@ -1,0 +1,19 @@
+name: Amenity
+description: 'Provides Amenity content type and related configuration. A content type for <em>Amenities</em>'
+type: module
+core: 8.x
+dependencies:
+  - field
+  - field_group
+  - link
+  - menu_ui
+  - node
+  - seekers_platform_core
+  - seekers_platform_site
+  - seekers_snowseekers_destination
+  - taxonomy
+  - telephone
+  - text
+  - user
+version: 8.x-1.0
+package: seekers_platform

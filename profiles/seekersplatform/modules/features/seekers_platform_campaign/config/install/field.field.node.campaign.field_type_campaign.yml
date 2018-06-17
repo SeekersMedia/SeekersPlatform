@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_type_campaign
+    - node.type.campaign
+  module:
+    - options
+id: node.campaign.field_type_campaign
+field_name: field_type_campaign
+entity_type: node
+bundle: campaign
+label: 'Campaign Type'
+description: 'Please indicate the type of Campaign'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

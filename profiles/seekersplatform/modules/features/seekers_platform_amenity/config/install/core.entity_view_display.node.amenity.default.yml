@@ -1,0 +1,181 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.amenity.field_description
+    - field.field.node.amenity.field_email
+    - field.field.node.amenity.field_link_facebook
+    - field.field.node.amenity.field_link_gmaps
+    - field.field.node.amenity.field_link_instagram
+    - field.field.node.amenity.field_link_twitter
+    - field.field.node.amenity.field_link_website
+    - field.field.node.amenity.field_media_image_intro
+    - field.field.node.amenity.field_media_logo
+    - field.field.node.amenity.field_media_thumbnail
+    - field.field.node.amenity.field_phone
+    - field.field.node.amenity.field_tag_community
+    - field.field.node.amenity.field_tag_destination
+    - field.field.node.amenity.field_tag_province_state
+    - field.field.node.amenity.field_text_teaser
+    - field.field.node.amenity.field_type
+    - node.type.amenity
+  module:
+    - link
+    - text
+    - user
+id: node.amenity.default
+targetEntityType: node
+bundle: amenity
+mode: default
+content:
+  field_description:
+    weight: 117
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_email:
+    weight: 115
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_link_facebook:
+    weight: 109
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_link_gmaps:
+    weight: 110
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_link_instagram:
+    weight: 108
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_link_twitter:
+    weight: 107
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_link_website:
+    weight: 106
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_media_image_intro:
+    weight: 114
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_media_logo:
+    weight: 112
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_media_thumbnail:
+    weight: 113
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_phone:
+    weight: 111
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_tag_community:
+    weight: 103
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_tag_destination:
+    weight: 104
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_tag_province_state:
+    weight: 105
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_text_teaser:
+    weight: 116
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_type:
+    weight: 102
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 100
+    region: content
+  sharethis:
+    weight: 10
+    region: content
+hidden: {  }

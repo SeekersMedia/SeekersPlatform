@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_text_getting_there_intro
+    - node.type.destination
+  module:
+    - text
+id: node.destination.field_text_getting_there_intro
+field_name: field_text_getting_there_intro
+entity_type: node
+bundle: destination
+label: 'Getting There Intro'
+description: 'Please enter the general intro for the Getting There section'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

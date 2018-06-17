@@ -1,0 +1,31 @@
+name: Destination
+description: 'Provides Destination content type and related configuration. A content type for <em>Destinations</em>, including Resorts, Mountains, and Attractions'
+type: module
+core: 8.x
+dependencies:
+  - chosen_field
+  - ds
+  - entity_browser
+  - entity_reference_revisions
+  - field
+  - field_group
+  - file
+  - image
+  - link
+  - menu_ui
+  - metatag
+  - node
+  - options
+  - paragraphs
+  - path
+  - seekers_platform_core
+  - seekers_platform_site
+  - seekers_platform_stories
+  - taxonomy
+  - telephone
+  - text
+  - user
+  - views
+  - webform_node
+version: 8.x-1.0
+package: seekers_platform

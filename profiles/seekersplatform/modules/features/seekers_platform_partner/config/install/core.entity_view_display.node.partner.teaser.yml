@@ -1,0 +1,85 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.partner.field_description
+    - field.field.node.partner.field_link_website
+    - field.field.node.partner.field_media_logo
+    - node.type.partner
+  module:
+    - ds
+    - linkicon
+    - user
+third_party_settings:
+  ds:
+    layout:
+      id: ds_1col
+      path: modules/contrib/ds
+      library: ''
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        wrappers:
+          ds_content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+        classes:
+          layout_class: {  }
+    regions:
+      ds_content:
+        - field_media_logo
+        - field_link_website
+id: node.partner.teaser
+targetEntityType: node
+bundle: partner
+mode: teaser
+content:
+  field_link_website:
+    type: linkicon
+    weight: 1
+    label: above
+    settings:
+      rel: ''
+      target: ''
+      linkicon_prefix: icon
+      linkicon_wrapper_class: ''
+      linkicon_load: false
+      linkicon_vertical: false
+      linkicon_style: ''
+      linkicon_color: ''
+      linkicon_tooltip: false
+      linkicon_maxlength: 60
+      linkicon_no_text: false
+      linkicon_position: ''
+      linkicon_link: false
+      linkicon_global_title: ''
+      linkicon_size: ''
+      linkicon_bundle: ''
+      trim_length: 80
+      url_only: false
+      url_plain: false
+    third_party_settings: {  }
+    region: ds_content
+  field_media_logo:
+    type: entity_reference_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: logo
+      link: false
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
+    region: ds_content
+hidden:
+  field_description: true
+  links: true
+  sharethis: true

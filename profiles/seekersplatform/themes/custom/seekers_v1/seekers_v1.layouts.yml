@@ -1,0 +1,22 @@
+partner:
+  label    : Partner Embed
+  category : Seekers
+  class: '\Drupal\ds\Plugin\DsLayout'
+  type: partial
+  template : templates/ds_layouts/ds-1col/ds-1col--node-partner-embed
+  regions:
+    title:
+          label: Content
+    ds_content:
+      label:
+paragraph:
+  label    : Paragraph - Image
+  category : Seekers
+  class: '\Drupal\ds\Plugin\DsLayout'
+  type: partial
+  template : templates/ds_layouts/ds-1col/ds-1col--paragraph-image
+  regions:
+    title:
+          label: Content
+    ds_content:
+      label:

@@ -1,0 +1,11 @@
+name: Convert Nodes
+type: module
+description: Convert nodes from one content type to another
+# core: 8.x
+configure: convert_nodes.admin
+
+# Information added by Drupal.org packaging script on 2017-08-08
+version: '8.x-1.0-alpha1'
+core: '8.x'
+project: 'convert_nodes'
+datestamp: 1502216061

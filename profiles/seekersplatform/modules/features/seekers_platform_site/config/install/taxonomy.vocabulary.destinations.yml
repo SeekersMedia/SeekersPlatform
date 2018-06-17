@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Destinations
+vid: destinations
+description: 'A vocabulary for Destinations (which includes resorts, mountains, etc.)'
+hierarchy: 0
+weight: 0

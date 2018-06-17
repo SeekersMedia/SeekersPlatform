@@ -1,0 +1,239 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.user.user.field_bio
+    - field.field.user.user.field_homebase
+    - field.field.user.user.field_image_card
+    - field.field.user.user.field_image_profile
+    - field.field.user.user.field_link_blog
+    - field.field.user.user.field_link_facebook
+    - field.field.user.user.field_link_instagram
+    - field.field.user.user.field_link_linkedin
+    - field.field.user.user.field_link_pinterest
+    - field.field.user.user.field_link_twitter
+    - field.field.user.user.field_link_website
+    - field.field.user.user.field_link_youtube
+    - field.field.user.user.field_name
+    - field.field.user.user.field_nickname
+    - field.field.user.user.field_role
+    - image.style.thumbnail
+  module:
+    - field_group
+    - image
+    - link
+    - name
+    - path
+    - text
+    - user
+third_party_settings:
+  field_group:
+    group_links:
+      children:
+        - field_link_instagram
+        - field_link_twitter
+        - field_link_facebook
+        - field_link_youtube
+        - field_link_website
+        - field_link_blog
+        - field_linkedin
+        - field_link_linkedin
+        - field_pinterest
+        - field_link_pinterest
+      parent_name: ''
+      weight: 1
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: Links
+    group_bio:
+      children:
+        - field_name
+        - field_nickname
+        - field_role
+        - field_bio
+        - field_image_profile
+        - field_image_card
+        - field_homebase
+      parent_name: ''
+      weight: 0
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: Bio
+    group_account:
+      children:
+        - account
+        - contact
+        - language
+        - timezone
+        - path
+      parent_name: ''
+      weight: 2
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: Account
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  account:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  contact:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_bio:
+    weight: 19
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_homebase:
+    weight: 22
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_image_card:
+    weight: 21
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  field_image_profile:
+    weight: 20
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  field_link_blog:
+    weight: 19
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_link_facebook:
+    weight: 16
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_link_instagram:
+    weight: 14
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_link_linkedin:
+    weight: 21
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_link_pinterest:
+    weight: 23
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_link_twitter:
+    weight: 15
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_link_website:
+    weight: 18
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_link_youtube:
+    weight: 17
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_name:
+    weight: 16
+    settings: {  }
+    third_party_settings: {  }
+    type: name_default
+    region: content
+  field_nickname:
+    weight: 17
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_role:
+    weight: 18
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  google_analytics:
+    weight: 3
+    region: content
+  language:
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  path:
+    type: path
+    weight: 5
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  timezone:
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden: {  }

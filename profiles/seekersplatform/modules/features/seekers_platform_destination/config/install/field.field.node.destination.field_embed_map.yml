@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_embed_map
+    - node.type.destination
+  module:
+    - text
+id: node.destination.field_embed_map
+field_name: field_embed_map
+entity_type: node
+bundle: destination
+label: 'Google Maps Embed'
+description: 'Please paste the Map embed code from Google Maps'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

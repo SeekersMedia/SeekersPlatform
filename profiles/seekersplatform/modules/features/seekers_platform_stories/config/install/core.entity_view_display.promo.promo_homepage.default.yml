@@ -1,0 +1,39 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.promo.promo_homepage
+    - field.field.promo.promo_homepage.field_media_image
+    - field.field.promo.promo_homepage.field_ref_linked_content
+    - field.field.promo.promo_homepage.field_text_call_to_action
+    - field.field.promo.promo_homepage.field_text_promo
+  module:
+    - ds
+third_party_settings:
+  ds:
+    layout:
+      id: ds_1col
+      path: modules/contrib/ds
+      library: ''
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        classes: {  }
+        wrappers:
+          ds_content: div
+        outer_wrapper: div
+        attributes: ''
+        link_attribute: ''
+        link_custom: ''
+    regions: {  }
+id: promo.promo_homepage.default
+targetEntityType: promo
+bundle: promo_homepage
+mode: default
+content: {  }
+hidden:
+  field_media_image: true
+  field_ref_linked_content: true
+  field_text_call_to_action: true
+  field_text_promo: true
+  title: true

@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.promo
+name: 'Homepage Promo'
+type: promo_homepage
+description: ''

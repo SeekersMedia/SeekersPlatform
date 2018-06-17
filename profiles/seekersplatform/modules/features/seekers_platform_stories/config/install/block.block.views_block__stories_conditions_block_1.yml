@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.stories_conditions
+  module:
+    - system
+    - views
+  theme:
+    - snowseekers_v1
+id: views_block__stories_conditions_block_1
+theme: snowseekers_v1
+region: content
+weight: -7
+provider: null
+plugin: 'views_block:stories_conditions-block_1'
+settings:
+  id: 'views_block:stories_conditions-block_1'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    pages: /conditions
+    negate: false
+    context_mapping: {  }

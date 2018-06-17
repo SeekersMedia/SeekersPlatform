@@ -1,0 +1,17 @@
+global-styling:
+  css:
+    component:
+      css/admin.css: {}
+      css/contests.css: {}
+      css/expeditions.css: {}
+      css/homepage.css: {}
+      css/layout.css: {}
+      css/media.css: {}
+      css/menus.css: {}
+      css/newsletter.css: {}
+      css/partners.css: {}
+      css/promos.css: {}
+      css/social.css: {}      
+      css/stories.css: {}
+      css/styles.css: {}
+      css/users.css: {} 
