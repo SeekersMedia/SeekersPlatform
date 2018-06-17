@@ -3,14 +3,10 @@
 namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Component\Serialization\Json;
-use Drupal\Component\Utility\NestedArray;
-use Drupal\Core\Cache\CacheableMetadata;
-use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Datetime\Entity\DateFormat;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\webform\Plugin\WebformElementBase;
+use Drupal\webform\WebformElementBase;
 use Drupal\webform\WebformSubmissionInterface;
-use Drupal\webform\WebformInterface;
 
 /**
  * Provides a base 'date' class.
@@ -25,17 +21,13 @@ abstract class DateBase extends WebformElementBase {
       // Form validation.
       'min' => '',
       'max' => '',
-    ] + parent::getDefaultProperties() + $this->getDefaultMultipleProperties();
+    ] + parent::getDefaultProperties();
   }
-
-  /****************************************************************************/
-  // Element rendering methods.
-  /****************************************************************************/
 
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
     // Don't used 'datetime_wrapper', instead use 'form_element' wrapper.
     // Note: Below code must be executed before parent::prepare().
     // @see \Drupal\Core\Datetime\Element\Datelist
@@ -44,7 +36,7 @@ abstract class DateBase extends WebformElementBase {
 
     // Must manually process #states.
     // @see drupal_process_states().
-    if (!empty($element['#states'])) {
+    if (isset($element['#states'])) {
       $element['#attached']['library'][] = 'core/drupal.states';
       $element['#wrapper_attributes']['data-drupal-states'] = Json::encode($element['#states']);
     }
@@ -54,68 +46,32 @@ abstract class DateBase extends WebformElementBase {
     // Parse #default_value date input format.
     $this->parseInputFormat($element, '#default_value');
 
+    // Parse #min and #max date input format.
+    $this->parseInputFormat($element, '#min');
+    $this->parseInputFormat($element, '#max');
+
     // Override min/max attributes.
-    if (isset($element['#date_date_format'])) {
-      if (!empty($element['#min'])) {
-        $element['#attributes']['min'] = date($element['#date_date_format'], strtotime($element['#min']));
-        $element['#attributes']['data-min-year'] = date('Y', strtotime($element['#min']));
-      }
-      if (!empty($element['#max'])) {
-        $element['#attributes']['max'] = date($element['#date_date_format'], strtotime($element['#max']));
-        $element['#attributes']['data-max-year'] = date('Y', strtotime($element['#max']));
-      }
+    if (!empty($element['#min'])) {
+      $element['#attributes']['min'] = $element['#min'];
+    }
+    if (!empty($element['#max'])) {
+      $element['#attributes']['max'] = $element['#max'];
     }
 
-    $element['#element_validate'] = array_merge([[get_class($this), 'preValidateDate']], $element['#element_validate']);
     $element['#element_validate'][] = [get_class($this), 'validateDate'];
-
-    // Set first day according to admin/config/regional/settings.
-    $config = $this->configFactory->get('system.date');
-    $element['#attached']['drupalSettings']['webform']['dateFirstDay'] = $config->get('first_day');
-
-    $cacheability = CacheableMetadata::createFromObject($config);
-    $cacheability->applyTo($element);
-
-    $element['#attached']['library'][] = 'webform/webform.element.date';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setDefaultValue(array &$element) {
-    if ($this->hasMultipleValues($element)) {
-      $element['#default_value'] = (isset($element['#default_value'])) ? (array) $element['#default_value'] : NULL;
-      return;
-    }
-
-    // Datelist and Datetime require #default_value to be DrupalDateTime.
-    if (in_array($element['#type'], ['datelist', 'datetime'])) {
-      if (!empty($element['#default_value']) && is_string($element['#default_value'])) {
-        $element['#default_value'] = ($element['#default_value']) ? DrupalDateTime::createFromTimestamp(strtotime($element['#default_value'])) : NULL;
-      }
-    }
-  }
-
-  /****************************************************************************/
-  // Display submission value methods.
-  /****************************************************************************/
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatText(array &$element, $value, array $options = []) {
     $timestamp = strtotime($value);
     if (empty($timestamp)) {
       return $value;
     }
 
-    $format = $this->getItemFormat($element);
-    if ($format === 'raw') {
-      return $value;
-    }
-    elseif (DateFormat::load($format)) {
+    $format = $this->getFormat($element) ?: 'html_' . $this->getDateType($element);
+    if (DateFormat::load($format)) {
       return \Drupal::service('date.formatter')->format($timestamp, $format);
     }
     else {
@@ -126,43 +82,41 @@ abstract class DateBase extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function getItemDefaultFormat() {
+  public function getFormat(array $element) {
+    if (isset($element['#format'])) {
+      return $element['#format'];
+    }
+    else {
+      return parent::getFormat($element);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultFormat() {
     return 'fallback';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemFormats() {
-    $formats = parent::getItemFormats();
+  public function getFormats() {
+    $formats = parent::getFormats();
     $date_formats = DateFormat::loadMultiple();
     foreach ($date_formats as $date_format) {
       $formats[$date_format->id()] = $date_format->label();
     }
-    // If a default format is defined update the fallback date formats label.
-    // @see \Drupal\webform\Plugin\WebformElementBase::getItemFormat
-    $default_format = $this->configFactory->get('webform.settings')->get('format.' . $this->getPluginId() . '.item');
-    if ($default_format && isset($formats[$default_format])) {
-      $formats['fallback'] = t('Default date format (@label)', ['@label' => $date_formats[$default_format]->label()]);
-    }
     return $formats;
   }
-
-  /****************************************************************************/
-  // Export methods.
-  /****************************************************************************/
 
   /**
    * {@inheritdoc}
    */
-  public function buildExportRecord(array $element, WebformSubmissionInterface $webform_submission, array $export_options) {
+  public function buildExportRecord(array $element, $value, array $export_options) {
     $element['#format'] = ($this->getDateType($element) === 'datetime') ? 'Y-m-d H:i:s' : 'Y-m-d';
-    return [$this->formatText($element, $webform_submission, $export_options)];
+    return [$this->formatText($element, $value, $export_options)];
   }
-
-  /****************************************************************************/
-  // Element configuration methods.
-  /****************************************************************************/
 
   /**
    * {@inheritdoc}
@@ -171,10 +125,7 @@ abstract class DateBase extends WebformElementBase {
     $form = parent::form($form, $form_state);
 
     // Append supported date input format to #default_value description.
-    $form['default']['default_value']['#description'] .= '<br /><br />' . $this->t('Accepts any date in any <a href="https://www.gnu.org/software/tar/manual/html_chapter/tar_7.html#Date-input-formats">GNU Date Input Format</a>. Strings such as today, +2 months, and Dec 9 2004 are all valid.');
-
-    // Append token date format to #default_value description.
-    $form['default']['default_value']['#description'] .= '<br /><br />' . $this->t("You may use tokens. Tokens should use the 'html_date' or 'html_datetime' date format. (i.e. @date_format)", ['@date_format' => '[current-user:field_date_of_birth:date:html_date]']);
+    $form['element']['default_value']['#description'] .= '<br />' . $this->t('Accepts any date in any <a href="https://www.gnu.org/software/tar/manual/html_chapter/tar_7.html#Date-input-formats">GNU Date Input Format</a>. Strings such as today, +2 months, and Dec 9 2004 are all valid.');
 
     // Allow custom date formats to be entered.
     $form['display']['format']['#type'] = 'webform_select_other';
@@ -188,14 +139,14 @@ abstract class DateBase extends WebformElementBase {
 
     $form['date']['min'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Date min'),
-      '#description' => $this->t('Specifies the minimum date.') . '<br /><br />' . $this->t('Accepts any date in any <a href="https://www.gnu.org/software/tar/manual/html_chapter/tar_7.html#Date-input-formats">GNU Date Input Format</a>. Strings such as today, +2 months, and Dec 9 2004 are all valid.'),
+      '#title' => $this->t('Min'),
+      '#description' => $this->t('Specifies the minimum date.') . '<br />' . $this->t('Accepts any date in any <a href="https://www.gnu.org/software/tar/manual/html_chapter/tar_7.html#Date-input-formats">GNU Date Input Format</a>. Strings such as today, +2 months, and Dec 9 2004 are all valid.'),
       '#weight' => 10,
     ];
     $form['date']['max'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Date max'),
-      '#description' => $this->t('Specifies the maximum date.') . '<br /><br />' . $this->t('Accepts any date in any <a href="https://www.gnu.org/software/tar/manual/html_chapter/tar_7.html#Date-input-formats">GNU Date Input Format</a>. Strings such as today, +2 months, and Dec 9 2004 are all valid.'),
+      '#title' => $this->t('Max'),
+      '#description' => $this->t('Specifies the maximum date.') . '<br />' . $this->t('Accepts any date in any <a href="https://www.gnu.org/software/tar/manual/html_chapter/tar_7.html#Date-input-formats">GNU Date Input Format</a>. Strings such as today, +2 months, and Dec 9 2004 are all valid.'),
       '#weight' => 10,
     ];
 
@@ -209,15 +160,15 @@ abstract class DateBase extends WebformElementBase {
     $properties = $this->getConfigurationFormProperties($form, $form_state);
 
     // Validate #default_value GNU Date Input Format.
-    if (!$this->validateGnuDateInputFormat($properties, '#default_value')) {
-      $this->setGnuDateInputFormatError($form['properties']['default']['default_value'], $form_state);
+    if ($properties['#default_value'] && strtotime($properties['#default_value']) === FALSE) {
+      $this->setInputFormatError($form['properties']['element']['default_value'], $form_state);
     }
 
     // Validate #min and #max GNU Date Input Format.
     $input_formats = ['min', 'max'];
     foreach ($input_formats as $input_format) {
-      if (!$this->validateGnuDateInputFormat($properties, "#$input_format")) {
-        $this->setGnuDateInputFormatError($form['properties']['date'][$input_format], $form_state);
+      if (!empty($properties["#$input_format"]) && strtotime($properties["#$input_format"]) === FALSE) {
+        $this->setInputFormatError($form['properties']['date'][$input_format], $form_state);
       }
     }
 
@@ -259,60 +210,25 @@ abstract class DateBase extends WebformElementBase {
     if (!isset($element[$property])) {
       return;
     }
-    elseif (is_array($element[$property])) {
-      foreach ($element[$property] as $key => $value) {
-        $timestamp = strtotime($value);
-        $element[$property][$key] = ($timestamp) ? \Drupal::service('date.formatter')->format($timestamp, 'html_' . $this->getDateType($element)) : NULL;
-      }
+
+    $timestamp = strtotime($element[$property]);
+    if ($timestamp === FALSE) {
+      $element[$property] = NULL;
     }
     else {
-      $timestamp = strtotime($element[$property]);
-      $element[$property] = ($timestamp) ? \Drupal::service('date.formatter')->format($timestamp, 'html_' . $this->getDateType($element)) : NULL;
+      $element[$property] = \Drupal::service('date.formatter')->format($timestamp, 'html_' . $this->getDateType($element));
     }
   }
 
-  /****************************************************************************/
-  // Validation methods.
-  /****************************************************************************/
-
   /**
-   * Validate GNU date input format.
-   *
-   * @param array $properties
-   *   An array of element properties.
-   * @param string $key
-   *   The property name containing the GNU date input format.
-   *
-   * @return bool
-   *   TRUE if property's value is a valid GNU date input format or contains
-   *   a token.
-   */
-  protected function validateGnuDateInputFormat(array $properties, $key) {
-    if (empty($properties[$key])) {
-      return TRUE;
-    }
-
-    $values = (array) $properties[$key];
-    foreach ($values as $value) {
-      if (!preg_match('/^\[[^]]+\]$/', $value)) {
-        if (strtotime($value) === FALSE) {
-          return FALSE;
-        }
-      }
-    }
-
-    return TRUE;
-  }
-
-  /**
-   * Set GNU date input format error.
+   * Set GNU input format error.
    *
    * @param array $element
    *   The property element.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  protected function setGnuDateInputFormatError(array $element, FormStateInterface $form_state) {
+  protected function setInputFormatError(array $element, FormStateInterface $form_state) {
     $t_args = [
       '@title' => $element['#title'] ?: $element['#key'],
     ];
@@ -320,45 +236,7 @@ abstract class DateBase extends WebformElementBase {
   }
 
   /**
-   * Webform element pre validation handler for Date elements.
-   */
-  public static function preValidateDate(&$element, FormStateInterface $form_state, &$complete_form) {
-    // ISSUE #2723159:
-    // Datetime form element cannot validate when using a
-    // format without seconds.
-    // WORKAROUND:
-    // Append the second format before the time element is validated.
-    //
-    // @see \Drupal\Core\Datetime\Element\Datetime::valueCallback
-    // @see https://www.drupal.org/node/2723159
-    if ($element['#type'] === 'datetime' && $element['#date_time_format'] === 'H:i' && strlen($element['#value']['time']) === 8) {
-      $element['#date_time_format'] = 'H:i:s';
-    }
-
-    // ISSUE:
-    // Date list in composite element is missing the date object.
-    //
-    // WORKAROUND:
-    // Manually set the date object.
-    $date_element_types = [
-      'datelist' => '\Drupal\Core\Datetime\Element\Datelist',
-      'datetime' => '\Drupal\Core\Datetime\Element\Datetime',
-    ];
-
-    if (isset($date_element_types[$element['#type']])) {
-      $date_class = $date_element_types[$element['#type']];
-      $input_exists = FALSE;
-      $input = NestedArray::getValue($form_state->getValues(), $element['#parents'], $input_exists);
-      if (!isset($input['object'])) {
-        $input = $date_class::valueCallback($element, $input, $form_state);
-        $form_state->setValueForElement($element, $input);
-        $element['#value'] = $input;
-      }
-    }
-  }
-
-  /**
-   * Webform element validation handler for date elements.
+   * Webform element validation handler for base elements.
    *
    * Note that #required is validated by _form_validate() already.
    *
@@ -366,43 +244,38 @@ abstract class DateBase extends WebformElementBase {
    */
   public static function validateDate(&$element, FormStateInterface $form_state, &$complete_form) {
     $value = $element['#value'];
-    $name = empty($element['#title']) ? $element['#parents'][0] : $element['#title'];
-    $date_date_format = (!empty($element['#date_date_format'])) ? $element['#date_date_format'] : DateFormat::load('html_date')->getPattern();
 
     // Convert DrupalDateTime array and object to ISO datetime.
     if (is_array($value)) {
-      $value = ($value['object']) ? $value['object']->format(DateFormat::load('html_datetime')->getPattern()) : '';
-    }
-    elseif ($value) {
-      // Ensure the input is valid date by creating a date object and comparing
-      // formatted date object to the submitted date value.
-      $datetime = date_create_from_format($date_date_format, $value);
-      if ($datetime === FALSE || date_format($datetime, $date_date_format) != $value) {
-        $form_state->setError($element, t('%name must be a valid date.', ['%name' => $name]));
-        $value = '';
+      /** @var \Drupal\Core\Datetime\DrupalDateTime $datetime */
+      if ($datetime = $value['object']) {
+        $value = $datetime->format('c');
       }
       else {
-        // Clear timestamp to date elements.
-        if ($element['#type'] === 'date') {
-          $datetime->setTime(0, 0, 0);
-          $value = $datetime->format(DateFormat::load('html_date')->getPattern());
-        }
-        else {
-          $value = $datetime->format(DateFormat::load('html_datetime')->getPattern());
-        }
+        $value = '';
       }
+      $form_state->setValueForElement($element, $value);
     }
 
-    $form_state->setValueForElement($element, $value);
     if ($value === '') {
       return;
     }
 
+    $name = empty($element['#title']) ? $element['#parents'][0] : $element['#title'];
+
+    // Ensure the input is valid date.
+    // @see http://stackoverflow.com/questions/10691949/check-if-variable-is-a-valid-date-with-php
+    $date = date_parse($value);
+    if ($date["error_count"] || !checkdate($date["month"], $date["day"], $date["year"])) {
+      $form_state->setError($element, t('%name must be a valid date.', ['%name' => $name]));
+    }
+
     $time = strtotime($value);
+    $date_date_format = (!empty($element['#date_date_format'])) ? $element['#date_date_format'] : DateFormat::load('html_date')->getPattern();
 
     // Ensure that the input is greater than the #min property, if set.
     if (isset($element['#min'])) {
-      $min = strtotime(date('Y-m-d', strtotime($element['#min'])));
+      $min = strtotime($element['#min']);
       if ($time < $min) {
         $form_state->setError($element, t('%name must be on or after %min.', [
           '%name' => $name,
@@ -413,7 +286,7 @@ abstract class DateBase extends WebformElementBase {
 
     // Ensure that the input is less than the #max property, if set.
     if (isset($element['#max'])) {
-      $max = strtotime(date('Y-m-d', strtotime($element['#max'])));
+      $max = strtotime($element['#max']);
       if ($time > $max) {
         $form_state->setError($element, t('%name must be on or before %max.', [
           '%name' => $name,
@@ -421,77 +294,6 @@ abstract class DateBase extends WebformElementBase {
         ]));
       }
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getTestValues(array $element, WebformInterface $webform, array $options = []) {
-    $format = DateFormat::load('html_datetime')->getPattern();
-    if (!empty($element['#date_year_range'])) {
-      list($min, $max) = static::datetimeRangeYears($element['#date_year_range']);
-    }
-    else {
-      $min = !empty($element['#min']) ? strtotime($element['#min']) : strtotime('-10 years');
-      $max = !empty($element['#max']) ? strtotime($element['#max']) : max($min, strtotime('+20 years') ?: PHP_INT_MAX);
-    }
-    return date($format, rand($min, $max));
-  }
-
-  /**
-   * Specifies the start and end year to use as a date range.
-   *
-   * Copied from: DateElementBase::datetimeRangeYears.
-   *
-   * @param string $string
-   *   A min and max year string like '-3:+1' or '2000:2010' or '2000:+3'.
-   * @param object $date
-   *   (optional) A date object to test as a default value. Defaults to NULL.
-   *
-   * @return array
-   *   A numerically indexed array, containing the minimum and maximum year
-   *   described by this pattern.
-   *
-   * @see \Drupal\Core\Datetime\Element\DateElementBase::datetimeRangeYears
-   */
-  protected static function datetimeRangeYears($string, $date = NULL) {
-    $datetime = new DrupalDateTime();
-    $this_year = $datetime->format('Y');
-    list($min_year, $max_year) = explode(':', $string);
-
-    // Valid patterns would be -5:+5, 0:+1, 2008:2010.
-    $plus_pattern = '@[\+|\-][0-9]{1,4}@';
-    $year_pattern = '@^[0-9]{4}@';
-    if (!preg_match($year_pattern, $min_year, $matches)) {
-      if (preg_match($plus_pattern, $min_year, $matches)) {
-        $min_year = $this_year + $matches[0];
-      }
-      else {
-        $min_year = $this_year;
-      }
-    }
-    if (!preg_match($year_pattern, $max_year, $matches)) {
-      if (preg_match($plus_pattern, $max_year, $matches)) {
-        $max_year = $this_year + $matches[0];
-      }
-      else {
-        $max_year = $this_year;
-      }
-    }
-    // We expect the $min year to be less than the $max year. Some custom values
-    // for -99:+99 might not obey that.
-    if ($min_year > $max_year) {
-      $temp = $max_year;
-      $max_year = $min_year;
-      $min_year = $temp;
-    }
-    // If there is a current value, stretch the range to include it.
-    $value_year = $date instanceof DrupalDateTime ? $date->format('Y') : '';
-    if (!empty($value_year)) {
-      $min_year = min($value_year, $min_year);
-      $max_year = max($value_year, $max_year);
-    }
-    return [$min_year, $max_year];
   }
 
 }

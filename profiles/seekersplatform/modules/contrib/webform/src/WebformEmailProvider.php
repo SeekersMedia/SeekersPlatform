@@ -19,7 +19,7 @@ class WebformEmailProvider implements WebformEmailProviderInterface {
   protected $configFactory;
 
   /**
-   * The module handler service.
+   * The module handler to load includes.
    *
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
@@ -33,7 +33,7 @@ class WebformEmailProvider implements WebformEmailProviderInterface {
   protected $mailManager;
 
   /**
-   * Constructs a WebformEmailProvider.
+   * Constructs a new WebformEmailProvider.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.

@@ -4,7 +4,6 @@ namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\webform\Element\WebformRating as WebformRatingElement;
-use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -13,7 +12,6 @@ use Drupal\webform\WebformSubmissionInterface;
  * @WebformElement(
  *   id = "webform_rating",
  *   label = @Translation("Rating"),
- *   description = @Translation("Provides a form element to rate something using an attractive voting widget."),
  *   category = @Translation("Advanced elements"),
  * )
  */
@@ -23,46 +21,44 @@ class WebformRating extends Range {
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    $properties = [
-      // Number settings.
-      'max' => 5,
+    $properties = parent::getDefaultProperties();
+    unset(
+      $properties['range__output'],
+      $properties['range__output_prefix'],
+      $properties['range__output_suffix']
+    );
+    $properties += [
       // General settings.
       'default_value' => 0,
       // Rating settings.
       'star_size' => 'medium',
       'reset' => FALSE,
-    ] + parent::getDefaultProperties();
-    unset(
-      $properties['output'],
-      $properties['output__field_prefix'],
-      $properties['output__field_suffix'],
-      $properties['output__attributes']
-    );
+    ];
     return $properties;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getTestValues(array $element, WebformInterface $webform, array $options = []) {
-    $element += ['#min' => 0, '#max' => 5];
-    return parent::getTestValues($element, $webform, $options);
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
+    if (!isset($element['#step'])) {
+      $element['#step'] = 1;
+    }
+    parent::prepare($element, $webform_submission);
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
-    $format = $this->getItemFormat($element);
+  public function formatHtml(array &$element, $value, array $options = []) {
+    $format = $this->getFormat($element);
 
     switch ($format) {
       case 'star':
         // Always return the raw value when the rating widget is included in an
         // email.
         if (!empty($options['email'])) {
-          return parent::formatTextItem($element, $webform_submission, $options);
+          return parent::formatText($element, $value, $options);
         }
 
         $build = [
@@ -72,33 +68,23 @@ class WebformRating extends Range {
         return WebformRatingElement::buildRateIt($build);
 
       default:
-        return parent::formatHtmlItem($element, $webform_submission, $options);
+        return parent::formatHtml($element, $value, $options);
     }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemDefaultFormat() {
+  public function getDefaultFormat() {
     return 'star';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemFormats() {
-    return parent::getItemFormats() + [
+  public function getFormats() {
+    return parent::getFormats() + [
       'star' => $this->t('Star'),
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function preview() {
-    return [
-      '#type' => $this->getTypeName(),
-      '#title' => $this->getPluginLabel(),
     ];
   }
 

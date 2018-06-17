@@ -2,7 +2,7 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
-use Drupal\webform\Plugin\WebformElementBase;
+use Drupal\webform\WebformElementBase;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -11,7 +11,6 @@ use Drupal\webform\WebformSubmissionInterface;
  * @WebformElement(
  *   id = "machine_name",
  *   api = "https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!Element!MachineName.php/class/MachineName",
- *   description = @Translation("Provides a form element to enter a machine name, which is validated to ensure that the name is unique and does not contain disallowed characters."),
  *   label = @Translation("Machine name"),
  *   hidden = TRUE,
  * )
@@ -21,9 +20,9 @@ class MachineName extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
     parent::prepare($element, $webform_submission);
-    // Since all elements are placed under the $form['elements'] we need to
+    // Since all elements are place under the $form['elements'] we need to
     // prepend the 'element' container to the #machine_name source.
     if (isset($element['#machine_name']['source'])) {
       array_unshift($element['#machine_name']['source'], 'elements');

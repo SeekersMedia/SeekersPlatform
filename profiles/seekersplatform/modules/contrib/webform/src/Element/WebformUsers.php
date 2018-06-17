@@ -24,7 +24,6 @@ class WebformUsers extends EntityAutocomplete {
     $info['#target_type'] = 'user';
     $info['#selection_settings'] = ['include_anonymous' => FALSE];
     $info['#tags'] = TRUE;
-    $info['#maxlength'] = NULL;
     $info['#default_value'] = [];
     $info['#element_validate'] = [
       [$class, 'validateEntityAutocomplete'],
@@ -48,7 +47,7 @@ class WebformUsers extends EntityAutocomplete {
   /**
    * Webform element validation handler for webform_users elements.
    */
-  public static function validateWebformUsers(&$element, FormStateInterface $form_state, &$complete_form) {
+  public static function validateWebformUsers(array &$element, FormStateInterface $form_state, array &$complete_form) {
     $value = $form_state->getValue($element['#parents'], []);
     $uids = [];
     if ($value) {
@@ -58,7 +57,6 @@ class WebformUsers extends EntityAutocomplete {
         }
       }
     }
-    $element['#value'] = $uids;
     $form_state->setValueForElement($element, $uids);
   }
 

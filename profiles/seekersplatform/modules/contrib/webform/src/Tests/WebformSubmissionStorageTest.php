@@ -2,17 +2,39 @@
 
 namespace Drupal\webform\Tests;
 
-use Drupal\Core\Serialization\Yaml;
-use Drupal\webform\Entity\Webform;
+use Drupal\simpletest\WebTestBase;
 use Drupal\webform\Entity\WebformSubmission;
-use Drupal\webform\WebformInterface;
 
 /**
  * Tests for webform storage tests.
  *
  * @group Webform
  */
-class WebformSubmissionStorageTest extends WebformTestBase {
+class WebformSubmissionStorageTest extends WebTestBase {
+
+  use WebformTestTrait;
+
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
+  protected static $modules = ['system', 'user', 'webform'];
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function tearDown() {
+    $this->purgeSubmissions();
+    parent::tearDown();
+  }
 
   /**
    * Test webform submission storage.
@@ -21,19 +43,10 @@ class WebformSubmissionStorageTest extends WebformTestBase {
     /** @var \Drupal\webform\WebformSubmissionStorageInterface $storage */
     $storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
 
-    // Create new webform.
-    $id = $this->randomMachineName(8);
-    $webform = Webform::create([
-      'langcode' => 'en',
-      'status' => WebformInterface::STATUS_OPEN,
-      'id' => $id,
-      'title' => $id,
-      'elements' => Yaml::encode(['test' => ['#markup' => 'test']]),
-    ]);
-    $webform->save();
+    $webform = $this->createWebform();
 
     // Create 3 submissions for user1.
-    $user1 = $this->drupalCreateUser(['view own webform submission']);
+    $user1 = $this->drupalCreateUser();
     $this->drupalLogin($user1);
     $user1_submissions = [
       WebformSubmission::load($this->postSubmission($webform)),
@@ -61,7 +74,6 @@ class WebformSubmissionStorageTest extends WebformTestBase {
     // Check next submission.
     $this->assertEqual($storage->getNextSubmission($user1_submissions[0], NULL, $user1)->id(), $user1_submissions[1]->id(), "User 1 can navigate forward to user 1's next submission");
     $this->assertNull($storage->getNextSubmission($user1_submissions[2], NULL, $user1), "User 1 can't navigate forward to user 2's next submission");
-    $this->assertNull($storage->getNextSubmission($user2_submissions[0], NULL, $user2), "User 2 can't navigate forward to user 2's next submission because of missing 'view own webform submission' permission");
     $this->drupalLogin($admin_user);
     $this->assertEqual($storage->getNextSubmission($user1_submissions[2], NULL)->id(), $user2_submissions[0]->id(), "Admin user can navigate between user submissions");
     $this->drupalLogout();
@@ -74,7 +86,7 @@ class WebformSubmissionStorageTest extends WebformTestBase {
     $this->drupalLogout();
 
     // Enable the saving of drafts.
-    $webform->setSetting('draft', WebformInterface::DRAFT_AUTHENTICATED)->save();
+    $webform->setSetting('draft', TRUE)->save();
 
     // Create drafts for user1 and user2.
     $this->drupalLogin($user1);

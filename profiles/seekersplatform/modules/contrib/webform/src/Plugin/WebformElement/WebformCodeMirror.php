@@ -3,9 +3,8 @@
 namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\webform\Plugin\WebformElementBase;
+use Drupal\webform\WebformElementBase;
 use Drupal\webform\WebformInterface;
-use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a 'webform_codemirror' element.
@@ -13,7 +12,6 @@ use Drupal\webform\WebformSubmissionInterface;
  * @WebformElement(
  *   id = "webform_codemirror",
  *   label = @Translation("CodeMirror"),
- *   description = @Translation("Provides a form element for editing code in a number of programming languages and markup."),
  *   category = @Translation("Advanced elements"),
  *   multiline = TRUE,
  * )
@@ -24,25 +22,21 @@ class WebformCodeMirror extends WebformElementBase {
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    return [
-      // Codemirror settings.
-      'placeholder' => '',
+    return parent::getDefaultProperties() + [
+      // Codemirror setings.
       'mode' => 'text',
-    ] + parent::getDefaultProperties();
+    ];
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatHtml(array &$element, $value, array $options = []) {
     if (empty($value)) {
       return '';
     }
 
-    $element += ['#mode' => 'text'];
-    $format = $this->getItemFormat($element);
+    $format = $this->getFormat($element);
     switch ($format) {
       case 'code':
         return [
@@ -52,22 +46,22 @@ class WebformCodeMirror extends WebformElementBase {
         ];
 
       default:
-        return parent::formatHtmlItem($element, $webform_submission, $options);
+        return parent::formatHtml($element, $value, $options);
     }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemDefaultFormat() {
+  public function getDefaultFormat() {
     return 'code';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemFormats() {
-    return parent::getItemFormats() + [
+  public function getFormats() {
+    return parent::getFormats() + [
       'code' => $this->t('Code'),
     ];
   }
@@ -75,31 +69,22 @@ class WebformCodeMirror extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function preview() {
-    return parent::preview() + [
-      '#mode' => 'yaml',
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getTestValues(array $element, WebformInterface $webform, array $options = []) {
-    $element += ['#mode' => 'text'];
+  public function getTestValue(array $element, WebformInterface $webform) {
     switch ($element['#mode']) {
       case 'html':
-        return ['<p><b>Hello World!!!</b></p>'];
+        return '<p><b>Hello World!!!</b></p>';
 
       case 'yaml':
-        return ["message: 'Hello World'"];
+        return "message: 'Hello World'";
 
       case 'text':
-        return ["Hello World"];
+        return "Hello World";
 
       default:
-        return [];
+        return '';
 
     }
+
   }
 
   /**
@@ -107,10 +92,6 @@ class WebformCodeMirror extends WebformElementBase {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
-
-    $form['default']['default_value']['#type'] = 'webform_codemirror';
-    $form['default']['default_value']['#rows'] = 3;
-
     $form['codemirror'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('CodeMirror settings'),
@@ -119,14 +100,9 @@ class WebformCodeMirror extends WebformElementBase {
       '#title' => $this->t('Mode'),
       '#type' => 'select',
       '#options' => [
-        'text' => $this->t('Plain text'),
         'yaml' => $this->t('YAML'),
         'html' => $this->t('HTML'),
-        'htmlmixed' => $this->t('HTML (CSS & JavaScript)'),
-        'css' => 'CSS',
-        'javascript' => 'JavaScript',
-        'php' => 'PHP',
-        'twig' => 'Twig',
+        'text' => $this->t('Plain text'),
       ],
       '#required' => TRUE,
     ];

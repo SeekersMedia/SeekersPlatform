@@ -3,8 +3,6 @@
 namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\webform\Element\WebformHtmlEditor;
-use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a 'email_confirm' element.
@@ -12,7 +10,6 @@ use Drupal\webform\WebformSubmissionInterface;
  * @WebformElement(
  *   id = "webform_email_confirm",
  *   label = @Translation("Email confirm"),
- *   description = @Translation("Provides a form element for double-input of email addresses."),
  *   category = @Translation("Advanced elements"),
  *   states_wrapper = TRUE,
  * )
@@ -23,27 +20,12 @@ class WebformEmailConfirm extends Email {
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    $properties = parent::getDefaultProperties() + [
+    return parent::getDefaultProperties() + [
       // Email confirm settings.
       'confirm__title' => '',
       'confirm__description' => '',
       'confirm__placeholder' => '',
     ];
-    unset(
-      $properties['multiple'],
-      $properties['multiple__header_label']
-    );
-    return $properties;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
-    parent::prepare($element, $webform_submission);
-    if (isset($element['#confirm__description'])) {
-      $element['#confirm__description'] = WebformHtmlEditor::checkMarkup($element['#confirm__description']);
-    }
   }
 
   /**

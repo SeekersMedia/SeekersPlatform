@@ -8,7 +8,6 @@ namespace Drupal\webform\Plugin\WebformElement;
  * @WebformElement(
  *   id = "webform_buttons",
  *   label = @Translation("Buttons"),
- *   description = @Translation("Provides a group of multiple buttons used for selecting a value."),
  *   category = @Translation("Options elements"),
  * )
  */

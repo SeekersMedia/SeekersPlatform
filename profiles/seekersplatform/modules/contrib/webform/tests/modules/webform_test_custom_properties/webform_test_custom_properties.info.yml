@@ -4,11 +4,11 @@ description: 'Support module for Webform module custom properties testing, that 
 package: Testing
 # core: 8.x
 dependencies:
-  - 'webform:webform'
-  - 'webform:webform_ui'
+  - webform
+  - webform_ui
 
-# Information added by Drupal.org packaging script on 2018-06-12
-version: '8.x-5.0-rc15'
+# Information added by Drupal.org packaging script on 2016-12-26
+version: '8.x-5.0-beta4'
 core: '8.x'
 project: 'webform'
-datestamp: 1528795693
+datestamp: 1482752302

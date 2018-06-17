@@ -2,11 +2,9 @@
 
 namespace Drupal\webform\Entity;
 
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\webform\Utility\WebformOptionsHelper;
 use Drupal\webform\WebformOptionsInterface;
 
@@ -17,14 +15,11 @@ use Drupal\webform\WebformOptionsInterface;
  *   id = "webform_options",
  *   label = @Translation("Webform options"),
  *   handlers = {
- *     "storage" = "\Drupal\webform\WebformOptionsStorage",
  *     "access" = "Drupal\webform\WebformOptionsAccessControlHandler",
  *     "list_builder" = "Drupal\webform\WebformOptionsListBuilder",
  *     "form" = {
- *       "add" = "Drupal\webform\WebformOptionsForm",
- *       "edit" = "Drupal\webform\WebformOptionsForm",
- *       "duplicate" = "Drupal\webform\WebformOptionsForm",
- *       "delete" = "Drupal\webform\WebformOptionsDeleteForm",
+ *       "default" = "Drupal\webform\WebformOptionsForm",
+ *       "delete" = "Drupal\Core\Entity\EntityDeleteForm",
  *     }
  *   },
  *   admin_permission = "administer webform",
@@ -33,25 +28,20 @@ use Drupal\webform\WebformOptionsInterface;
  *     "label" = "label",
  *   },
  *   links = {
- *     "add-form" = "/admin/structure/webform/config/options/add",
- *     "edit-form" = "/admin/structure/webform/config/options/manage/{webform_options}/edit",
- *     "duplicate-form" = "/admin/structure/webform/config/options/manage/{webform_options}/duplicate",
- *     "delete-form" = "/admin/structure/webform/config/options/manage/{webform_options}/delete",
- *     "collection" = "/admin/structure/webform/config/options/manage",
+ *     "add-form" = "/admin/structure/webform/settings/options/add",
+ *     "edit-form" = "/admin/structure/webform/settings/options/manage/{webform_options}/edit",
+ *     "delete-form" = "/admin/structure/webform/settings/options/manage/{webform_options}/delete",
+ *     "collection" = "/admin/structure/webform/settings/options/manage",
  *   },
  *   config_export = {
  *     "id",
  *     "uuid",
  *     "label",
- *     "category",
- *     "likert",
  *     "options",
  *   }
  * )
  */
 class WebformOptions extends ConfigEntityBase implements WebformOptionsInterface {
-
-  use StringTranslationTrait;
 
   /**
    * The webform options ID.
@@ -75,20 +65,6 @@ class WebformOptions extends ConfigEntityBase implements WebformOptionsInterface
   protected $label;
 
   /**
-   * The webform options category.
-   *
-   * @var string
-   */
-  protected $category;
-
-  /**
-   * Flag to used options as likert answers.
-   *
-   * @var bool
-   */
-  protected $likert = FALSE;
-
-  /**
    * The webform options options.
    *
    * @var string
@@ -105,13 +81,6 @@ class WebformOptions extends ConfigEntityBase implements WebformOptionsInterface
   /**
    * {@inheritdoc}
    */
-  public function isLikert() {
-    return $this->likert;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getOptions() {
     if (!isset($this->optionsDecoded)) {
       try {
@@ -120,21 +89,13 @@ class WebformOptions extends ConfigEntityBase implements WebformOptionsInterface
         $options = (is_array($options)) ? $options : [];
       }
       catch (\Exception $exception) {
-        $link = $this->link($this->t('Edit'), 'edit-form');
+        $link = $this->link(t('Edit'), 'edit-form');
         \Drupal::logger('webform')->notice('%title options are not valid. @message', ['%title' => $this->label(), '@message' => $exception->getMessage(), 'link' => $link]);
         $options = FALSE;
       }
       $this->optionsDecoded = $options;
     }
     return $this->optionsDecoded;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setOptions(array $options) {
-    $this->options = Yaml::encode($options);
-    $this->optionsDecoded = NULL;
   }
 
   /**
@@ -158,7 +119,7 @@ class WebformOptions extends ConfigEntityBase implements WebformOptionsInterface
     $temp_element = [];
     \Drupal::moduleHandler()->alter('webform_options_' . $this->id(), $altered_options, $temp_element);
     $altered_options = WebformOptionsHelper::convertOptionsToString($altered_options);
-    if ($altered_options === $this->getOptions()) {
+    if ($altered_options == $this->getOptions()) {
       $this->options = '';
     }
   }
@@ -176,19 +137,8 @@ class WebformOptions extends ConfigEntityBase implements WebformOptionsInterface
   /**
    * {@inheritdoc}
    */
-  public static function sort(ConfigEntityInterface $a, ConfigEntityInterface $b) {
-    $a_label = $a->get('category') . $a->label();
-    $b_label = $b->get('category') . $b->label();
-    return strnatcasecmp($a_label, $b_label);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function getElementOptions(array &$element, $property_name = '#options') {
+  public static function getElementOptions(array $element, $property_name = '#options') {
     // If element already has #options return them.
-    // NOTE: Only WebformOptions can be altered. If you need to alter an
-    // element's options, @see hook_webform_element_alter().
     if (is_array($element[$property_name])) {
       return $element[$property_name];
     }
@@ -202,17 +152,15 @@ class WebformOptions extends ConfigEntityBase implements WebformOptionsInterface
     // This allows dynamic options to be overridden.
     $id = $element[$property_name];
     if ($webform_options = WebformOptions::load($id)) {
-      $options = $webform_options->getOptions() ?: [];
-    }
-    else {
-      $options = [];
+      $options = $webform_options->getOptions();
+      if ($options) {
+        return $options;
+      }
     }
 
-    // Alter options using hook_webform_options_alter()
-    // and/or hook_webform_options_WEBFORM_OPTIONS_ID_alter() hook.
-    // @see webform.api.php
+    // Get options using alter hook.
+    $options = [];
     \Drupal::moduleHandler()->alter('webform_options_' . $id, $options, $element);
-    \Drupal::moduleHandler()->alter('webform_options', $options, $element, $id);
 
     // Log empty options.
     if (empty($options)) {

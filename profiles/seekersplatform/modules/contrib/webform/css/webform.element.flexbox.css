@@ -1,9 +1,6 @@
 /**
  * @file
  * Flexbox styles.
- *
- * @see /webform/example_layout_flexbox
- * @see /webform/test_element_flexbox_flex
  */
 
 @media (min-width: 768px) {
@@ -31,6 +28,11 @@
   .webform-flexbox--center {
     -webkit-align-items: center;
     align-items: center;
+  }
+
+  .webform-flexbox input[type="checkbox"],
+  .webform-flexbox input[type="radio"] /* Never allow checkboxes and radio buttons to have a width */{
+    width: inherit !important;
   }
 
   .webform-flex {
@@ -159,8 +161,8 @@
   /**
    * Radios/checkboxes.
    */
-  .webform-flex--container .form-type-checkbox,
-  .webform-flex--container .form-type-radio {
+  .form-type-checkbox,
+  .form-type-radio {
     white-space: nowrap;
   }
 

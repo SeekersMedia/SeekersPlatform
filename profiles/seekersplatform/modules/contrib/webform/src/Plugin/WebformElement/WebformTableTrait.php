@@ -13,11 +13,7 @@ trait WebformTableTrait {
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
-    if ($this->hasMultipleValues($element)) {
-      $element['#element_validate'][] = [get_class($this), 'validateMultipleOptions'];
-    }
-
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
     parent::prepare($element, $webform_submission);
 
     // Add missing element class.
@@ -39,6 +35,10 @@ trait WebformTableTrait {
           ];
         }
       }
+    }
+
+    if ($this->hasMultipleValues($element)) {
+      $element['#element_validate'][] = [get_class($this), 'validateMultipleOptions'];
     }
 
     $element['#attached']['library'][] = 'webform/webform.element.' . $element['#type'];

@@ -21,10 +21,10 @@ interface WebformTranslationManagerInterface {
    * @return array
    *   A webform's translated elements.
    */
-  public function getElements(WebformInterface $webform, $langcode = NULL, $reset = FALSE);
+  public function getConfigElements(WebformInterface $webform, $langcode, $reset = FALSE);
 
   /**
-   * Get base webform elements for the site's default language.
+   * Get base webform elements from the site's default language.
    *
    * @param \Drupal\webform\WebformInterface $webform
    *   A webform.
@@ -50,23 +50,10 @@ interface WebformTranslationManagerInterface {
    *
    * @param \Drupal\webform\WebformInterface $webform
    *   A webform.
-   * @param string $langcode
-   *   The language code for the translated element properties.
    *
    * @return array
    *   A associative array of translated element properties.
    */
   public function getTranslationElements(WebformInterface $webform, $langcode);
-
-  /**
-   * Get the original langcode for a webform.
-   *
-   * @param \Drupal\webform\WebformInterface $webform
-   *   A webform.
-   *
-   * @return string
-   *   The original langcode for a webform.
-   */
-  public function getOriginalLangcode(WebformInterface $webform);
 
 }

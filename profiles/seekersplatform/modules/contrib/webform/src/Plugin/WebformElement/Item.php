@@ -12,11 +12,10 @@ use Drupal\webform\WebformSubmissionInterface;
  *   id = "item",
  *   api = "https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!Element!Item.php/class/Item",
  *   label = @Translation("Item"),
- *   description = @Translation("Provides a display-only form element with an optional title and description."),
  *   category = @Translation("Containers"),
  * )
  */
-class Item extends WebformMarkup {
+class Item extends ContainerBase {
 
   /**
    * {@inheritdoc}
@@ -24,11 +23,8 @@ class Item extends WebformMarkup {
   public function getDefaultProperties() {
     return [
       'title' => '',
-      // Description/Help.
-      'help' => '',
+      // General settings.
       'description' => '',
-      'more' => '',
-      'more_title' => '',
       // Form display.
       'title_display' => '',
       'description_display' => '',
@@ -36,34 +32,23 @@ class Item extends WebformMarkup {
       'field_suffix' => '',
       // Form validation.
       'required' => FALSE,
-    ] + parent::getDefaultProperties();
+    ] + $this->getDefaultBaseProperties();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
     parent::prepare($element, $webform_submission);
-    $element['#element_validate'][] = [get_class($this), 'validateItem'];
+    $element['#element_validate'][] = [get_class($this), 'validate'];
   }
 
   /**
-   * Form API callback. Removes ignored element for $form_state values.
+   * Webform API callback. Removes ignored element for $form_state values.
    */
-  public static function validateItem(array &$element, FormStateInterface $form_state, array &$completed_form) {
+  public static function validate(array &$element, FormStateInterface $form_state) {
     $name = $element['#name'];
     $form_state->unsetValue($name);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function preview() {
-    return parent::preview() + [
-      '#markup' => '{markup}',
-      '#field_prefix' => '{field_prefix}',
-      '#field_suffix' => '{field_suffix}',
-    ];
   }
 
 }

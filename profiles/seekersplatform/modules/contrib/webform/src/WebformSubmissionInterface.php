@@ -4,7 +4,6 @@ namespace Drupal\webform;
 
 use Drupal\user\EntityOwnerInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\user\UserInterface;
 
 /**
  * Provides an interface defining a webform submission entity.
@@ -27,24 +26,9 @@ interface WebformSubmissionInterface extends ContentEntityInterface, EntityOwner
   const STATE_COMPLETED = 'completed';
 
   /**
-   * Return status for submission that has been locked.
-   */
-  const STATE_LOCKED = 'locked';
-
-  /**
    * Return status for submission that has been updated.
    */
   const STATE_UPDATED = 'updated';
-
-  /**
-   * Return status for submission that has been deleted.
-   */
-  const STATE_DELETED = 'deleted';
-
-  /**
-   * Return status for submission that has been converted from anonymous to authenticated.
-   */
-  const STATE_CONVERTED = 'converted';
 
   /**
    * Gets the serial number.
@@ -145,24 +129,6 @@ interface WebformSubmissionInterface extends ContentEntityInterface, EntityOwner
   public function setSticky($sticky);
 
   /**
-   * Get the submission's locked status.
-   *
-   * @return string
-   *   The submission's lock status.
-   */
-  public function isLocked();
-
-  /**
-   * Sets the submission's locked flag.
-   *
-   * @param bool $locked
-   *   The submission's locked flag.
-   *
-   * @return $this
-   */
-  public function setLocked($locked);
-
-  /**
    * Gets the remote IP address of the submission.
    *
    * @return string
@@ -215,15 +181,6 @@ interface WebformSubmissionInterface extends ContentEntityInterface, EntityOwner
   public function isDraft();
 
   /**
-   * Is the current submission being converted from anonymous to authenticated.
-   *
-   * @return bool
-   *   TRUE if the current submission being converted from anonymous to
-   *   authenticated.
-   */
-  public function isConverting();
-
-  /**
    * Is the current submission completed.
    *
    * @return bool
@@ -250,60 +207,43 @@ interface WebformSubmissionInterface extends ContentEntityInterface, EntityOwner
   /**
    * Track the state of a submission.
    *
-   * @return string
-   *   Either STATE_NEW, STATE_DRAFT, STATE_COMPLETED, STATE_UPDATED, or
-   *   STATE_CONVERTED depending on the last save operation performed.
+   * @return int
+   *    Either STATE_NEW, STATE_DRAFT, STATE_COMPLETED, or STATE_UPDATED,
+   *   depending on the last save operation performed.
    */
   public function getState();
 
   /**
-   * Get a webform submission element's data.
-   *
-   * @param string $key
-   *   An webform submission element's key.
-   *
-   * @return mixed
-   *   An webform submission element's data/value.
-   */
-  public function getElementData($key);
-
-  /**
-   * Set a webform submission element's data.
-   *
-   * @param string $key
-   *   An webform submission element's key.
-   * @param mixed $value
-   *   A value.
-   *
-   * @return $this
-   */
-  public function setElementData($key, $value);
-
-  /**
    * Gets the webform submission's data.
+   *
+   * @param string $key
+   *   A string that maps to a key in the submission's data.
+   *   If no key is specified, then the entire data array is returned.
    *
    * @return array
    *   The webform submission data.
    */
-  public function getData();
+  public function getData($key = NULL);
 
   /**
    * Set the webform submission's data.
    *
    * @param array $data
    *   The webform submission data.
-   *
-   * @return $this
    */
   public function setData(array $data);
 
   /**
-   * Gets the webform submission's original data before any changes.
+   * Gets the webform submission's original data before any changes..
+   *
+   * @param string $key
+   *   A string that maps to a key in the submission's original data.
+   *   If no key is specified, then the entire data array is returned.
    *
    * @return array
    *   The webform submission original data.
    */
-  public function getOriginalData();
+  public function getOriginalData($key = NULL);
 
   /**
    * Set the webform submission's original data.
@@ -372,30 +312,15 @@ interface WebformSubmissionInterface extends ContentEntityInterface, EntityOwner
   public function invokeWebformElements($method);
 
   /**
-   * Convert anonymous submission to authenicated.
-   *
-   * @param \Drupal\user\UserInterface $account
-   *   An authenticated user account.
-   */
-  public function convert(UserInterface $account);
-
-  /**
-   * Resave a webform submission without trigger any hooks or handlers.
-   */
-  public function resave();
-
-  /**
    * Gets an array of all property values.
    *
    * @param bool $custom
    *   If TRUE, return customized array that contains simplified properties
    *   and webform submission data.
-   * @param bool $check_access
-   *   If TRUE, view access is checked for element data.
    *
    * @return mixed[]
    *   An array of property values, keyed by property name.
    */
-  public function toArray($custom = FALSE, $check_access = FALSE);
+  public function toArray($custom = FALSE);
 
 }

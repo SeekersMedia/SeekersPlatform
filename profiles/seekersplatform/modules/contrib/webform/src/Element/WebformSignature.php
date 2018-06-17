@@ -28,9 +28,6 @@ class WebformSignature extends FormElement {
       ],
       '#theme' => 'input__webform_signature',
       '#theme_wrappers' => ['form_element'],
-      // Add '#markup' property to add an 'id' attribute to the form element.
-      // @see template_preprocess_form_element()
-      '#markup' => '',
     ];
   }
 
@@ -45,7 +42,7 @@ class WebformSignature extends FormElement {
    * @return array
    *   The $element with prepared variables ready for input.html.twig.
    */
-  public static function preRenderWebformSignature(array $element) {
+  public static function preRenderWebformSignature($element) {
     $element['#attributes']['type'] = 'hidden';
     Element::setAttributes($element, ['name', 'value']);
     static::setAttributes($element, ['js-webform-signature', 'form-webform-signature']);

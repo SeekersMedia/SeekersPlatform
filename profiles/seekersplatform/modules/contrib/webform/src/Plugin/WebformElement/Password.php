@@ -2,8 +2,7 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
-use Drupal\webform\Plugin\WebformElementBase;
-use Drupal\webform\WebformSubmissionInterface;
+use Drupal\webform\WebformElementBase;
 
 /**
  * Provides a 'password' element.
@@ -12,7 +11,6 @@ use Drupal\webform\WebformSubmissionInterface;
  *   id = "password",
  *   api = "https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!Element!Password.php/class/Password",
  *   label = @Translation("Password"),
- *   description = @Translation("Provides a form element for entering a password, with hidden text."),
  *   category = @Translation("Basic elements"),
  * )
  */
@@ -21,36 +19,29 @@ class Password extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  protected function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
-    // Return empty value.
-    if ($value === '' || $value === NULL) {
-      return '';
-    }
-
-    $format = $this->getItemFormat($element);
+  public function formatText(array &$element, $value, array $options = []) {
+    $format = $this->getFormat($element);
     switch ($format) {
       case 'obscured':
         return '********';
 
       default:
-        return parent::formatTextItem($element, $webform_submission, $options);
+        return parent::formatText($element, $value, $options);
     }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemDefaultFormat() {
+  public function getDefaultFormat() {
     return 'obscured';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemFormats() {
-    return parent::getItemFormats() + [
+  public function getFormats() {
+    return parent::getFormats() + [
       'obscured' => $this->t('Obscured'),
     ];
   }

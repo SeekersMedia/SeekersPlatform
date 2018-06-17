@@ -1,12 +1,10 @@
 /**
  * @file
  * Likert element styles.
- *
- * @see /webform/test_element_likert
  */
 
 /**
- * Answer column widths.
+ * Answer widths
  */
 [data-likert-answers-count="2"] th {
   width: 30%;
@@ -44,13 +42,7 @@
   text-align: center;
 }
 
-/**
- * Hide radio title and description when Likert is displayed within a
- * grid on desktop.
- * @see \Drupal\webform\Element\WebformLikert::processWebformLikert
- */
-.webform-likert-label,
-.webform-likert-description {
+.form-type-webform-likert td label {
   display: none;
 }
 
@@ -65,8 +57,7 @@
 }
 
 /**
- * Mobile support to likert webform element that converts radios in table
- * grid to inline vertical radios.
+ * Mobile support to likert webform element table.
  */
 @media (max-width: 768px) {
   .form-type-webform-likert table {
@@ -86,29 +77,15 @@
 
   .form-type-webform-likert td {
     display: block;
+    width: 100% !important;
     border: 0;
     background: transparent;
     padding: 0;
     text-align: inherit;
   }
 
-  .webform-likert-table[data-likert-answers-count] th,
-  .webform-likert-table[data-likert-answers-count] th:first-child,
-  .webform-likert-table td,
-  .webform-likert-table td:first-child {
-    width: 100%;
-  }
-
-  /**
-   * Show radio title and description when Likert is displayed inline on mobile.
-   * @see \Drupal\webform\Element\WebformLikert::processWebformLikert
-   */
-  .webform-likert-label {
+  .form-type-webform-likert td label {
     display: inline;
-  }
-
-  .webform-likert-description {
-    display: block;
   }
 
   .form-type-webform-likert td:last-child {

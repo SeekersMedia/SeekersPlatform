@@ -9,7 +9,6 @@ namespace Drupal\webform\Plugin\WebformElement;
  *   id = "fieldset",
  *   api = "https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!Element!Fieldset.php/class/Fieldset",
  *   label = @Translation("Fieldset"),
- *   description = @Translation("Provides an element for a group of form elements."),
  *   category = @Translation("Containers"),
  * )
  */
@@ -19,17 +18,10 @@ class Fieldset extends ContainerBase {
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    return [
-      'help' => '',
-      'title_display' => '',
-    ] + parent::getDefaultProperties();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getItemDefaultFormat() {
-    return 'fieldset';
+    return parent::getDefaultProperties() + [
+      // Form display.
+      'open' => FALSE,
+    ];
   }
 
 }

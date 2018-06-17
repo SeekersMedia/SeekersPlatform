@@ -1,19 +1,20 @@
 /**
  * @file
  * Messages element styles.
- *
- * @see /webform/test_element_message
  */
 
-/**
- * Add styles to default (info) message,
- */
+.messages {
+  box-shadow: -8px 0 0 #3b3b3b; /* LTR */
+}
+[dir="rtl"] .messages {
+  box-shadow: 8px 0 0 #3b3b3b;
+  margin-left: 0;
+}
+
 .messages.messages--info {
   color: #31708f;
   background-color: #d9edf7;
   background-image: url(../images/icons/info.svg);
-  background-repeat: no-repeat;
-  background-position: 10px 17px;
   border-color: #0074bd #0074bd #0074bd transparent;  /* LTR */
   box-shadow: -8px 0 0 #0074bd; /* LTR */
 }
@@ -24,17 +25,10 @@
 }
 
 /**
- * Webform message close container.
+ * Message close.
  */
 .webform-message--close .messages {
   position: relative;
-}
-
-/**
- * Webform message close link.
- */
-.webform-message--close .messages {
-  padding-right: 35px;
 }
 
 .webform-message--close .webform-message__link {

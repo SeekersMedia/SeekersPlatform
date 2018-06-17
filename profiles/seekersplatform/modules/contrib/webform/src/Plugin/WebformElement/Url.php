@@ -2,8 +2,6 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
-use Drupal\webform\WebformSubmissionInterface;
-
 /**
  * Provides a 'url' element.
  *
@@ -11,7 +9,6 @@ use Drupal\webform\WebformSubmissionInterface;
  *   id = "url",
  *   api = "https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!Element!Url.php/class/Url",
  *   label = @Translation("URL"),
- *   description = @Translation("Provides a form element for input of a URL."),
  *   category = @Translation("Advanced elements"),
  * )
  */
@@ -20,21 +17,12 @@ class Url extends TextBase {
   /**
    * {@inheritdoc}
    */
-  public function getDefaultProperties() {
-    return parent::getDefaultProperties() + $this->getDefaultMultipleProperties();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatHtml(array &$element, $value, array $options = []) {
     if (empty($value)) {
       return '';
     }
 
-    $format = $this->getItemFormat($element);
+    $format = $this->getFormat($element);
     switch ($format) {
       case 'link':
         return [
@@ -44,22 +32,22 @@ class Url extends TextBase {
         ];
 
       default:
-        return parent::formatHtmlItem($element, $webform_submission, $options);
+        return parent::formatHtml($element, $value, $options);
     }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemDefaultFormat() {
+  public function getDefaultFormat() {
     return 'link';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemFormats() {
-    return parent::getItemFormats() + [
+  public function getFormats() {
+    return parent::getFormats() + [
       'link' => $this->t('Link'),
     ];
   }

@@ -1,6 +1,6 @@
 /**
  * @file
- * JavaScript behaviors for message element integration.
+ * Javascript behaviors for message element integration.
  */
 
 (function ($, Drupal) {
@@ -22,7 +22,6 @@
         var effect = $element.attr('data-message-close-effect') || 'hide';
         switch (effect) {
           case 'slide': effect = 'slideUp'; break;
-
           case 'fade': effect = 'fadeOut'; break;
         }
 
@@ -31,18 +30,13 @@
           return;
         }
 
-        // Only show element if it's style is not set to 'display: none'.
-        if ($element.attr('style') !== 'display: none;') {
-          $element.show();
-        }
-
-        $element.find('.js-webform-message__link').on('click', function (event) {
+        $element.show().find('.js-webform-message__link').on('click', function(event) {
           $element[effect]();
           setClosed($element, storage, id);
           $element.trigger('close');
           event.preventDefault();
         });
-      });
+      })
     }
   };
 
@@ -89,7 +83,6 @@
 
       case 'user':
       case 'state':
-      case 'custom':
         $.get($element.find('.js-webform-message__link').attr('href'));
         return true;
     }

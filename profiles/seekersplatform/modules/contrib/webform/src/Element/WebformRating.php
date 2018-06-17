@@ -41,7 +41,7 @@ class WebformRating extends Range {
    * @return array
    *   The $element with prepared variables ready for input.html.twig.
    */
-  public static function preRenderWebformRating(array $element) {
+  public static function preRenderWebformRating($element) {
     $element['#attributes']['type'] = 'range';
     Element::setAttributes($element, ['id', 'name', 'value', 'step', 'min', 'max']);
     static::setAttributes($element, ['form-webform-rating']);
@@ -51,7 +51,7 @@ class WebformRating extends Range {
       $element['#attributes']['value'] = $element['#attributes']['min'];
     }
 
-    $element['#children']['rateit'] = static::buildRateIt($element);
+    $element['#children']['rateit'] = self::buildRateIt($element);
 
     return $element;
   }

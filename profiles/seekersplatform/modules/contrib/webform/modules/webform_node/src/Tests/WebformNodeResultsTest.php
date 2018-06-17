@@ -4,31 +4,21 @@ namespace Drupal\webform_node\Tests;
 
 use Drupal\Core\Url;
 use Drupal\webform\Entity\Webform;
-use Drupal\webform\WebformInterface;
+use Drupal\webform\Tests\WebformTestBase;
 
 /**
  * Tests for webform node results.
  *
  * @group WebformNode
  */
-class WebformNodeResultsTest extends WebformNodeTestBase {
+class WebformNodeResultsTest extends WebformTestBase {
 
   /**
    * Modules to enable.
    *
    * @var array
    */
-  public static $modules = ['block', 'webform', 'webform_node'];
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setUp() {
-    parent::setUp();
-
-    // Place blocks.
-    $this->placeBlocks();
-  }
+  public static $modules = ['system', 'block', 'node', 'user', 'webform', 'webform_test', 'webform_node'];
 
   /**
    * Tests webform node results.
@@ -53,7 +43,7 @@ class WebformNodeResultsTest extends WebformNodeTestBase {
 
     // Set Node webform to the contact webform.
     $node->webform->target_id = 'contact';
-    $node->webform->status = WebformInterface::STATUS_OPEN;
+    $node->webform->status = 1;
     $node->save();
 
     /* Submission management */
@@ -69,14 +59,16 @@ class WebformNodeResultsTest extends WebformNodeTestBase {
         'subject' => "Node $i subject",
         'message' => "Node $i message",
       ];
-      $node_sids[$i] = $this->postNodeSubmission($node, $edit);
+      $this->drupalPostForm('node/' . $node->id(), $edit, t('Send message'));
+      $node_sids[$i] = $this->getLastSubmissionId($webform);
       $edit = [
         'name' => "webform$i",
         'email' => "webform$i@example.com",
         'subject' => "Webform $i subject",
         'message' => "Webform $i message",
       ];
-      $webform_sids[$i] = $this->postSubmission($webform, $edit);
+      $this->drupalPostForm('webform/contact', $edit, t('Send message'));
+      $webform_sids[$i] = $this->getLastSubmissionId($webform);
     }
 
     // Check that 6 submission were created.
@@ -110,7 +102,7 @@ class WebformNodeResultsTest extends WebformNodeTestBase {
     $this->assertRaw('<a href="' . $node_submission_url->toString() . '" rel="next" title="Go to next page">Next submission <b>›</b></a>');
 
     // Check webform node saved draft.
-    $webform->setSetting('draft', WebformInterface::DRAFT_AUTHENTICATED);
+    $webform->setSetting('draft', TRUE);
     $webform->save();
 
     // Check webform saved draft.
@@ -128,19 +120,10 @@ class WebformNodeResultsTest extends WebformNodeTestBase {
     $this->assertNoRaw('A partially-completed form was found. Please complete the remaining portions.');
 
     /* Table customization */
-
-    // Check that access is denied to custom results table.
     $this->drupalLogin($this->adminSubmissionUser);
-    $this->drupalGet('admin/structure/webform/manage/' . $webform->id() . '/results/submissions/custom');
-    $this->assertResponse(403);
-
-    // Check that access is allowed to custom results table.
-    $this->drupalLogin($this->adminWebformUser);
-    $this->drupalGet('admin/structure/webform/manage/' . $webform->id() . '/results/submissions/custom');
-    $this->assertResponse(200);
 
     // Check default node results table.
-    $this->drupalGet('node/' . $node->id() . '/webform/results/submissions');
+    $this->drupalGet('node/' . $node->id() . '/webform/results/table');
     $this->assertRaw('<th specifier="serial" aria-sort="descending" class="is-active">');
     $this->assertRaw('sort by Created');
     $this->assertNoRaw('sort by Changed');
@@ -153,11 +136,11 @@ class WebformNodeResultsTest extends WebformNodeTestBase {
       'limit' => 20,
       'default' => TRUE,
     ];
-    $this->drupalPostForm('admin/structure/webform/manage/' . $webform->id() . '/results/submissions/custom', $edit, t('Save'));
+    $this->drupalPostForm('admin/structure/webform/manage/' . $webform->id() . '/results/table/custom', $edit, t('Save'));
     $this->assertRaw('The customized table has been saved.');
 
     // Check that the webform node's results table is now customized.
-    $this->drupalGet('node/' . $node->id() . '/webform/results/submissions');
+    $this->drupalGet('node/' . $node->id() . '/webform/results/table');
     $this->assertRaw('<th specifier="serial" aria-sort="ascending" class="is-active">');
     $this->assertNoRaw('sort by Created');
     $this->assertRaw('sort by Changed');

@@ -12,10 +12,10 @@ use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformRequestInterface;
 use Drupal\webform\WebformSubmissionExporterInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controller routines for webform submission export.
@@ -44,7 +44,7 @@ class WebformResultsExportController extends ControllerBase implements Container
   protected $requestHandler;
 
   /**
-   * Constructs a WebformResultsExportController object.
+   * Constructs a new WebformResultsExportController object.
    *
    * @param \Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface $mime_type_guesser
    *   The MIME type guesser instance to use.
@@ -111,20 +111,18 @@ class WebformResultsExportController extends ControllerBase implements Container
       return $build;
     }
     elseif ($query && empty($query['ajax_form'])) {
-      $default_options = $this->submissionExporter->getDefaultExportOptions();
-      foreach ($query as $key => $value) {
-        if (isset($default_options[$key]) && is_array($default_options[$key]) && is_string($value)) {
-          $query[$key] = explode(',', $value);
-        }
+      if (!empty($query['excluded_columns']) && is_string($query['excluded_columns'])) {
+        $excluded_columns = explode(',', $query['excluded_columns']);
+        $query['excluded_columns'] = array_combine($excluded_columns, $excluded_columns);
       }
-      if (!empty($query['excluded_columns'])) {
-        $query['excluded_columns'] = array_combine($query['excluded_columns'], $query['excluded_columns']);
-      }
-      $export_options = $query + $default_options;
+
+      $export_options = $query + $this->submissionExporter->getDefaultExportOptions();
       $this->submissionExporter->setExporter($export_options);
       if ($this->submissionExporter->isBatch()) {
-        static::batchSet($webform, $source_entity, $export_options);
-        return batch_process($this->requestHandler->getUrl($webform, $source_entity, 'webform.results_export'));
+        self::batchSet($webform, $source_entity, $export_options);
+        $route_name = $this->requestHandler->getRouteName($webform, $source_entity, 'webform.results_export');
+        $route_parameters = $this->requestHandler->getRouteParameters($webform, $source_entity);
+        return batch_process(Url::fromRoute($route_name, $route_parameters));
       }
       else {
         $this->submissionExporter->generate();
@@ -156,8 +154,10 @@ class WebformResultsExportController extends ControllerBase implements Container
 
     $file_path = $this->submissionExporter->getFileTempDirectory() . '/' . $filename;
     if (!file_exists($file_path)) {
+      $route_name = $this->requestHandler->getRouteName($webform, $source_entity, 'webform.results_export');
+      $route_parameters = $this->requestHandler->getRouteParameters($webform, $source_entity);
       $t_args = [
-        ':href' => $this->requestHandler->getUrl($webform, $source_entity, 'webform.results_export')->toString(),
+        ':href' => Url::fromRoute($route_name, $route_parameters)->toString(),
       ];
       $build = [
         '#markup' => $this->t('No export file ready for download. The file may have already been downloaded by your browser. Visit the <a href=":href">download export webform</a> to create a new export.', $t_args),
@@ -181,9 +181,30 @@ class WebformResultsExportController extends ControllerBase implements Container
    *   A response object containing the CSV file.
    */
   public function downloadFile($file_path, $download = TRUE) {
-    $response = new BinaryFileResponse($file_path, 200, [], FALSE, $download ? 'attachment' : 'inline');
-    $response->deleteFileAfterSend(TRUE);
-    return $response;
+    // Return the export file.
+    $contents = file_get_contents($file_path);
+    unlink($file_path);
+
+    $content_type = $this->mimeTypeGuesser->guess($file_path);
+
+    if ($download) {
+      $headers = [
+        'Content-Length' => strlen($contents),
+        'Content-Type' => $content_type,
+        'Content-Disposition' => 'attachment; filename="' . basename($file_path) . '"',
+      ];
+    }
+    else {
+      if ($content_type != 'text/html') {
+        $content_type = 'text/plain';
+      }
+      $headers = [
+        'Content-Length' => strlen($contents),
+        'Content-Type' => $content_type . '; charset=utf-8',
+      ];
+    }
+
+    return new Response($contents, 200, $headers);
   }
 
   /****************************************************************************/
@@ -337,7 +358,9 @@ class WebformResultsExportController extends ControllerBase implements Container
 
       /** @var \Drupal\webform\WebformRequestInterface $request_handler */
       $request_handler = \Drupal::service('webform.request');
-      $redirect_url = $request_handler->getUrl($webform, $source_entity, 'webform.results_export', ['query' => ['filename' => $filename], 'absolute' => TRUE]);
+      $route_name = $request_handler->getRouteName($webform, $source_entity, 'webform.results_export');
+      $route_parameters = $request_handler->getRouteParameters($webform, $source_entity);
+      $redirect_url = Url::fromRoute($route_name, $route_parameters, ['query' => ['filename' => $filename], 'absolute' => TRUE]);
       return new RedirectResponse($redirect_url->toString());
     }
   }

@@ -2,7 +2,7 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
-use Drupal\webform\WebformSubmissionInterface;
+use Drupal\webform\WebformElementBase;
 
 /**
  * Provides a 'email' element.
@@ -11,30 +11,32 @@ use Drupal\webform\WebformSubmissionInterface;
  *   id = "email",
  *   api = "https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!Element!Email.php/class/Email",
  *   label = @Translation("Email"),
- *   description = @Translation("Provides a form element for entering an email address."),
  *   category = @Translation("Advanced elements"),
  * )
  */
-class Email extends TextBase {
+class Email extends WebformElementBase {
 
   /**
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    return parent::getDefaultProperties() + $this->getDefaultMultipleProperties();
+    return parent::getDefaultProperties() + [
+      // Form validation.
+      'size' => '',
+      'maxlength' => '',
+      'placeholder' => '',
+    ];
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $value = $this->getValue($element, $webform_submission, $options);
-
+  public function formatHtml(array &$element, $value, array $options = []) {
     if (empty($value)) {
       return '';
     }
 
-    $format = $this->getItemFormat($element);
+    $format = $this->getFormat($element);
     switch ($format) {
       case 'link':
         return [
@@ -44,22 +46,22 @@ class Email extends TextBase {
         ];
 
       default:
-        return parent::formatHtmlItem($element, $webform_submission, $options);
+        return parent::formatHtml($element, $value, $options);
     }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemDefaultFormat() {
+  public function getDefaultFormat() {
     return 'link';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getItemFormats() {
-    return parent::getItemFormats() + [
+  public function getFormats() {
+    return parent::getFormats() + [
       'link' => $this->t('Link'),
     ];
   }

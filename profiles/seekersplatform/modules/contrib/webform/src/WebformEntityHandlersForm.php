@@ -5,18 +5,12 @@ namespace Drupal\webform;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\webform\Form\WebformEntityAjaxFormTrait;
-use Drupal\webform\Plugin\WebformHandlerInterface;
-use Drupal\webform\Plugin\WebformHandlerManagerInterface;
 use Drupal\webform\Utility\WebformDialogHelper;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a webform to manage submission handlers.
  */
 class WebformEntityHandlersForm extends EntityForm {
-
-  use WebformEntityAjaxFormTrait;
 
   /**
    * The webform.
@@ -24,32 +18,6 @@ class WebformEntityHandlersForm extends EntityForm {
    * @var \Drupal\webform\WebformInterface
    */
   protected $entity;
-
-  /**
-   * Webform handler manager.
-   *
-   * @var \Drupal\webform\Plugin\WebformHandlerManagerInterface
-   */
-  protected $handlerManager;
-
-  /**
-   * Constructs a WebformEntityHandlersForm.
-   *
-   * @param \Drupal\webform\Plugin\WebformHandlerManagerInterface $handler_manager
-   *   The webform handler manager.
-   */
-  public function __construct(WebformHandlerManagerInterface $handler_manager) {
-    $this->handlerManager = $handler_manager;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('plugin.manager.webform.handler')
-    );
-  }
 
   /**
    * {@inheritdoc}
@@ -62,57 +30,43 @@ class WebformEntityHandlersForm extends EntityForm {
 
     // Build table header.
     $header = [
-      ['data' => $this->t('Title / Description')],
-      ['data' => $this->t('ID'), 'class' => [RESPONSIVE_PRIORITY_LOW]],
-      ['data' => $this->t('Summary'), 'class' => [RESPONSIVE_PRIORITY_LOW]],
-      ['data' => $this->t('Status'), 'class' => [RESPONSIVE_PRIORITY_LOW]],
-      ['data' => $this->t('Weight'), 'class' => [RESPONSIVE_PRIORITY_LOW]],
-      ['data' => $this->t('Operations')],
+      $this->t('Title / Description'),
+      $this->t('ID'),
+      $this->t('Summary'),
+      $this->t('Status'),
+      $this->t('Weight'),
+      $this->t('Operations'),
     ];
 
     // Build table rows for handlers.
     $handlers = $this->entity->getHandlers();
     $rows = [];
-    foreach ($handlers as $handler_id => $handler) {
-      $row['#attributes']['class'][] = 'draggable';
-      $row['#attributes']['data-webform-key'] = $handler_id;
+    foreach ($handlers as $handler) {
+      $key = $handler->getHandlerId();
+      $rows[$key]['#attributes']['class'][] = 'draggable';
 
-      $row['#weight'] = (isset($user_input['handlers']) && isset($user_input['handlers'][$handler_id])) ? $user_input['handlers'][$handler_id]['weight'] : NULL;
+      $rows[$key]['#weight'] = isset($user_input['handlers']) ? $user_input['handlers'][$key]['weight'] : NULL;
 
-      $row['handler'] = [
+      $rows[$key]['handler'] = [
         '#tree' => FALSE,
         'data' => [
           'label' => [
-            '#type' => 'link',
-            '#title' => $handler->label(),
-            '#url' => Url::fromRoute('entity.webform.handler.edit_form', [
-              'webform' => $this->entity->id(),
-              'webform_handler' => $handler_id,
-            ]),
-            '#attributes' => WebformDialogHelper::getOffCanvasDialogAttributes(),
-          ],
-          'description' => [
-            '#prefix' => '<br/>',
-            '#markup' => $handler->description(),
+            '#markup' => '<b>' . $handler->label() . '</b>: ' . $handler->description(),
           ],
         ],
       ];
 
-      $row['id'] = [
+      $rows[$key]['id'] = [
         'data' => ['#markup' => $handler->getHandlerId()],
       ];
 
-      $row['summary'] = $handler->getSummary();
+      $rows[$key]['summary'] = $handler->getSummary();
 
-      if ($handler->isDisabled()) {
-        $status = $this->t('Disabled');
-      }
-      else {
-        $status = ($handler->supportsConditions() && $handler->getConditions()) ? $this->t('Conditional') : $this->t('Enabled');
-      }
-      $row['status'] = ['data' => ['#markup' => $status]];
+      $rows[$key]['status'] = [
+        'data' => ['#markup' => ($handler->isEnabled()) ? $this->t('Enabled') : $this->t('Disabled')],
+      ];
 
-      $row['weight'] = [
+      $rows[$key]['weight'] = [
         '#type' => 'weight',
         '#title' => $this->t('Weight for @title', ['@title' => $handler->label()]),
         '#title_display' => 'invisible',
@@ -123,42 +77,49 @@ class WebformEntityHandlersForm extends EntityForm {
         ],
       ];
 
-      $operations = [];
-      $operations['edit'] = [
-        'title' => $this->t('Edit'),
-        'url' => Url::fromRoute('entity.webform.handler.edit_form', [
-          'webform' => $this->entity->id(),
-          'webform_handler' => $handler_id,
-        ]),
-        'attributes' => WebformDialogHelper::getOffCanvasDialogAttributes(),
-      ];
-      if ($handler->cardinality() === WebformHandlerInterface::CARDINALITY_UNLIMITED) {
-        $operations['duplicate'] = [
-          'title' => $this->t('Duplicate'),
-          'url' => Url::fromRoute('entity.webform.handler.duplicate_form', [
-            'webform' => $this->entity->id(),
-            'webform_handler' => $handler_id,
-          ]),
-          'attributes' => WebformDialogHelper::getOffCanvasDialogAttributes(),
-        ];
-      }
-      $operations['delete'] = [
-        'title' => $this->t('Delete'),
-        'url' => Url::fromRoute('entity.webform.handler.delete_form', [
-          'webform' => $this->entity->id(),
-          'webform_handler' => $handler_id,
-        ]),
-        'attributes' => WebformDialogHelper::getModalDialogAttributes(WebformDialogHelper::DIALOG_NARROW),
-      ];
-      $row['operations'] = [
+      $rows[$key]['operations'] = [
         '#type' => 'operations',
-        '#links' => $operations,
-        '#prefix' => '<div class="webform-dropbutton">',
-        '#suffix' => '</div>',
+        '#links' => [
+          'edit' => [
+            'title' => $this->t('Edit'),
+            'url' => Url::fromRoute('entity.webform.handler.edit_form', [
+              'webform' => $this->entity->id(),
+              'webform_handler' => $key,
+            ]),
+            'attributes' => WebformDialogHelper::getModalDialogAttributes(800),
+          ],
+          'delete' => [
+            'title' => $this->t('Delete'),
+            'url' => Url::fromRoute('entity.webform.handler.delete_form', [
+              'webform' => $this->entity->id(),
+              'webform_handler' => $key,
+            ]),
+          ],
+        ],
       ];
-
-      $rows[$handler_id] = $row;
     }
+
+    // Must manually add local actions to the webform because we can't alter local
+    // actions and add the needed dialog attributes.
+    // @see https://www.drupal.org/node/2585169
+    $dialog_attributes = WebformDialogHelper::getModalDialogAttributes(
+      800,
+      ['button', 'button-action', 'button--primary', 'button--small']
+    );
+    $form['local_actions'] = [
+      'add_element' => [
+        '#type' => 'link',
+        '#title' => $this->t('Add email'),
+        '#url' => new Url('entity.webform.handler.add_form', ['webform' => $webform->id(), 'webform_handler' => 'email']),
+        '#attributes' => $dialog_attributes,
+        'add_page' => [
+          '#type' => 'link',
+          '#title' => $this->t('Add handler'),
+          '#url' => new Url('entity.webform.handlers', ['webform' => $webform->id()]),
+          '#attributes' => $dialog_attributes,
+        ],
+      ],
+    ];
 
     // Build the list of existing webform handlers for this webform.
     $form['handlers'] = [
@@ -178,7 +139,7 @@ class WebformEntityHandlersForm extends EntityForm {
     ] + $rows;
 
     // Must preload libraries required by (modal) dialogs.
-    WebformDialogHelper::attachLibraries($form);
+    $form['#attached']['library'][] = 'webform/webform.admin.dialog';
 
     return parent::form($form, $form_state);
   }
@@ -213,12 +174,7 @@ class WebformEntityHandlersForm extends EntityForm {
     $webform = $this->getEntity();
     $webform->save();
 
-    $context = [
-      '@label' => $webform->label(),
-      'link' => $webform->toLink($this->t('Edit'), 'handlers')->toString(),
-    ];
-    $this->logger('webform')->notice('Webform @label handler saved.', $context);
-
+    $this->logger('webform')->notice('Webform @label handler saved.', ['@label' => $webform->label()]);
     drupal_set_message($this->t('Webform %label handler saved.', ['%label' => $webform->label()]));
   }
 

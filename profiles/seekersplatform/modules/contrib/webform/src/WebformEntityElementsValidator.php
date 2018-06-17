@@ -2,22 +2,18 @@
 
 namespace Drupal\webform;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\Render\Element;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Url;
-use Drupal\webform\Plugin\WebformElementManagerInterface;
 use Drupal\webform\Utility\WebformArrayHelper;
 use Drupal\webform\Utility\WebformElementHelper;
 
 /**
- * Webform elements validator.
+ * Defines a class to validate webform elements.
  */
-class WebformEntityElementsValidator implements WebformEntityElementsValidatorInterface {
+class WebformEntityElementsValidator {
 
   use StringTranslationTrait;
 
@@ -57,54 +53,13 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
   protected $originalElements;
 
   /**
-   * The 'renderer' service.
+   * Validate webform elements.
    *
-   * @var \Drupal\Core\Render\RendererInterface
-   */
-  protected $renderer;
-
-  /**
-   * The 'plugin.manager.webform.element' service.
+   * @param \Drupal\webform\WebformInterface $webform
+   *   A webform.
    *
-   * @var \Drupal\webform\Plugin\WebformElementManagerInterface
-   */
-  protected $elementManager;
-
-  /**
-   * The 'entity_type.manager' service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The 'form_builder' service.
-   *
-   * @var \Drupal\Core\Form\FormBuilderInterface
-   */
-  protected $formBuilder;
-
-  /**
-   * Constructs a WebformEntityElementsValidator object.
-   *
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The 'renderer' service.
-   * @param \Drupal\webform\Plugin\WebformElementManagerInterface $element_manager
-   *   The 'plugin.manager.webform.element' service.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The 'entity_type.manager' service.
-   * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
-   *   The 'form_builder' service.
-   */
-  public function __construct(RendererInterface $renderer, WebformElementManagerInterface $element_manager, EntityTypeManagerInterface $entity_type_manager, FormBuilderInterface $form_builder) {
-    $this->renderer = $renderer;
-    $this->elementManager = $element_manager;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->formBuilder = $form_builder;
-  }
-
-  /**
-   * {@inheritdoc}
+   * @return array|null
+   *   An array of error messages or NULL is the elements are valid.
    */
   public function validate(WebformInterface $webform) {
     $this->webform = $webform;
@@ -125,7 +80,7 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
     $this->originalElements = Yaml::decode($this->originalElementsRaw);
 
     // Validate elements are an array.
-    if ($message = $this->validateArray()) {
+    if ($message  = $this->validateArray()) {
       return [$message];
     }
 
@@ -211,14 +166,10 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
         $line_numbers = $this->getLineNumbers('/^\s*(["\']?)' . preg_quote($duplicate_name, '/') . '\1\s*:/');
         $t_args = [
           '%name' => $duplicate_name,
+          '@lines' => $this->formatPlural(count($line_numbers), $this->t('line'), $this->t('lines')),
           '@line_numbers' => WebformArrayHelper::toString($line_numbers),
         ];
-        $messages[] = $this->formatPlural(
-          count($line_numbers),
-          'Elements contain a duplicate element key %name found on line @line_numbers.',
-          'Elements contain a duplicate element key %name found on lines @line_numbers.',
-          $t_args
-        );
+        $messages[] = $this->t('Elements contain a duplicate element name %name found on @lines @line_numbers.', $t_args);
       }
       return $messages;
     }
@@ -260,23 +211,14 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
     $ignored_properties = WebformElementHelper::getIgnoredProperties($this->elements);
     if ($ignored_properties) {
       $messages = [];
-      foreach ($ignored_properties as $ignored_property => $ignored_message) {
-        if ($ignored_property != $ignored_message) {
-          $messages[] = $ignored_message;
-        }
-        else {
-          $line_numbers = $this->getLineNumbers('/^\s*(["\']?)' . preg_quote($ignored_property, '/') . '\1\s*:/');
-          $t_args = [
-            '%property' => $ignored_property,
-            '@line_number' => WebformArrayHelper::toString($line_numbers),
-          ];
-          $messages[] = $this->formatPlural(
-            count($line_numbers),
-            'Elements contain an unsupported %property property found on line @line_number.',
-            'Elements contain an unsupported %property property found on lines @line_number.',
-            $t_args
-          );
-        }
+      foreach ($ignored_properties as $ignored_property) {
+        $line_numbers = $this->getLineNumbers('/^\s*(["\']?)' . preg_quote($ignored_property, '/') . '\1\s*:/');
+        $t_args = [
+          '%property' => $ignored_property,
+          '@lines' => $this->formatPlural(count($line_numbers), $this->t('line'), $this->t('lines')),
+          '@line_numbers' => WebformArrayHelper::toString($line_numbers),
+        ];
+        $messages[] = $this->t('Elements contain an unsupported %property property found on @lines @line_numbers.', $t_args);
       }
       return $messages;
     }
@@ -325,7 +267,7 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
             '#items' => $items,
           ],
         ];
-        $messages[] = $this->renderer->renderPlain($build);
+        $messages[] = \Drupal::service('renderer')->renderPlain($build);
       }
       return $messages;
     }
@@ -334,12 +276,12 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
   }
 
   /**
-   * Recurse through elements and collect an associative array of deleted element keys.
+   * Recurse through elements and collect an associative array of deleted element names.
    *
    * @param array $elements
    *   An array of elements.
    * @param array $names
-   *   An array tracking deleted element keys.
+   *   An array tracking deleted element names.
    */
   protected function getElementKeysRecursive(array $elements, array &$names) {
     foreach ($elements as $key => &$element) {
@@ -363,9 +305,11 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
     $elements = $this->webform->getElementsInitializedAndFlattened();
     $messages = [];
     foreach ($elements as $key => $element) {
-      $plugin_id = $this->elementManager->getElementPluginId($element);
-      /** @var \Drupal\webform\Plugin\WebformElementInterface $webform_element */
-      $webform_element = $this->elementManager->createInstance($plugin_id, $element);
+      /** @var \Drupal\webform\WebformElementManagerInterface $element_manager */
+      $element_manager = \Drupal::service('plugin.manager.webform.element');
+      $plugin_id = $element_manager->getElementPluginId($element);
+      /** @var \Drupal\webform\WebformElementInterface $webform_element */
+      $webform_element = $element_manager->createInstance($plugin_id, $element);
 
       $t_args = [
         '%title' => (!empty($element['#title'])) ? $element['#title'] : $key,
@@ -391,37 +335,30 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
    * @see \Drupal\webform\Entity\Webform::getSubmissionForm()
    */
   protected function validateRendering() {
-    // Override Drupal's error and exception handler so that we can capture
-    // all rendering exceptions and display the captured error/exception
-    // message to the user.
-    // @see _webform_entity_element_validate_rendering_error_handler()
-    // @see _webform_entity_element_validate_rendering_exception_handler()
     set_error_handler('_webform_entity_element_validate_rendering_error_handler');
-    set_exception_handler('_webform_entity_element_validate_rendering_exception_handler');
+
     try {
+      /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
+      $entity_type_manager = \Drupal::service('entity_type.manager');
+      /** @var \Drupal\Core\Form\FormBuilderInterface $form_builder */
+      $form_builder = \Drupal::service('form_builder');
+
       /** @var \Drupal\webform\WebformSubmissionInterface $webform_submission */
-      $webform_submission = $this->entityTypeManager
+      $webform_submission = $entity_type_manager
         ->getStorage('webform_submission')
         ->create(['webform' => $this->webform]);
 
-      $form_object = $this->entityTypeManager->getFormObject('webform_submission', 'add');
+      $form_object = $entity_type_manager->getFormObject('webform_submission', 'default');
       $form_object->setEntity($webform_submission);
       $form_state = (new FormState())->setFormState([]);
-      $this->formBuilder->buildForm($form_object, $form_state);
+      $form_builder->buildForm($form_object, $form_state);
       $message = NULL;
-    }
-    // PHP 7 introduces Throwable, which covers both Error and
-    // Exception throwables.
-    // @see _drupal_exception_handler
-    catch (\Throwable $error) {
-      $message = $error->getMessage();
     }
     catch (\Exception $exception) {
       $message = $exception->getMessage();
     }
-    // Restore  Drupal's error and exception handler.
-    restore_error_handler();
-    restore_exception_handler();
+
+    set_error_handler('_drupal_error_handler');
 
     if ($message) {
       $build = [
@@ -433,7 +370,7 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
           '#items' => [$message],
         ],
       ];
-      return $this->renderer->renderPlain($build);
+      return \Drupal::service('renderer')->renderPlain($build);
     }
 
     return $message;

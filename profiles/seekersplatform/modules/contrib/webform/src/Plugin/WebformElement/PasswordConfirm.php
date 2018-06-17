@@ -3,7 +3,6 @@
 namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -13,7 +12,6 @@ use Drupal\webform\WebformSubmissionInterface;
  *   id = "password_confirm",
  *   label = @Translation("Password confirm"),
  *   category = @Translation("Advanced elements"),
- *   description = @Translation("Provides a form element for double-input of passwords."),
  *   states_wrapper = TRUE,
  * )
  */
@@ -22,16 +20,9 @@ class PasswordConfirm extends Password {
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
     parent::prepare($element, $webform_submission);
-    $element['#element_validate'][] = [get_class($this), 'validatePasswordConfirm'];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getTestValues(array $element, WebformInterface $webform, array $options = []) {
-    return '';
+    $element['#element_validate'][] = [get_class($this), 'validate'];
   }
 
   /**
@@ -57,9 +48,9 @@ class PasswordConfirm extends Password {
   }
 
   /**
-   * Form API callback. Convert password confirm array to single value.
+   * Webform API callback. Convert password confirm array to single value.
    */
-  public static function validatePasswordConfirm(array &$element, FormStateInterface $form_state, array &$completed_form) {
+  public static function validate(array &$element, FormStateInterface $form_state) {
     $name = $element['#name'];
     $value = $form_state->getValue($name);
     $form_state->setValue($name, $value['pass1']);
