@@ -11,9 +11,41 @@ use Drupal\webform\Utility\WebformArrayHelper;
 use Drupal\webform\Utility\WebformOptionsHelper;
 
 /**
- * Provides a webform to set options.
+ * Provides a form to set options.
  */
 class WebformOptionsForm extends EntityForm {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function prepareEntity() {
+    if ($this->operation == 'duplicate') {
+      $this->setEntity($this->getEntity()->createDuplicate());
+    }
+
+    parent::prepareEntity();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    /** @var \Drupal\webform\WebformOptionsInterface $webform */
+    $webform_options = $this->getEntity();
+
+    // Customize title for duplicate and edit operation.
+    switch ($this->operation) {
+      case 'duplicate':
+        $form['#title'] = $this->t("Duplicate '@label' options", ['@label' => $webform_options->label()]);
+        break;
+
+      case 'edit':
+        $form['#title'] = $webform_options->label();
+        break;
+    }
+
+    return parent::buildForm($form, $form_state);
+  }
 
   /**
    * {@inheritdoc}
@@ -21,6 +53,9 @@ class WebformOptionsForm extends EntityForm {
   public function form(array $form, FormStateInterface $form_state) {
     /** @var \Drupal\webform\WebformOptionsInterface $webform_options */
     $webform_options = $this->entity;
+
+    /** @var \Drupal\webform\WebformOptionsStorageInterface $webform_options_storage */
+    $webform_options_storage = $this->entityTypeManager->getStorage('webform_options');
 
     $form['label'] = [
       '#type' => 'textfield',
@@ -34,10 +69,27 @@ class WebformOptionsForm extends EntityForm {
       '#type' => 'machine_name',
       '#machine_name' => [
         'exists' => '\Drupal\webform\Entity\WebformOptions::load',
+        'label' => '<br/>' . $this->t('Machine name'),
       ],
+      '#maxlength' => 32,
+      '#field_suffix' => ' (' . $this->t('Maximum @max characters', ['@max' => 32]) . ')',
       '#required' => TRUE,
       '#disabled' => !$webform_options->isNew(),
       '#default_value' => $webform_options->id(),
+    ];
+    $form['category'] = [
+      '#type' => 'webform_select_other',
+      '#title' => $this->t('Category'),
+      '#options' => $webform_options_storage->getCategories(),
+      '#empty_option' => $this->t('- None -'),
+      '#default_value' => $webform_options->get('category'),
+    ];
+    $form['likert'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use as likert'),
+      '#description' => $this->t("If checked, options will be available as answers to Likert elements. The 'Likert:' prefix will be removed from the option's label when listed as answers for a Likert elment."),
+      '#default_value' => $webform_options->get('likert'),
+      '#return_value' => TRUE,
     ];
 
     // Call the isolated edit webform that can be overridden by the
@@ -112,7 +164,7 @@ class WebformOptionsForm extends EntityForm {
   }
 
   /**
-   * Edit webform options source code webform.
+   * Edit webform options source code form.
    *
    * @param array $form
    *   An associative array containing the structure of the form.
@@ -120,17 +172,17 @@ class WebformOptionsForm extends EntityForm {
    *   The current state of the form.
    *
    * @return array
-   *   The webform structure.
+   *   The form structure.
    */
   protected function editForm(array $form, FormStateInterface $form_state) {
     $form['options'] = [
       '#type' => 'webform_codemirror',
       '#mode' => 'yaml',
       '#title' => $this->t('Options (YAML)'),
-      '#description' => $this->t('Key-value pairs MUST be specified as "safe_key: \'Some readable option\'". Use of only alphanumeric characters and underscores is recommended in keys. One option per line. Option groups can be created by using just the group name followed by indented group options.'),
-      '#default_value' => Yaml::encode($this->getOptions($form, $form_state)),
+      '#description' => $this->t('Key-value pairs MUST be specified as "safe_key: \'Some readable option\'". Use of only alphanumeric characters and underscores is recommended in keys. One option per line. Option groups can be created by using just the group name followed by indented group options.') . ' ' .
+        $this->t("Descriptions, which are only applicable to radios and checkboxes, can be delimited using ' -- '."),
+      '#default_value' => Yaml::encode($this->getOptions()),
     ];
-    $form['#attached']['library'][] = 'webform/webform.codemirror.yaml';
     return $form;
   }
 
@@ -140,13 +192,14 @@ class WebformOptionsForm extends EntityForm {
    * @return array
    *   An associative array of options.
    */
-  protected function getOptions($form, $form_state) {
+  protected function getOptions() {
     /** @var \Drupal\webform\WebformOptionsInterface $webform_options */
-    $webform_options = $this->buildEntity($form, $form_state);
+    $webform_options = $this->getEntity();
 
     $options = $webform_options->getOptions();
     if (empty($options)) {
-      $options = WebformOptions::getElementOptions(['#options' => $webform_options->id()]);
+      $element = ['#options' => $webform_options->id()];
+      $options = WebformOptions::getElementOptions($element);
     }
 
     return WebformOptionsHelper::convertOptionsToString($options);
@@ -166,7 +219,12 @@ class WebformOptionsForm extends EntityForm {
     $webform_options->set('options', '');
     $webform_options->save();
 
-    $this->logger('webform')->notice('Options @label have been reset.', ['@label' => $webform_options->label()]);
+    $context = [
+      '@label' => $webform_options->label(),
+      'link' => $webform_options->toLink($this->t('Edit'), 'edit-form')->toString(),
+    ];
+    $this->logger('webform')->notice('Options @label have been reset.', $context);
+
     drupal_set_message($this->t('Options %label have been reset.', ['%label' => $webform_options->label()]));
 
     $form_state->setRedirect('entity.webform_options.collection');
@@ -180,7 +238,12 @@ class WebformOptionsForm extends EntityForm {
     $webform_options = $this->getEntity();
     $webform_options->save();
 
-    $this->logger('webform')->notice('Options @label saved.', ['@label' => $webform_options->label()]);
+    $context = [
+      '@label' => $webform_options->label(),
+      'link' => $webform_options->toLink($this->t('Edit'), 'edit-form')->toString(),
+    ];
+    $this->logger('webform')->notice('Options @label saved.', $context);
+
     drupal_set_message($this->t('Options %label saved.', ['%label' => $webform_options->label()]));
 
     $form_state->setRedirect('entity.webform_options.collection');

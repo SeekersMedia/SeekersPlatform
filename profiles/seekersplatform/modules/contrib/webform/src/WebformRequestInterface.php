@@ -5,12 +5,17 @@ namespace Drupal\webform;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
- * Helper class webform entity methods.
- */
-/**
  * Provides an interface defining a webform request handler.
  */
 interface WebformRequestInterface {
+
+  /**
+   * Determine if the current request is a webform admin route.
+   *
+   * @return bool
+   *   TRUE if the current request is a webform admin route.
+   */
+  public function isWebformAdminRoute();
 
   /**
    * Get the current request's source entity.
@@ -32,6 +37,14 @@ interface WebformRequestInterface {
   public function getCurrentWebform();
 
   /**
+   * Get webform submission associated with the current request.
+   *
+   * @return \Drupal\webform\WebformSubmissionInterface|null
+   *   The current request's webform submission.
+   */
+  public function getCurrentWebformSubmission();
+
+  /**
    * Get the webform and source entity for the current request.
    *
    * @return array
@@ -48,6 +61,31 @@ interface WebformRequestInterface {
    *   request.
    */
   public function getWebformSubmissionEntities();
+
+  /**
+   * Determine if the current request is an Ajax request.
+   *
+   * @return bool
+   *   TRUE if the current request is an Ajax request.
+   */
+  public function isAjax();
+
+  /**
+   * Get the URL for a form/submission and source entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $webform_entity
+   *   A webform or webform submission.
+   * @param \Drupal\Core\Entity\EntityInterface|null $source_entity
+   *   A webform submission's source entity.
+   * @param string $route_name
+   *   The route name.
+   * @param array $route_options
+   *   The route options.
+   *
+   * @return \Drupal\Core\Url
+   *   The URL for a form/submission and source entity.
+   */
+  public function getUrl(EntityInterface $webform_entity, EntityInterface $source_entity = NULL, $route_name, array $route_options = []);
 
   /**
    * Get the route name for a form/submission and source entity.
@@ -91,6 +129,17 @@ interface WebformRequestInterface {
    *   or just 'entity'.
    */
   public function getBaseRouteName(EntityInterface $webform_entity, EntityInterface $source_entity = NULL);
+
+  /**
+   * Check if a source entity has dedicate webform routes.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface|null $source_entity
+   *   A webform submission's source entity.
+   *
+   * @return bool
+   *   TRUE if a source entity has dedicate webform routes.
+   */
+  public function hasSourceEntityWebformRoutes(EntityInterface $source_entity = NULL);
 
   /**
    * Check if a source entity is attached to a webform.

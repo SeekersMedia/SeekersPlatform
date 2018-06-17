@@ -8,8 +8,8 @@ namespace Drupal\webform\Plugin\WebformElement;
  * @WebformElement(
  *   id = "webform_tableselect_sort",
  *   label = @Translation("Tableselect sort"),
+ *   description = @Translation("Provides a form element for a table with radios or checkboxes in left column that can be sorted."),
  *   category = @Translation("Options elements"),
- *   multiple = TRUE,
  *   states_wrapper = TRUE,
  * )
  */
@@ -26,10 +26,21 @@ class WebformTableSelectSort extends OptionsBase {
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    return parent::getDefaultProperties() + [
+    return [
+      'multiple' => TRUE,
+      'multiple_error' => '',
       // Table settings.
       'js_select' => TRUE,
-    ];
+      // iCheck settings.
+      'icheck' => '',
+    ] + parent::getDefaultProperties();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function supportsMultipleValues() {
+    return TRUE;
   }
 
   /**
@@ -42,7 +53,7 @@ class WebformTableSelectSort extends OptionsBase {
   /**
    * {@inheritdoc}
    */
-  public function getDefaultFormat() {
+  public function getItemDefaultFormat() {
     return 'ol';
   }
 

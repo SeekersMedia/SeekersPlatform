@@ -13,10 +13,10 @@ use Drupal\Component\Annotation\Plugin;
  * \Drupal\webform\Plugin\WebformElement\Email
  *
  * @see hook_webform_element_info_alter()
- * @see \Drupal\webform\WebformElementInterface
- * @see \Drupal\webform\WebformElementBase
- * @see \Drupal\webform\WebformElementManager
- * @see \Drupal\webform\WebformElementManagerInterface
+ * @see \Drupal\webform\Plugin\WebformElementInterface
+ * @see \Drupal\webform\Plugin\WebformElementBase
+ * @see \Drupal\webform\Plugin\WebformElementManager
+ * @see \Drupal\webform\Plugin\WebformElementManagerInterface
  * @see plugin_api
  *
  * @Annotation
@@ -38,6 +38,15 @@ class WebformElement extends Plugin {
   public $api;
 
   /**
+   * The element's module dependencies.
+   *
+   * @var array
+   *
+   * @see webform_webform_element_info_alter()
+   */
+  public $dependencies = [];
+
+  /**
    * The human-readable name of the webform element.
    *
    * @var \Drupal\Core\Annotation\Translation
@@ -47,6 +56,13 @@ class WebformElement extends Plugin {
   public $label;
 
   /**
+   * The default key used for new webform element.
+   *
+   * @var string
+   */
+  public $default_key = '';
+
+  /**
    * The category in the admin UI where the webform will be listed.
    *
    * @var \Drupal\Core\Annotation\Translation
@@ -54,6 +70,17 @@ class WebformElement extends Plugin {
    * @ingroup plugin_translatable
    */
   public $category = '';
+
+  /**
+   * A brief description of the webform element.
+   *
+   * This will be shown when adding or configuring this webform element.
+   *
+   * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
+   */
+  public $description = '';
 
   /**
    * Flag that defines hidden element.
@@ -68,13 +95,6 @@ class WebformElement extends Plugin {
    * @var bool
    */
   public $multiline = FALSE;
-
-  /**
-   * Flag that defines multiple (value) element.
-   *
-   * @var bool
-   */
-  public $multiple = FALSE;
 
   /**
    * Flag that defines composite element.

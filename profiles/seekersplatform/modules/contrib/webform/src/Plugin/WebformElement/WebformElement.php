@@ -3,7 +3,7 @@
 namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\webform\WebformElementBase;
+use Drupal\webform\Plugin\WebformElementBase;
 use Drupal\Core\Url as UrlGenerator;
 
 /**
@@ -12,6 +12,7 @@ use Drupal\Core\Url as UrlGenerator;
  * @WebformElement(
  *   id = "webform_element",
  *   label = @Translation("Generic element"),
+ *   description = @Translation("Provides a generic form element."),
  * )
  */
 class WebformElement extends WebformElementBase {
@@ -26,8 +27,22 @@ class WebformElement extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
+  public function isInput(array $element) {
+    return (!empty($element['#type']) && !in_array($element['#type'], ['submit'])) ? TRUE : FALSE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preview() {
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function form(array $form, FormStateInterface $form_state) {
-    $form['general'] = [
+    $form['element'] = [
       '#type' => 'details',
       '#title' => $this->t('General settings'),
       '#open' => TRUE,

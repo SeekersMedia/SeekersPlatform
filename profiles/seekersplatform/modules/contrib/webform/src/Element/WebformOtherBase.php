@@ -2,15 +2,20 @@
 
 namespace Drupal\webform\Element;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\OptGroup;
+use Drupal\Core\Render\Element\CompositeFormElementTrait;
 use Drupal\Core\Render\Element\FormElement;
+use Drupal\webform\Utility\WebformElementHelper;
 use Drupal\webform\Utility\WebformOptionsHelper;
 
 /**
  * Base class for webform other element.
  */
 abstract class WebformOtherBase extends FormElement {
+
+  use CompositeFormElementTrait;
 
   /**
    * Other option value.
@@ -30,6 +35,7 @@ abstract class WebformOtherBase extends FormElement {
    * @var array
    */
   protected static $properties = [
+    '#title',
     '#required',
     '#options',
     '#options_display',
@@ -48,24 +54,36 @@ abstract class WebformOtherBase extends FormElement {
         [$class, 'processWebformOther'],
         [$class, 'processAjaxForm'],
       ],
-      '#theme_wrappers' => ['form_element'],
+      '#pre_render' => [
+        [$class, 'preRenderCompositeFormElement'],
+      ],
       '#options' => [],
       '#other__option_delimiter' => ', ',
       '#states' => [],
+      // Add '#markup' property to add an 'id' attribute to the form element.
+      // @see template_preprocess_form_element()
+      '#markup' => '',
     ];
   }
 
   /**
-   * Determine if the webform element contains multiple values.
-   *
-   * @param array $element
-   *   A webform element.
-   *
-   * @return bool
-   *   TRUE if the webform element contains multiple values.
+   * {@inheritdoc}
    */
-  public static function isMultiple(array $element) {
-    return (!empty($element['#multiple']) || static::$type == 'checkboxes') ? TRUE : FALSE;
+  public static function valueCallback(&$element, $input, FormStateInterface $form_state) {
+    // Remove 'webform_' prefix from type.
+    $type = str_replace('webform_', '', static::$type);
+
+    if ($input === FALSE) {
+      $value = static::convertDefaultValueToElementValue($element);
+      $element[$type]['#default_value'] = $value[$type];
+      if ($value['other'] !== NULL) {
+        $element['other']['#default_value'] = $value['other'];
+      }
+      return $value;
+    }
+
+    // Return NULL so that current $input is used.
+    return NULL;
   }
 
   /**
@@ -82,15 +100,19 @@ abstract class WebformOtherBase extends FormElement {
 
     $element['#tree'] = TRUE;
 
-    $element['#wrapper_attributes']['class'][] = "js-webform-$type-other";
-    $element['#wrapper_attributes']['class'][] = "webform-$type-other";
-
     $element[$type]['#type'] = static::$type;
     $element[$type] += array_intersect_key($element, array_combine($properties, $properties));
+    $element[$type]['#title_display'] = 'invisible';
     if (!isset($element[$type]['#options'][static::OTHER_OPTION])) {
       $element[$type]['#options'][static::OTHER_OPTION] = (!empty($element['#other__option_label'])) ? $element['#other__option_label'] : t('Other...');
     }
     $element[$type]['#error_no_message'] = TRUE;
+
+    // Disable label[for] which does not point to any specific element.
+    // @see webform_preprocess_form_element_label()
+    if (in_array($type, ['radios', 'checkboxes', 'buttons'])) {
+      $element['#label_attributes']['for'] = FALSE;
+    }
 
     // Build other textfield.
     $element['other']['#error_no_message'] = TRUE;
@@ -106,19 +128,38 @@ abstract class WebformOtherBase extends FormElement {
       '#type' => 'textfield',
       '#placeholder' => t('Enter other...'),
     ];
+    if (!isset($element['other']['#title'])) {
+      $element['other'] += [
+        '#title' => $element['other']['#placeholder'] ,
+        '#title_display' => 'invisible',
+      ];
+    }
+
     $element['other']['#wrapper_attributes']['class'][] = "js-webform-$type-other-input";
     $element['other']['#wrapper_attributes']['class'][] = "webform-$type-other-input";
+
+    if ($element['other']['#type'] == 'datetime') {
+      $element['other']['#prefix'] = '<div class="' . implode(' ', $element['other']['#wrapper_attributes']['class']) . '">';
+      $element['other']['#suffix'] = '</div>';
+      unset($element['other']['#wrapper_attributes']['class']);
+    }
+
+    // Apply #parents to $type and other element.
+    if (isset($element['#parents'])) {
+      $element[$type]['#parents'] = array_merge($element['#parents'], [$type]);
+      $element['other']['#parents'] = array_merge($element['#parents'], ['other']);
+    }
+
+    // Add js trigger to fieldset.
+    $element['#attributes']['class'][] = "js-webform-$type-other";
+    $element['#attributes']['class'][] = "webform-$type-other";
 
     // Remove options.
     unset($element['#options']);
 
-    // Set validation.
-    if (isset($element['#element_validate'])) {
-      $element['#element_validate'] = array_merge([[get_called_class(), 'validateWebformOther']], $element['#element_validate']);
-    }
-    else {
-      $element['#element_validate'] = [[get_called_class(), 'validateWebformOther']];
-    }
+    // Add validate callback.
+    $element += ['#element_validate' => []];
+    array_unshift($element['#element_validate'], [get_called_class(), 'validateWebformOther']);
 
     // Attach library.
     $element['#attached']['library'][] = 'webform/webform.element.other';
@@ -130,126 +171,123 @@ abstract class WebformOtherBase extends FormElement {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public static function valueCallback(&$element, $input, FormStateInterface $form_state) {
-    // Remove 'webform_' prefix from type.
-    $type = str_replace('webform_', '', static::$type);
-
-    if ($input === FALSE) {
-      $default_value = isset($element['#default_value']) ? $element['#default_value'] : NULL;
-      if (!$default_value) {
-        return $element;
-      }
-
-      if (static::isMultiple($element)) {
-        if (is_array($default_value)) {
-          $flattened_options = OptGroup::flattenOptions($element['#options']);
-          if ($other_options = array_diff_key(array_combine($default_value, $default_value), $flattened_options)) {
-            $element[$type]['#default_value'] = $default_value + [static::OTHER_OPTION => static::OTHER_OPTION];
-            $element['other']['#default_value'] = implode($element['#other__option_delimiter'], $other_options);
-          }
-          return $element;
-        }
-      }
-      elseif (!WebformOptionsHelper::hasOption($default_value, $element['#options'])) {
-        $element[$type]['#default_value'] = static::OTHER_OPTION;
-        $element['other']['#default_value'] = $default_value;
-        return $element;
-      }
-      else {
-        return $element;
-      }
-    }
-    return NULL;
-  }
-
-  /**
    * Validates an other element.
    */
   public static function validateWebformOther(&$element, FormStateInterface $form_state, &$complete_form) {
+    // Determine if the element is visible. (#access !== FALSE)
+    $has_access = (!isset($element['#access']) || $element['#access'] === TRUE);
+
     // Remove 'webform_' prefix from type.
     $type = str_replace('webform_', '', static::$type);
 
-    $element_value = $element[$type]['#value'];
-    $other_value = $element['other']['#value'];
+    // Get value.
+    $value = NestedArray::getValue($form_state->getValues(), $element['#parents']);
 
+    // Get return value.
+    $return_value = [];
+    $element_value = $value[$type];
+    $other_value = $value['other'];
+    $required_error_title = (isset($element['#title'])) ? $element['#title'] : NULL;
     if (static::isMultiple($element)) {
-      $value = $element_value;
-      if (isset($element_value[static::OTHER_OPTION])) {
-        unset($value[static::OTHER_OPTION]);
-        if ($other_value === '') {
-          static::setOtherError($element, $form_state);
-          return;
+      $element_value = array_filter($element_value);
+      $element_value = array_combine($element_value, $element_value);
+      $return_value += $element_value;
+      if (isset($return_value[static::OTHER_OPTION])) {
+        unset($return_value[static::OTHER_OPTION]);
+        if ($has_access && $other_value === '') {
+          WebformElementHelper::setRequiredError($element, $form_state, $required_error_title);
         }
         else {
-          $value[$other_value] = $other_value;
+          $return_value += [$other_value => $other_value];
         }
       }
-      $is_empty = (empty($value)) ? TRUE : FALSE;
     }
     else {
-      $value = $element_value;
+      $return_value = $element_value;
       if ($element_value == static::OTHER_OPTION) {
-        if ($other_value === '') {
-          static::setOtherError($element, $form_state);
-          return;
+        if ($has_access && $other_value === '') {
+          WebformElementHelper::setRequiredError($element, $form_state, $required_error_title);
+          $return_value = '';
         }
         else {
-          $value = $other_value;
+          $return_value = $other_value;
         }
-
       }
-      $is_empty = ($value === '' || $value === NULL) ? TRUE : FALSE;
     }
 
-    $has_access = (!isset($element['#access']) || $element['#access'] === TRUE);
+    // Determine if the return value is empty.
+    if (static::isMultiple($element)) {
+      $is_empty = (empty($return_value)) ? TRUE : FALSE;
+    }
+    else {
+      $is_empty = ($return_value === '' || $return_value === NULL) ? TRUE : FALSE;
+    }
+
+    // Handler required validation.
     if ($element['#required'] && $is_empty && $has_access) {
-      static::setElementError($element, $form_state);
+      WebformElementHelper::setRequiredError($element, $form_state, $required_error_title);
     }
 
     $form_state->setValueForElement($element[$type], NULL);
     $form_state->setValueForElement($element['other'], NULL);
-    $form_state->setValueForElement($element, $value);
+
+    $element['#value'] = $return_value;
+    $form_state->setValueForElement($element, $return_value);
+  }
+
+  /****************************************************************************/
+  // Helper functions.
+  /****************************************************************************/
+
+  /**
+   * Determine if the webform element contains multiple values.
+   *
+   * @param array $element
+   *   A webform element.
+   *
+   * @return bool
+   *   TRUE if the webform element contains multiple values.
+   */
+  protected static function isMultiple(array $element) {
+    return (!empty($element['#multiple']) || static::$type == 'checkboxes') ? TRUE : FALSE;
   }
 
   /**
-   * Set element required error.
+   * Convert default value to element value.
    *
    * @param array $element
-   *   The webform element.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
+   *   A other form element.
+   *
+   * @return array
+   *   An associative array container (element) type and other value.
    */
-  public static function setElementError(&$element, FormStateInterface $form_state) {
-    if (isset($element['#required_error'])) {
-      $form_state->setError($element, $element['#required_error']);
-    }
-    elseif (isset($element['#title'])) {
-      $form_state->setError($element, t('@name field is required.', ['@name' => $element['#title']]));
-    }
-    else {
-      $form_state->setError($element);
-    }
-  }
+  protected static function convertDefaultValueToElementValue(array $element) {
+    $type = str_replace('webform_', '', static::$type);
 
-  /**
-   * Set element required error.
-   *
-   * @param array $element
-   *   The webform element.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
-   */
-  public static function setOtherError(&$element, FormStateInterface $form_state) {
-    if (isset($element['#required_error'])) {
-      $form_state->setError($element['other'], $element['#required_error']);
-    }
-    elseif (isset($element['#title'])) {
-      $form_state->setError($element['other'], t('@name field is required.', ['@name' => $element['#title']]));
+    $default_value = isset($element['#default_value']) ? $element['#default_value'] : NULL;
+    if (static::isMultiple($element)) {
+      // Handle edge case where $default_value is not an array.
+      if (!is_array($default_value)) {
+        return [$type => [], 'other' => NULL];
+      }
+
+      $default_options = array_combine($default_value, $default_value);
+      $flattened_options = OptGroup::flattenOptions($element['#options']);
+      if ($other_options = array_diff_key($default_options, $flattened_options)) {
+        return [
+          $type => array_diff_key($default_options, $other_options) + [static::OTHER_OPTION => static::OTHER_OPTION],
+          'other' => implode($element['#other__option_delimiter'], $other_options),
+        ];
+      }
+
+      return [$type => $default_options, 'other' => NULL];
     }
     else {
-      $form_state->setError($element['other']);
+      if (!empty($default_value) && !WebformOptionsHelper::hasOption($default_value, $element['#options'])) {
+        return [$type => static::OTHER_OPTION, 'other' => $default_value];
+      }
+
+      return [$type => $default_value, 'other' => NULL];
     }
   }
 

@@ -4,6 +4,7 @@ namespace Drupal\webform\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\webform\Entity\Webform;
 use Drupal\webform\WebformInterface;
 
 /**
@@ -28,21 +29,32 @@ class WebformEntityReferenceSelectWidget extends WebformEntityReferenceAutocompl
    * {@inheritdoc}
    */
   public static function defaultSettings() {
-    return [];
+    return [
+      'default_data' => TRUE,
+    ];
   }
 
   /**
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
-    return [];
+    $element = [];
+    $element['default_data'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable default submission data (YAML)'),
+      '#description' => t('If checked, site builders will be able to define default submission data (YAML)'),
+      '#default_value' => $this->getSetting('default_data'),
+    ];
+    return $element;
   }
 
   /**
    * {@inheritdoc}
    */
   public function settingsSummary() {
-    return [];
+    $summary = [];
+    $summary[] = t('Default submission data: @default_data', ['@default_data' => $this->getSetting('default_data') ? $this->t('Yes') : $this->t('No')]);
+    return $summary;
   }
 
   /**
@@ -54,6 +66,10 @@ class WebformEntityReferenceSelectWidget extends WebformEntityReferenceAutocompl
     // Convert 'entity_autocomplete' to 'webform_entity_select' element.
     $element['target_id']['#type'] = 'webform_entity_select';
 
+    /** @var \Drupal\webform\WebformEntityStorageInterface $webform_storage */
+    $webform_storage = \Drupal::service('entity_type.manager')->getStorage('webform');
+    $element['target_id']['#options'] = $webform_storage->getOptions(FALSE);
+
     // Set empty option.
     if (empty($element['#required'])) {
       $element['target_id']['#empty_option'] = $this->t('- Select -');
@@ -63,6 +79,15 @@ class WebformEntityReferenceSelectWidget extends WebformEntityReferenceAutocompl
     // Convert default_value's Webform to a simple entity_id.
     if (!empty($element['target_id']['#default_value']) && $element['target_id']['#default_value'] instanceof WebformInterface) {
       $element['target_id']['#default_value'] = $element['target_id']['#default_value']->id();
+    }
+
+    // Make sure if an archived webform is the #default_value always include
+    // it as an option.
+    if (!empty($element['target_id']['#default_value'])) {
+      $webform = ($element['target_id']['#default_value'] instanceof WebformInterface) ? $element['target_id']['#default_value'] : Webform::load($element['target_id']['#default_value']);
+      if ($webform && $webform->isArchived()) {
+        $element['target_id']['#options'][(string) t('Archived')][$webform->id()] = $webform->label();
+      }
     }
 
     // Remove properties that are not applicable.
@@ -78,7 +103,7 @@ class WebformEntityReferenceSelectWidget extends WebformEntityReferenceAutocompl
   /**
    * Webform element validation handler for entity_select elements.
    */
-  public static function validateWebformEntityReferenceSelectWidget(array &$element, FormStateInterface $form_state, array &$complete_form) {
+  public static function validateWebformEntityReferenceSelectWidget(&$element, FormStateInterface $form_state, &$complete_form) {
     // Below prevents the below error.
     // Fatal error: Call to a member function uuid() on a non-object in
     // core/lib/Drupal/Core/Field/EntityReferenceFieldItemList.php.

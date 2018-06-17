@@ -1,17 +1,21 @@
 langcode: en
-status: true
+status: open
 dependencies:
   enforced:
     module:
       - webform_test
+open: null
+close: null
 uid: null
 template: false
+archive: false
 id: test_element_flexbox_flex
 title: 'Test: Element: Flexbox flex '
 description: 'Test flexbox flex containers.'
+category: 'Test: Element'
 elements: |
   row_0:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_0_col_0:
       '#type': container
       '#flex': 1
@@ -97,7 +101,7 @@ elements: |
       flex:
         '#markup': 1
   row_1:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_1_col_0:
       '#type': container
       '#flex': 1
@@ -113,7 +117,7 @@ elements: |
       flex:
         '#markup': 1
   row_2:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_2_col_0:
       '#type': container
       '#flex': 1
@@ -136,7 +140,7 @@ elements: |
       flex:
         '#markup': 1
   row_3:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_3_col_0:
       '#type': container
       '#flex': 1
@@ -166,7 +170,7 @@ elements: |
       flex:
         '#markup': 1
   row_4:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_4_col_0:
       '#type': container
       '#flex': 1
@@ -210,7 +214,7 @@ elements: |
       flex:
         '#markup': 1
   row_5:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_5_col_0:
       '#type': container
       '#flex': 1
@@ -268,7 +272,7 @@ elements: |
       flex:
         '#markup': 1
   row_6:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_6_col_0:
       '#type': container
       '#flex': 1
@@ -354,7 +358,7 @@ elements: |
       flex:
         '#markup': 1
   row_7:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_7_col_0:
       '#type': container
       '#flex': 2
@@ -370,7 +374,7 @@ elements: |
       flex:
         '#markup': 10
   row_8:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_8_col_0:
       '#type': container
       '#flex': 3
@@ -386,7 +390,7 @@ elements: |
       flex:
         '#markup': 9
   row_9:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_9_col_0:
       '#type': container
       '#flex': 4
@@ -402,7 +406,7 @@ elements: |
       flex:
         '#markup': 8
   row_10:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_10_col_0:
       '#type': container
       '#flex': 5
@@ -418,7 +422,7 @@ elements: |
       flex:
         '#markup': 7
   row_11:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_11_col_0:
       '#type': container
       '#flex': 6
@@ -434,7 +438,7 @@ elements: |
       flex:
         '#markup': 6
   row_12:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_12_col_0:
       '#type': container
       '#flex': 7
@@ -450,7 +454,7 @@ elements: |
       flex:
         '#markup': 5
   row_13:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_13_col_0:
       '#type': container
       '#flex': 8
@@ -466,7 +470,7 @@ elements: |
       flex:
         '#markup': 4
   row_14:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_14_col_0:
       '#type': container
       '#flex': 9
@@ -482,7 +486,7 @@ elements: |
       flex:
         '#markup': 3
   row_15:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_15_col_0:
       '#type': container
       '#flex': 10
@@ -498,7 +502,7 @@ elements: |
       flex:
         '#markup': 2
   row_16:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_16_col_0:
       '#type': container
       '#flex': 1
@@ -584,7 +588,7 @@ elements: |
       flex:
         '#markup': 1
   row_17:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_17_col_0:
       '#type': container
       '#flex': 1
@@ -607,7 +611,7 @@ elements: |
       flex:
         '#markup': 1
   row_18:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_18_col_0:
       '#type': container
       '#flex': 2
@@ -630,7 +634,7 @@ elements: |
       flex:
         '#markup': 2
   row_19:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_19_col_0:
       '#type': container
       '#flex': 3
@@ -653,7 +657,7 @@ elements: |
       flex:
         '#markup': 3
   row_20:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_20_col_0:
       '#type': container
       '#flex': 4
@@ -676,7 +680,7 @@ elements: |
       flex:
         '#markup': 4
   row_21:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_21_col_0:
       '#type': container
       '#flex': 5
@@ -699,7 +703,7 @@ elements: |
       flex:
         '#markup': 5
   row_22:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_22_col_0:
       '#type': container
       '#flex': 6
@@ -715,7 +719,7 @@ elements: |
       flex:
         '#markup': 6
   row_23:
-    '#type': flexbox
+    '#type': webform_flexbox
     row_23_col_0:
       '#type': container
       '#flex': 1
@@ -803,57 +807,90 @@ elements: |
 css: ''
 javascript: ''
 settings:
+  ajax: false
+  ajax_scroll_top: form
   page: true
   page_submit_path: ''
   page_confirm_path: ''
-  form_submit_label: ''
-  form_submit_attributes: {  }
+  form_submit_once: false
   form_exception_message: ''
-  form_closed_message: ''
+  form_open_message: ''
+  form_close_message: ''
+  form_previous_submissions: true
   form_confidential: false
   form_confidential_message: ''
+  form_convert_anonymous: false
   form_prepopulate: false
   form_prepopulate_source_entity: false
+  form_prepopulate_source_entity_required: false
+  form_prepopulate_source_entity_type: ''
+  form_reset: false
+  form_disable_autocomplete: false
   form_novalidate: false
+  form_disable_inline_errors: false
+  form_required: false
   form_unsaved: false
   form_disable_back: false
+  form_submit_back: false
   form_autofocus: false
   form_details_toggle: false
+  form_login: false
+  form_login_message: ''
+  submission_label: ''
+  submission_log: false
+  submission_user_columns: {  }
+  submission_user_duplicate: false
+  submission_login: false
+  submission_login_message: ''
+  submission_exception_message: ''
+  submission_locked_message: ''
+  previous_submission_message: ''
+  previous_submissions_message: ''
+  autofill: false
+  autofill_message: ''
+  autofill_excluded_elements: {  }
   wizard_progress_bar: true
   wizard_progress_pages: false
   wizard_progress_percentage: false
-  wizard_next_button_label: ''
-  wizard_next_button_attributes: {  }
-  wizard_prev_button_label: ''
-  wizard_prev_button_attributes: {  }
   wizard_start_label: ''
-  wizard_complete: true
-  wizard_complete_label: ''
+  wizard_confirmation: true
+  wizard_confirmation_label: ''
+  wizard_track: ''
   preview: 0
-  preview_next_button_label: ''
-  preview_next_button_attributes: {  }
-  preview_prev_button_label: ''
-  preview_prev_button_attributes: {  }
+  preview_label: ''
+  preview_title: ''
   preview_message: ''
-  draft: false
+  preview_attributes: {  }
+  preview_excluded_elements: {  }
+  preview_exclude_empty: true
+  preview_exclude_empty_checkbox: false
+  draft: none
+  draft_multiple: false
   draft_auto_save: false
-  draft_button_label: ''
-  draft_button_attributes: {  }
   draft_saved_message: ''
   draft_loaded_message: ''
   confirmation_type: page
+  confirmation_title: ''
   confirmation_message: ''
   confirmation_url: ''
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
   confirmation_back_attributes: {  }
+  confirmation_exclude_query: false
+  confirmation_exclude_token: false
   limit_total: null
+  limit_total_interval: null
   limit_total_message: ''
   limit_user: null
+  limit_user_interval: null
   limit_user_message: ''
   entity_limit_total: null
+  entity_limit_total_interval: null
   entity_limit_user: null
+  entity_limit_user_interval: null
+  purge: none
+  purge_days: null
   results_disabled: false
   results_disabled_ignore: false
   token_update: false
@@ -863,25 +900,41 @@ access:
       - anonymous
       - authenticated
     users: {  }
+    permissions: {  }
   view_any:
     roles: {  }
     users: {  }
+    permissions: {  }
   update_any:
     roles: {  }
     users: {  }
+    permissions: {  }
   delete_any:
     roles: {  }
     users: {  }
+    permissions: {  }
   purge_any:
     roles: {  }
     users: {  }
+    permissions: {  }
   view_own:
     roles: {  }
     users: {  }
+    permissions: {  }
   update_own:
     roles: {  }
     users: {  }
+    permissions: {  }
   delete_own:
     roles: {  }
     users: {  }
+    permissions: {  }
+  administer:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  test:
+    roles: {  }
+    users: {  }
+    permissions: {  }
 handlers: {  }

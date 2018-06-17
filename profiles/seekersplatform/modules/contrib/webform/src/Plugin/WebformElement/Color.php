@@ -3,7 +3,8 @@
 namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\webform\WebformElementBase;
+use Drupal\webform\Element\WebformHtmlEditor;
+use Drupal\webform\Plugin\WebformElementBase;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -13,6 +14,7 @@ use Drupal\webform\WebformSubmissionInterface;
  *   id = "color",
  *   api = "https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!Element!Color.php/class/Color",
  *   label = @Translation("Color"),
+ *   description = @Translation("Provides a form element for choosing a color."),
  *   category = @Translation("Advanced elements"),
  * )
  */
@@ -31,7 +33,7 @@ class Color extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
     parent::prepare($element, $webform_submission);
 
     // Set the color swatches size.
@@ -52,38 +54,44 @@ class Color extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatHtml(array &$element, $value, array $options = []) {
+  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
+
     if (empty($value)) {
       return '';
     }
 
-    $format = $this->getFormat($element);
+    $format = $this->getItemFormat($element);
     switch ($format) {
       case 'swatch':
-        return [
-          '#theme' => 'webform_element_color_value_swatch',
-          '#element' => $element,
-          '#value' => $value,
-          '#options' => $options,
-        ];
+        if (!in_array('font', WebformHtmlEditor::getAllowedTags())) {
+          return $value;
+        }
+        else {
+          return [
+            '#type' => 'inline_template',
+            '#template' => '<font color="{{ value }}">█</font> {{ value }}',
+            '#context' => ['value' => $value],
+          ];
+        }
 
       default:
-        return parent::formatHtml($element, $value, $options);
+        return parent::formatHtmlItem($element, $webform_submission, $options);
     }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getDefaultFormat() {
+  public function getItemDefaultFormat() {
     return 'swatch';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getFormats() {
-    return parent::getFormats() + [
+  public function getItemFormats() {
+    return parent::getItemFormats() + [
       'swatch' => $this->t('Color swatch'),
     ];
   }

@@ -9,14 +9,37 @@
  * Implements hook_library_info_alter().
  */
 function webform_library_info_alter(&$libraries, $extension) {
-  // Only alter webform libraries.
-  if ($extension != 'webform') {
+  $webform_libraries_modules = \Drupal::moduleHandler()->getImplementations('webform_libraries_info');
+  $webform_libraries_modules[] = 'webform';
+
+  // Only alter modules that declare webform libraries.
+  // @see hook_webform_libraries_info()
+  if (!in_array($extension, $webform_libraries_modules)) {
     return;
   }
 
+  /** @var \Drupal\webform\WebformLibrariesManagerInterface $libraries_manager */
+  $libraries_manager = \Drupal::service('webform.libraries_manager');
+
   // Map /library/* paths to CDN.
   // @see webform.libraries.yml.
-  foreach ($libraries as &$library) {
+  foreach ($libraries as $library_name => &$library) {
+    // Remove excluded libraries.
+    if ($libraries_manager->isExcluded($library_name)) {
+      unset($libraries[$library_name]);
+      continue;
+    }
+
+    if (!empty($library['dependencies'])) {
+      // Remove excluded libraries from dependencies.
+      foreach ($library['dependencies'] as $dependency_index => $dependency_name) {
+        if ($libraries_manager->isExcluded($dependency_name)) {
+          $library['dependencies'][$dependency_index] = NULL;
+          $library['dependencies'] = array_filter($library['dependencies']);
+        }
+      }
+    }
+
     // Check CDN setting exists.
     if (!isset($library['cdn'])) {
       continue;
@@ -52,12 +75,13 @@ function _webform_library_info_alter_recursive(array &$library, array $cdn) {
       continue;
     }
 
-    // Replace the CDN sources (ie /library/*) with the CDN URL destination
+    // Replace the CDN sources (i.e. /library/*) with the CDN URL destination
     // (https://cdnjs.cloudflare.com/ajax/libs/*).
     foreach ($cdn as $source => $destination) {
       if (strpos($key, $source) === 0) {
         $uri = str_replace($source, $destination, $key);
         $library[$uri] = $value;
+        $library[$uri]['type'] = 'external';
         unset($library[$key]);
         break;
       }

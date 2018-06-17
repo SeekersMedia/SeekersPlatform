@@ -1,5 +1,8 @@
-# The mkdocs output directory and GitHub pages directory.
-site
-gh-pages
 *.patch
 interdiff-*.txt
+
+# Ignore the HTML directory used for generate Webform documentation.
+html
+
+# Ignore all *.features.yml files.
+*.features.yml

@@ -10,25 +10,18 @@ use Drupal\webform\WebformSubmissionInterface;
  * @WebformElement(
  *   id = "webform_checkboxes_other",
  *   label = @Translation("Checkboxes other"),
+ *   description = @Translation("Provides a form element for a set of checkboxes, with the ability to enter a custom value."),
  *   category = @Translation("Options elements"),
- *   multiple = TRUE,
  * )
  */
-class WebformCheckboxesOther extends Checkboxes {
+class WebformCheckboxesOther extends Checkboxes implements WebformOtherInterface {
 
   /**
    * {@inheritdoc}
    */
-  public function getDefaultProperties() {
-    return parent::getDefaultProperties() + self::getOtherProperties();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
-    parent::prepare($element, $webform_submission);
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
     $element['#element_validate'][] = [get_class($this), 'validateMultipleOptions'];
+    parent::prepare($element, $webform_submission);
   }
 
   /**

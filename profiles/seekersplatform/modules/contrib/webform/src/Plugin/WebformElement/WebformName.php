@@ -2,19 +2,20 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
-use Drupal\Core\Form\FormState;
 use Drupal\Core\Render\Element;
-use Drupal\webform\Element\WebformName as WebformNameElement;
+use Drupal\webform\WebformSubmissionInterface;
 
 /**
- * Provides an 'name' element.
+ * Provides a 'name' element.
  *
  * @WebformElement(
  *   id = "webform_name",
  *   label = @Translation("Name"),
  *   category = @Translation("Composite elements"),
+ *   description = @Translation("Provides a form element to collect a person's full name."),
  *   multiline = TRUE,
  *   composite = TRUE,
+ *   states_wrapper = TRUE,
  * )
  */
 class WebformName extends WebformCompositeBase {
@@ -22,23 +23,16 @@ class WebformName extends WebformCompositeBase {
   /**
    * {@inheritdoc}
    */
-  protected function getCompositeElements() {
-    return WebformNameElement::getCompositeElements();
+  protected function formatHtmlItemValue(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    return $this->formatTextItemValue($element, $webform_submission, $options);
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function getInitializedCompositeElement(array &$element) {
-    $form_state = new FormState();
-    $form_completed = [];
-    return WebformNameElement::processWebformComposite($element, $form_state, $form_completed);
-  }
+  protected function formatTextItemValue(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
 
-  /**
-   * {@inheritdoc}
-   */
-  protected function formatLines(array $element, array $value) {
     $name_parts = [];
     $composite_elements = $this->getCompositeElements();
     foreach (Element::children($composite_elements) as $name_part) {

@@ -3,7 +3,6 @@
 namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\webform\WebformSubmissionInterface;
-use Drupal\webform\Element\WebformEntityTrait;
 
 /**
  * Provides an 'entity_reference' with options trait.
@@ -20,15 +19,15 @@ trait WebformEntityOptionsTrait {
       'selection_handler' => '',
       'selection_settings' => [],
     ];
-    unset($properties['options']);
+    unset($properties['options'], $properties['options_description_display']);
     return $properties;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
-    WebformEntityTrait::setOptions($element);
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
+    $this->setOptions($element);
     parent::prepare($element, $webform_submission);
   }
 
@@ -36,7 +35,7 @@ trait WebformEntityOptionsTrait {
    * {@inheritdoc}
    */
   protected function getElementSelectorInputsOptions(array $element) {
-    WebformEntityTrait::setOptions($element);
+    $this->setOptions($element);
     return parent::getElementSelectorInputsOptions($element);
   }
 

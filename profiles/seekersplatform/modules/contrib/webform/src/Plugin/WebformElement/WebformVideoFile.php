@@ -8,8 +8,12 @@ namespace Drupal\webform\Plugin\WebformElement;
  * @WebformElement(
  *   id = "webform_video_file",
  *   label = @Translation("Video file"),
+ *   description = @Translation("Provides a form element for uploading and saving a video file."),
  *   category = @Translation("File upload elements"),
  *   states_wrapper = TRUE,
+ *   dependencies = {
+ *     "file",
+ *   }
  * )
  */
 class WebformVideoFile extends WebformManagedFileBase {
@@ -17,8 +21,8 @@ class WebformVideoFile extends WebformManagedFileBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormats() {
-    $formats = parent::getFormats();
+  public function getItemFormats() {
+    $formats = parent::getItemFormats();
     $formats['file'] = $this->t('HTML5 Video player (MP4 only)');
     return $formats;
   }

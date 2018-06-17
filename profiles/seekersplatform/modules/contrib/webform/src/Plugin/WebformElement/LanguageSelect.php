@@ -2,7 +2,8 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
-use Drupal\webform\WebformElementBase;
+use Drupal\webform\Plugin\WebformElementBase;
+use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Provides a 'language_select' element.
@@ -11,6 +12,7 @@ use Drupal\webform\WebformElementBase;
  *   id = "language_select",
  *   api = "https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!Element!LanguageSelect.php/class/LanguageSelect",
  *   label = @Translation("Language select"),
+ *   description = @Translation("Provides a form element for selecting a language."),
  *   hidden = TRUE,
  * )
  */
@@ -19,9 +21,11 @@ class LanguageSelect extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatText(array &$element, $value, array $options = []) {
+  protected function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
+
     $language = \Drupal::languageManager()->getLanguage($value);
-    $format = $this->getFormat($element);
+    $format = $this->getItemFormat($element);
     switch ($format) {
       case 'langcode':
         return $language->getId();
@@ -40,15 +44,15 @@ class LanguageSelect extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function getDefaultFormat() {
+  public function getItemDefaultFormat() {
     return 'text';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getFormats() {
-    return parent::getFormats() + [
+  public function getItemFormats() {
+    return parent::getItemFormats() + [
       'text' => $this->t('Text'),
       'langcode' => $this->t('Langcode'),
       'language' => $this->t('Language'),

@@ -26,7 +26,7 @@ class WebformElementController extends ControllerBase {
    *   The unique id of the message.
    *
    * @return \Drupal\Core\Ajax\AjaxResponse
-   *   An empty AJAX response.
+   *   An empty Ajax response.
    *
    * @throws \Exception
    *   Throws exception is storage is not set to 'user' or 'state'.
@@ -34,7 +34,7 @@ class WebformElementController extends ControllerBase {
    * @see \Drupal\webform\Element\WebformMessage::setClosed
    */
   public function close($storage, $id) {
-    if (!in_array($storage, ['user', 'state'])) {
+    if (!in_array($storage, [WebformMessage::STORAGE_USER, WebformMessage::STORAGE_STATE, WebformMessage::STORAGE_CUSTOM])) {
       throw new \Exception('Undefined storage mechanism for Webform close message.');
     }
     WebformMessage::setClosed($storage, $id);
@@ -95,9 +95,11 @@ class WebformElementController extends ControllerBase {
       $matches += $this->getMatchesFromOptions($q, $options, $element['#autocomplete_match_operator'], $element['#autocomplete_limit']);
     }
 
-    // Sort matches and enforce the limit.
+    // Sort matches by label and enforce the limit.
     if ($matches) {
-      ksort($matches);
+      uasort($matches, function (array $a, array $b) {
+        return $a['label'] > $b['label'];
+      });
       $matches = array_values($matches);
       $matches = array_slice($matches, 0, $element['#autocomplete_limit']);
     }
@@ -193,7 +195,7 @@ class WebformElementController extends ControllerBase {
    *   Match operator either CONTAINS or STARTS_WITH.
    */
   protected function getMatchesFromOptionsRecursive($q, array $options, array &$matches, $operator = 'CONTAINS') {
-    foreach ($options as $value => $label) {
+    foreach ($options as $label) {
       if (is_array($label)) {
         $this->getMatchesFromOptionsRecursive($q, $label, $matches, $operator);
         continue;

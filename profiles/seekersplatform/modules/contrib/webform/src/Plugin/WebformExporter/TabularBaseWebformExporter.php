@@ -2,7 +2,7 @@
 
 namespace Drupal\webform\Plugin\WebformExporter;
 
-use Drupal\webform\WebformExporterBase;
+use Drupal\webform\Plugin\WebformExporterBase;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -87,10 +87,9 @@ abstract class TabularBaseWebformExporter extends WebformExporterBase {
     }
 
     // Build record element columns.
-    $data = $webform_submission->getData();
     foreach ($elements as $column_name => $element) {
-      $value = (isset($data[$column_name])) ? $data[$column_name] : '';
-      $record = array_merge($record, $this->elementManager->invokeMethod('buildExportRecord', $element, $value, $export_options));
+      $element['#webform_key'] = $column_name;
+      $record = array_merge($record, $this->elementManager->invokeMethod('buildExportRecord', $element, $webform_submission, $export_options));
     }
     return $record;
   }
@@ -120,9 +119,9 @@ abstract class TabularBaseWebformExporter extends WebformExporterBase {
         $element = [
           '#type' => 'entity_autocomplete',
           '#target_type' => $field_definition['target_type'],
+          '#value' => $webform_submission->get($field_name)->target_id,
         ];
-        $value = $webform_submission->get($field_name)->target_id;
-        $record = array_merge($record, $this->elementManager->invokeMethod('buildExportRecord', $element, $value, $export_options));
+        $record = array_merge($record, $this->elementManager->invokeMethod('buildExportRecord', $element, $webform_submission, $export_options));
         break;
 
       case 'entity_url':
@@ -135,7 +134,7 @@ abstract class TabularBaseWebformExporter extends WebformExporterBase {
         $entity_id = $webform_submission->entity_id->value;
         $entity = $this->entityTypeManager->getStorage($entity_type)->load($entity_id);
         if ($entity) {
-          $record[] = ($field_type == 'entity_url') ? $entity->toUrl()->setOption('absolute', TRUE)->toString() : $entity->label();
+          $record[] = ($field_type == 'entity_url' && $entity->hasLinkTemplate('canonical')) ? $entity->toUrl()->setOption('absolute', TRUE)->toString() : $entity->label();
         }
         else {
           $record[] = '';
@@ -166,11 +165,14 @@ abstract class TabularBaseWebformExporter extends WebformExporterBase {
     $export_options = $this->getConfiguration();
 
     $this->fieldDefinitions = $this->entityStorage->getFieldDefinitions();
-    $this->fieldDefinitions = array_diff_key($this->fieldDefinitions, $export_options['excluded_columns']);
+    $this->fieldDefinitions = $this->entityStorage->checkFieldDefinitionAccess($this->getWebform(), $this->fieldDefinitions);
+    if ($export_options['excluded_columns']) {
+      $this->fieldDefinitions = array_diff_key($this->fieldDefinitions, $export_options['excluded_columns']);
+    }
 
     // Add custom entity reference field definitions which rely on the
     // entity type and entity id.
-    if ($export_options['entity_reference_format'] == 'link' && isset($this->fieldDefinitions['entity_type']) && isset($this->fieldDefinitions['entity_id'])) {
+    if (isset($this->fieldDefinitions['entity_type']) && isset($this->fieldDefinitions['entity_id'])) {
       $this->fieldDefinitions['entity_title'] = [
         'name' => 'entity_title',
         'title' => t('Submitted to: Entity title'),
@@ -198,10 +200,13 @@ abstract class TabularBaseWebformExporter extends WebformExporterBase {
     }
 
     $export_options = $this->getConfiguration();
+    $this->elements = $this->getWebform()->getElementsInitializedFlattenedAndHasValue('view');
+    // Replace tokens which can be used in an element's #title.
+    $this->elements = $this->tokenManager->replace($this->elements, $this->getWebform());
+    if ($export_options['excluded_columns']) {
+      $this->elements = array_diff_key($this->elements, $export_options['excluded_columns']);
+    }
 
-    $webform = $this->getWebform();
-    $element_columns = $webform->getElementsFlattenedAndHasValue();
-    $this->elements = array_diff_key($element_columns, $export_options['excluded_columns']);
     return $this->elements;
   }
 
