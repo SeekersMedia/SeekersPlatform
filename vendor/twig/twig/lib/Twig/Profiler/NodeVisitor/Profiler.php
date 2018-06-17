@@ -55,7 +55,7 @@ class Twig_Profiler_NodeVisitor_Profiler extends Twig_BaseNodeVisitor
 
     private function getVarName()
     {
-        return sprintf('__internal_%s', hash('sha256', $this->extensionName));
+        return sprintf('__internal_%s', hash('sha256', uniqid(mt_rand(), true), false));
     }
 
     public function getPriority()
@@ -63,5 +63,3 @@ class Twig_Profiler_NodeVisitor_Profiler extends Twig_BaseNodeVisitor
         return 0;
     }
 }
-
-class_alias('Twig_Profiler_NodeVisitor_Profiler', 'Twig\Profiler\NodeVisitor\ProfilerNodeVisitor', false);

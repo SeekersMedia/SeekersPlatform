@@ -1,7 +1,0 @@
-asynchronous:
-  js:
-    js/asynchronous.js: {}
-  dependencies:
-    - core/jquery
-    - core/drupal
-    - core/drupalSettings
