@@ -1,8 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-name: 'Province / State'
-vid: province_state
-description: 'A vocabulary for Provinces / States'
-hierarchy: 0
-weight: 0
