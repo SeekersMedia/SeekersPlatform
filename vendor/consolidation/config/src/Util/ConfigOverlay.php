@@ -3,7 +3,6 @@ namespace Consolidation\Config\Util;
 
 use Consolidation\Config\Config;
 use Consolidation\Config\ConfigInterface;
-use Consolidation\Config\Util\ArrayUtil;
 
 /**
  * Overlay different configuration objects that implement ConfigInterface
@@ -172,8 +171,7 @@ class ConfigOverlay implements ConfigInterface
     {
         $export = [];
         foreach ($this->contexts as $name => $config) {
-            $exportToMerge = $config->export();
-            $export = ArrayUtil::mergeRecursiveDistinct($export, $exportToMerge);
+            $export = array_merge_recursive($export, $config->export());
         }
         return $export;
     }

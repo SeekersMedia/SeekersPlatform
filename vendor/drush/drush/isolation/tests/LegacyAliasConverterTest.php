@@ -48,7 +48,8 @@ class LegacyAliasConverterTest extends TestCase
 
         // Write the data once, and confirm it was written.
         $this->callProtected('writeOne', [$testPath, $testContents]);
-        $this->assertStringEqualsFile($testPath, $testContents);
+        $actualData = file_get_contents($testPath);
+        $this->assertEquals($testContents, $actualData);
 
         // Check to see that the checksum file was written, and that
         // it contains a useful comment.
@@ -59,7 +60,8 @@ class LegacyAliasConverterTest extends TestCase
 
         // Write the data again, and confirm it was changed.
         $this->callProtected('writeOne', [$testPath, $overwriteContents]);
-        $this->assertStringEqualsFile($testPath, $overwriteContents);
+        $actualData = file_get_contents($testPath);
+        $this->assertEquals($overwriteContents, $actualData);
 
         $simulatedEditedContents = 'test: My simulated edit';
         file_put_contents($testPath, $simulatedEditedContents);
@@ -69,20 +71,23 @@ class LegacyAliasConverterTest extends TestCase
         // Write the yet data again; this time, confirm that
         // nothing changed, because the checksum does not match.
         $this->callProtected('writeOne', [$testPath, $ignoredContents]);
-        $this->assertStringEqualsFile($testPath, $simulatedEditedContents);
+        $actualData = file_get_contents($testPath);
+        $this->assertEquals($simulatedEditedContents, $actualData);
 
         // Write yet again, this time removing the target so that it will
         // be writable again.
         unlink($testPath);
         $this->callProtected('writeOne', [$testPath, $overwriteContents]);
-        $this->assertStringEqualsFile($testPath, $overwriteContents);
-        $this->assertFileExists($checksumPath);
+        $actualData = file_get_contents($testPath);
+        $this->assertEquals($overwriteContents, $actualData);
+        $this->assertTrue(file_exists($checksumPath));
 
         // Remove the checksum file, and confirm that the target cannot
         // be overwritten
         unlink($checksumPath);
         $this->callProtected('writeOne', [$testPath, $ignoredContents]);
-        $this->assertStringEqualsFile($testPath, $overwriteContents);
+        $actualData = file_get_contents($testPath);
+        $this->assertEquals($overwriteContents, $actualData);
     }
 
     public function testConvertAll()
@@ -107,12 +112,13 @@ class LegacyAliasConverterTest extends TestCase
 
         $this->callProtected('cacheConvertedFilePath', ['b.aliases.drushrc.php', 'b.yml']);
         $this->callProtected('writeAll', [$convertedFileFixtures]);
-        $this->assertFileExists($this->target . '/a.yml');
-        $this->assertFileExists($this->target . '/.checksums/a.md5');
-        $this->assertFileExists($this->target . '/b.yml');
-        $this->assertFileExists($this->target . '/.checksums/b.md5');
+        $this->assertTrue(file_exists($this->target . '/a.yml'));
+        $this->assertTrue(file_exists($this->target . '/.checksums/a.md5'));
+        $this->assertTrue(file_exists($this->target . '/b.yml'));
+        $this->assertTrue(file_exists($this->target . '/.checksums/b.md5'));
 
-        $this->assertStringEqualsFile($this->target . '/b.yml', "# This is a placeholder file used to track when b.aliases.drushrc.php was converted.\n# If you delete b.aliases.drushrc.php, then you may delete this file.");
+        $bContents = file_get_contents($this->target . '/b.yml');
+        $this->assertEquals("# This is a placeholder file used to track when b.aliases.drushrc.php was converted.\n# If you delete b.aliases.drushrc.php, then you may delete this file.", $bContents);
         $aContents = file_get_contents($this->target . '/a.yml');
         $this->assertEquals('foo: bar', trim($aContents));
     }

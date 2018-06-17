@@ -40,7 +40,7 @@ class LocaleCommands extends DrushCommands
      *
      * @command locale:check
      * @aliases locale-check
-     * @validate-module-enabled locale
+     * @drupal-dependencies locale
      */
     public function check()
     {
@@ -72,7 +72,7 @@ class LocaleCommands extends DrushCommands
      * @command locale:update
      * @aliases locale-update
      * @option langcodes A comma-separated list of language codes to update. If omitted, all translations will be updated.
-     * @validate-module-enabled locale
+     * @drupal-dependencies locale
      */
     public function update($options = ['langcodes' => self::REQ])
     {

@@ -27,7 +27,7 @@ $values = [
 $user = User::create([
   'name' => $extra[0],
   'mail' => $extra[1],
-  'pass' => 'pw',
+  'pass' => 'password',
 ]);
 
 foreach ($values as $field_name => $value) {

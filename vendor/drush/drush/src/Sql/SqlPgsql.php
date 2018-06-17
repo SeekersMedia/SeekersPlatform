@@ -15,8 +15,9 @@ class SqlPgsql extends SqlBase
 
     private function createPasswordFile()
     {
+        $password_file = null;
         $dbSpec = $this->getDbSpec();
-        if (null == ($this->getPasswordFile()) && isset($dbSpec['password'])) {
+        if (null !== ($this->getPasswordFile()) && isset($dbSpec['password'])) {
             $pgpass_parts = [
             empty($dbSpec['host']) ? 'localhost' : $dbSpec['host'],
             empty($dbSpec['port']) ? '5432' : $dbSpec['port'],
@@ -33,10 +34,10 @@ class SqlPgsql extends SqlBase
                   $part = str_replace(['\\', ':'], ['\\\\', '\:'], $part);
             });
             $pgpass_contents = implode(':', $pgpass_parts);
-            $this->password_file = drush_save_data_to_temp_file($pgpass_contents);
-            chmod($this->password_file, 0600);
+            $password_file = drush_save_data_to_temp_file($pgpass_contents);
+            chmod($password_file, 0600);
         }
-        return $this->password_file;
+        return $password_file;
     }
 
     public function command()
@@ -76,7 +77,7 @@ class SqlPgsql extends SqlBase
     public function createdbSql($dbname, $quoted = false)
     {
         if ($quoted) {
-            $dbname = '"' . $dbname . '"';
+            $dbname = '`' . $dbname . '`';
         }
         $sql[] = sprintf('drop database if exists %s;', $dbname);
         $sql[] = sprintf("create database %s ENCODING 'UTF8';", $dbname);
@@ -127,13 +128,7 @@ class SqlPgsql extends SqlBase
         $data_only = $this->getOption('data-only');
 
         $create_db = $this->getOption('create-db');
-
-        $environment = "";
-        $pw_file = $this->createPasswordFile();
-        if (isset($pw_file)) {
-            $environment = "PGPASSFILE={$pw_file} ";
-        }
-        $exec = "{$environment}pg_dump ";
+        $exec = 'pg_dump ';
         // Unlike psql, pg_dump does not take a '--dbname=' before the database name.
         $extra = str_replace('--dbname=', ' ', $this->creds());
         if (isset($data_only)) {

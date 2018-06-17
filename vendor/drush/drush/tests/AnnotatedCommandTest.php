@@ -9,11 +9,10 @@ use Webmozart\PathUtil\Path;
  */
 class AnnotatedCommandCase extends CommandUnishTestCase
 {
-    use TestModuleHelperTrait;
 
     public function testGlobal()
     {
-        $globalIncludes = $targetDir = Path::join(__DIR__, 'resources/global-includes');
+        $globalExtensions = $this->setupGlobalExtensionsForTests();
 
         $options = [];
 
@@ -21,7 +20,7 @@ class AnnotatedCommandCase extends CommandUnishTestCase
         $this->drush('cc', ['drush'], $options);
 
         // drush foobar
-        $options['include'] = "$globalIncludes";
+        $options['include'] = "$globalExtensions";
         $this->drush('foobar', [], $options);
         $output = $this->getOutput();
         $this->assertEquals('baz', $output);
@@ -31,29 +30,35 @@ class AnnotatedCommandCase extends CommandUnishTestCase
         $output = $this->getOutput();
         $this->assertEquals('bar', $output);
 
-        $options = [
-            'yes' => null,
-            'include' => $globalIncludes,
+        // Test global generator 'foo'.
+        $answers = [
             'directory' => self::getSandbox(),
         ];
 
-        $original = getenv('SHELL_INTERACTIVE');
-        $this->setEnv(['SHELL_INTERACTIVE' => 1]);
-        $this->drush('generate', ['foo-example'], $options);
-        $this->setEnv(['SHELL_INTERACTIVE' => $original]);
+        $options = [
+            'yes' => null,
+            'include' => $globalExtensions,
+            'answers' => json_encode($answers),
+        ];
 
-        $target = Path::join($this->getSandbox(), 'foo.php');
+        $original = getenv('SHELL_INTERACTIVE');
+        putenv('SHELL_INTERACTIVE=1');
+        $this->drush('generate', ['foo-example'], $options);
+        putenv('SHELL_INTERACTIVE=' . $original);
+
+        $target = Path::join($this->webroot(), 'foo.php');
         $actual = trim(file_get_contents($target));
         $this->assertEquals('Foo.', $actual);
-        unlink($target);
     }
 
     public function testExecute()
     {
-        $this->setUpDrupal(1, true);
+        $sites = $this->setUpDrupal(1, true);
+        $uri = key($sites);
+        $root = $this->webroot();
 
         // Copy the 'woot' module over to the Drupal site we just set up.
-        $this->setupModulesForTests(['woot'], Path::join(__DIR__, 'resources/modules/d8'));
+        $this->setupModulesForTests($root);
 
         // Enable our module. This will also clear the commandfile cache.
         $this->drush('pm-enable', ['woot']);
@@ -63,15 +68,15 @@ class AnnotatedCommandCase extends CommandUnishTestCase
 
         // Make sure that modules can supply DCG Generators and they work.
         $optionsExample['answers'] = json_encode([
-            'name' => 'foo',
-            'machine_name' => 'bar',
+        'name' => 'foo',
+        'machine_name' => 'bar',
         ]);
         $optionsExample['directory'] = self::getSandbox();
         $optionsExample['yes'] = null;
         $original = getenv('SHELL_INTERACTIVE');
-        $this->setEnv(['SHELL_INTERACTIVE' => 1]);
+        putenv('SHELL_INTERACTIVE=1');
         $this->drush('generate', ['woot-example'], $optionsExample);
-        $this->setEnv(['SHELL_INTERACTIVE' => $original]);
+        putenv('SHELL_INTERACTIVE=' . $original);
         $target = Path::join(self::getSandbox(), '/src/Commands/ExampleBarCommands.php');
         $actual = trim(file_get_contents($target));
         $this->assertEquals('ExampleBarCommands says Woot mightily.', $actual);
@@ -214,5 +219,14 @@ EOT;
         $this->mkdir($targetDir);
         $this->recursiveCopy($globalExtension, $targetDir);
         return $targetDir;
+    }
+
+    public function setupModulesForTests($root)
+    {
+        $wootModule = Path::join(__DIR__, '/resources/modules/d8/woot');
+        // We install into Unish so that we aren't cleaned up. That causes container to go invalid after tearDownAfterClass().
+        $targetDir = Path::join($root, 'modules/unish/woot');
+        $this->mkdir($targetDir);
+        $this->recursiveCopy($wootModule, $targetDir);
     }
 }

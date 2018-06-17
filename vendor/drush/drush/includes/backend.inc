@@ -352,8 +352,7 @@ function _drush_backend_proc_open($cmds, $process_limit, $context = NULL) {
     if (count($cmds) && (count($open_processes) < $process_limit)) {
       // Pop the site and command (key / value) from the cmds array
       end($cmds);
-      $cmd = current($cmds);
-      $site = key($cmds);
+      list($site, $cmd) = each($cmds);
       unset($cmds[$site]);
 
       if (is_array($cmd)) {

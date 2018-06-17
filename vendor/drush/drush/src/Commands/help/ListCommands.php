@@ -8,8 +8,6 @@ use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Drush\Commands\DrushCommands;
 use Drush\Drush;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Descriptor\JsonDescriptor;
-use Symfony\Component\Console\Descriptor\XmlDescriptor;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,7 +28,7 @@ class ListCommands extends DrushCommands
      * @usage drush list --format=xml
      *   List all commands in Symfony compatible xml format.
      *
-     * @return string
+     * @return \DOMDocument
      */
     public function helpList($options = ['format' => 'listcli', 'raw' => false, 'filter' => self::REQ])
     {
@@ -48,10 +46,9 @@ class ListCommands extends DrushCommands
         }
 
         /**
-         * The listcli,json and raw formats don't yet go through the output formatter system.
+         * The listcli and raw formats don't yet go through the output formatter system.
          * because \Consolidation\OutputFormatters\Transformations\DomToArraySimplifier
-         * can't yet handle the DomDocument that produces the Symfony expected XML. For consistency, the XML
-         * output chooses to use the Symfony descriptor as well.
+         * can't yet handle the DomDocument that produces the Symfony expected XML.
          */
         if ($options['raw']) {
             $this->renderListRaw($namespaced);
@@ -63,16 +60,9 @@ class ListCommands extends DrushCommands
                 $this->io()->note(dt('Drupal root not found. Pass --root or a @siteAlias in order to see Drupal-specific commands.'));
             }
             return null;
-        } elseif ($options['format'] == 'xml') {
-            $descriptor  = new XmlDescriptor($this->output(), []);
-            return $descriptor->describe($this->output, $application, []);
-        } elseif ($options['format'] == 'json') {
-            $descriptor  = new JsonDescriptor($this->output(), []);
-            return $descriptor->describe($this->output, $application, []);
         } else {
-            // No longer used. Works for XML, but gives error for JSON.
-            // $dom = $this->buildDom($namespaced, $application);
-            // return $dom;
+            $dom = $this->buildDom($namespaced, $application);
+            return $dom;
         }
     }
 

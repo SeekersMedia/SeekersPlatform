@@ -153,13 +153,14 @@ class SiteAliasFileLoader
      */
     public function loadMultiple($sitename)
     {
-        if ($path = $this->discovery()->findSingleSiteAliasFile($sitename)) {
-            if ($siteData = $this->loadSiteDataFromPath($path)) {
-                // Convert the raw array into a list of alias records.
-                return $this->createAliasRecordsFromSiteData($sitename, $siteData);
-            }
+        $path = $this->discovery()->findSingleSiteAliasFile($sitename);
+        if (!$path) {
+            return false;
         }
-        return false;
+        $siteData = $this->loadSiteDataFromPath($path);
+
+        // Convert the raw array into a list of alias records.
+        return $this->createAliasRecordsFromSiteData($sitename, $siteData);
     }
 
     /**
@@ -172,9 +173,6 @@ class SiteAliasFileLoader
     protected function createAliasRecordsFromSiteData($sitename, $siteData)
     {
         $result = [];
-        if (!is_array($siteData) || empty($siteData)) {
-            return $result;
-        }
         foreach ($siteData as $envName => $data) {
             if (is_array($data)) {
                 $aliasName = new SiteAliasName($sitename, $envName);

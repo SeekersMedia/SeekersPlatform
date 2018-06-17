@@ -20,7 +20,6 @@ class Environment
     protected $vendorDir;
 
     protected $docPrefix;
-    protected $configFileVariant;
 
     protected $loader;
     protected $siteLoader;
@@ -229,21 +228,6 @@ class Environment
     public function userConfigPath()
     {
         return $this->homeDir() . '/.drush';
-    }
-
-    public function setConfigFileVariant($variant)
-    {
-        $this->configFileVariant = $variant;
-    }
-
-    /**
-     * Get the config file variant -- defined to be
-     * the Drush major version number. This is for
-     * loading drush.yml and drush9.yml, etc.
-     */
-    public function getConfigFileVariant()
-    {
-        return $this->configFileVariant;
     }
 
     /**

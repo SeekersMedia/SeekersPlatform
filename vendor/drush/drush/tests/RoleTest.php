@@ -10,18 +10,18 @@ use Webmozart\PathUtil\Path;
  */
 class RoleCase extends CommandUnishTestCase
 {
-    use TestModuleHelperTrait;
 
-    /**
-     * Create, edit, block, and cancel users.
-     */
+  /**
+   * Create, edit, block, and cancel users.
+   */
     public function testRole()
     {
-        $this->setUpDrupal(1, true);
+        $sites = $this->setUpDrupal(1, true);
+        $root = $this->webroot();
 
         // In D8+, the testing profile has no perms.
         // Copy the module to where Drupal expects it.
-        $this->setupModulesForTests(['user_form_test'], Path::join($this->webroot(), 'core/modules/user/tests/modules'));
+        $this->setupModulesForTests($root);
         $this->drush('pm-enable', ['user_form_test']);
 
         $this->drush('role-list');
@@ -61,5 +61,13 @@ class RoleCase extends CommandUnishTestCase
         $this->drush('role-delete', [$rid]);
         $this->drush('role-list');
         $this->assertNotContains($rid, $this->getOutput());
+    }
+
+    public function setupModulesForTests($root)
+    {
+        $sourceDir = Path::join($root, 'core/modules/user/tests/modules/user_form_test');
+        $targetDir = Path::join($root, 'modules/contrib');
+        $this->mkdir($targetDir);
+        $this->recursiveCopy($sourceDir, $targetDir);
     }
 }

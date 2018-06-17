@@ -70,14 +70,4 @@ class WootCommands
         ];
         return new RowsOfFields($outputData);
     }
-
-    /**
-     * This command info is altered.
-     *
-     * @command woot:altered
-     * @aliases woot-initial-alias
-     */
-    public function wootAltered()
-    {
-    }
 }

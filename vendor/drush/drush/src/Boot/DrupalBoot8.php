@@ -42,14 +42,6 @@ class DrupalBoot8 extends DrupalBoot implements AutoloaderAwareInterface
         $this->request = $request;
     }
 
-    /**
-     * @return \Drupal\Core\DrupalKernelInterface
-     */
-    public function getKernel()
-    {
-        return $this->kernel;
-    }
-
     public function validRoot($path)
     {
         if (!empty($path) && is_dir($path) && file_exists($path . '/autoload.php')) {
@@ -112,22 +104,11 @@ class DrupalBoot8 extends DrupalBoot implements AutoloaderAwareInterface
     public function bootstrapDrupalSiteValidate()
     {
         parent::bootstrapDrupalSiteValidate();
-
-        // Normalize URI.
-        $uri = rtrim($this->uri, '/') . '/';
-        $parsed_url = parse_url($uri);
-
         // Account for users who omit the http:// prefix.
-        if (!$parsed_url['scheme']) {
+        if (!parse_url($this->uri, PHP_URL_SCHEME)) {
             $this->uri = 'http://' . $this->uri;
-            $parsed_url = parse_url($this->uri);
         }
-
-        $server = [
-            'SCRIPT_FILENAME' => getcwd() . '/index.php',
-            'SCRIPT_NAME' => isset($parsed_url['path']) ? $parsed_url['path'] . 'index.php' : '/index.php',
-        ];
-        $request = Request::create($this->uri, 'GET', [], [], [], $server);
+        $request = Request::create($this->uri, 'GET', [], [], [], ['SCRIPT_NAME' => '/index.php']);
         $this->setRequest($request);
         $confPath = drush_bootstrap_value('confPath', $this->confPath(true, true));
         drush_bootstrap_value('site', $request->getHttpHost());
@@ -167,9 +148,8 @@ class DrupalBoot8 extends DrupalBoot implements AutoloaderAwareInterface
         $classloader = $this->autoloader();
         $request = $this->getRequest();
         $kernel_factory = Kernels::getKernelFactory($kernel);
-        $allow_dumping = $kernel !== Kernels::UPDATE;
         /** @var \Drupal\Core\DrupalKernelInterface kernel */
-        $this->kernel = $kernel_factory($request, $classloader, 'prod', $allow_dumping);
+        $this->kernel = $kernel_factory($request, $classloader, 'prod');
         // Include Drush services in the container.
         // @see Drush\Drupal\DrupalKernel::addServiceModifier()
         $this->kernel->addServiceModifier(new DrushServiceModifier());
@@ -204,17 +184,6 @@ class DrupalBoot8 extends DrupalBoot implements AutoloaderAwareInterface
         // The upshot is that the list of console commands is not available
         // until after $kernel->boot() is called.
         $container = \Drupal::getContainer();
-
-        // Set the command info alterers.
-        if ($container->has(DrushServiceModifier::DRUSH_COMMAND_INFO_ALTERER_SERVICES)) {
-            $serviceCommandInfoAltererlist = $container->get(DrushServiceModifier::DRUSH_COMMAND_INFO_ALTERER_SERVICES);
-            $commandFactory = Drush::commandFactory();
-            foreach ($serviceCommandInfoAltererlist->getCommandList() as $altererHandler) {
-                $commandFactory->addCommandInfoAlterer($altererHandler);
-                $this->logger->debug(dt('Commands are potentially altered in !class.', ['!class' => get_class($altererHandler)]));
-            }
-        }
-
         $serviceCommandlist = $container->get(DrushServiceModifier::DRUSH_CONSOLE_SERVICES);
         if ($container->has(DrushServiceModifier::DRUSH_CONSOLE_SERVICES)) {
             foreach ($serviceCommandlist->getCommandList() as $command) {
